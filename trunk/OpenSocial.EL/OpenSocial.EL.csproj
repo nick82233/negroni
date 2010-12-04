@@ -1,0 +1,153 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{02033EE1-02E8-41DF-9282-96D919E7233F}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MySpace.OpenSocial.EL</RootNamespace>
+    <AssemblyName>MySpace.OpenSocial.EL</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\_drop\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\_drop\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Elements\ElementFunction.cs" />
+    <Compile Include="Elements\ElementSelector.cs" />
+    <Compile Include="Elements\Element.cs" />
+    <Compile Include="Elements\ElementDot.cs" />
+    <Compile Include="Elements\ElementGrouping.cs" />
+    <Compile Include="Elements\ElementLiteral.cs" />
+    <Compile Include="Elements\ElementObject.cs" />
+    <Compile Include="Elements\ElementOperator.cs" />
+    <Compile Include="Elements\ElementTernaryOperator.cs" />
+    <Compile Include="Elements\ElementUnitaryOperator.cs" />
+    <Compile Include="Elements\ElementVariable.cs" />
+    <Compile Include="Elements\IElementValue.cs" />
+    <Compile Include="Elements\TokenType.cs" />
+    <Compile Include="ELException.cs" />
+    <Compile Include="ELOperationException.cs" />
+    <Compile Include="Engine.cs" />
+    <Compile Include="IObjectResolver.cs" />
+    <Compile Include="Operators\AndOperator.cs" />
+    <Compile Include="Operators\BinaryOperator.cs" />
+    <Compile Include="Elements\ElementBinaryOperator.cs" />
+    <Compile Include="Operators\EmptyOperator.cs" />
+    <Compile Include="Operators\FunctionOperator.cs" />
+    <Compile Include="Operators\HtmlDecodeOperator.cs" />
+    <Compile Include="Operators\HtmlEncodeOperator.cs" />
+    <Compile Include="Operators\JsStringEscapeOperator.cs" />
+    <Compile Include="Operators\MathCeilOperator.cs" />
+    <Compile Include="Operators\MathFloorOperator.cs" />
+    <Compile Include="Operators\MathRoundOperator.cs" />
+    <Compile Include="Operators\ModuloOperator.cs" />
+    <Compile Include="Operators\DivisionOperator.cs" />
+    <Compile Include="Operators\EqualsOperator.cs" />
+    <Compile Include="Operators\GreaterThanEqualsOperator.cs" />
+    <Compile Include="Operators\GreaterThanOperator.cs" />
+    <Compile Include="Operators\LessThanEqualsOperator.cs" />
+    <Compile Include="Operators\LessThanOperator.cs" />
+    <Compile Include="Operators\NegativeOperator.cs" />
+    <Compile Include="Operators\NotEqualsOperator.cs" />
+    <Compile Include="Operators\MultiplicationOperator.cs" />
+    <Compile Include="Operators\NotOperator.cs" />
+    <Compile Include="Operators\Operator.cs" />
+    <Compile Include="Operators\OperatorType.cs" />
+    <Compile Include="Operators\OrOperator.cs" />
+    <Compile Include="Operators\AdditionOperator.cs" />
+    <Compile Include="Operators\SubtractionOperator.cs" />
+    <Compile Include="Operators\ToBooleanOperator.cs" />
+    <Compile Include="Operators\ToNumberOperator.cs" />
+    <Compile Include="Operators\ToStringOperator.cs" />
+    <Compile Include="Operators\UnitaryOperator.cs" />
+    <Compile Include="Operators\UrlDecodeOperator.cs" />
+    <Compile Include="Operators\UrlEncodeOperator.cs" />
+    <Compile Include="Parser.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ResolvedExpression.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="LICENSE.txt" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
