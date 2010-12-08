@@ -1,0 +1,44 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+	<head>
+		<title>OSML script tester</title>
+		
+		<script type="text/javascript">
+			window.OsmlViews = new Array();
+			
+			OsmlViews.push('osmlView_one');
+			OsmlViews.push('osmlView_two');
+			
+			
+		</script>
+		
+		<script type="text/javascript" src="osmlSupport.js"></script>
+	
+	<style type="text/css">
+	.bordered{
+		border:1px solid blue;
+		margin:3px;
+		padding:3px;
+	}
+	
+	</style>
+		
+	</head>
+	<body>
+	
+	<h1>Test OSML Script</h1>
+	
+	<div class="bordered" id="osmlView_one">
+	One
+	</div>
+
+	<div class="bordered" id="osmlView_two">
+	Two and three
+	</div>
+	
+	<a href="javascript:OSML.navToView('one');">Nav to One</a>
+<br/>
+	<a href="javascript:OSML.navToView('two');">Nav to Two</a>
+	
+	</body>
+</html>
