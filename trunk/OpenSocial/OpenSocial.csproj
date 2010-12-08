@@ -1,0 +1,170 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{CFBF88AF-F921-4751-BBBF-F65A99C9103D}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MySpace.OpenSocial</RootNamespace>
+    <AssemblyName>MySpace.OpenSocial</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\_drop\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\_drop\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="MySpace.DataPipeline, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="MySpace.Entity, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\_drop\MySpace.Entity.dll</HintPath>
+    </Reference>
+    <Reference Include="MySpace.OpenSocial.EL, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="MySpace.Shared, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\_drop\MySpace.Shared.dll</HintPath>
+    </Reference>
+    <Reference Include="MySpace.TemplateFramework, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DoctypeStrings.cs" />
+    <Compile Include="Gadget\Controls\GadgetSecurityPolicy.cs" />
+    <Compile Include="Gadget\Controls\DataPipelineBlock.cs" />
+    <Compile Include="Gadget\Controls\MySpaceAppSettings.cs" />
+    <Compile Include="Gadget\Controls\OsVar.cs" />
+    <Compile Include="Gadget\Controls\ExternalTemplates.cs" />
+    <Compile Include="Gadget\Controls\MySpaceViewSettings.cs" />
+    <Compile Include="Gadget\Controls\ModuleFeature.cs" />
+    <Compile Include="Gadget\Controls\ModuleIcon.cs" />
+    <Compile Include="Gadget\Controls\ModuleOptional.cs" />
+    <Compile Include="Gadget\Controls\MessageBundle.cs" />
+    <Compile Include="Gadget\Controls\Link.cs" />
+    <Compile Include="Gadget\Controls\Locale.cs" />
+    <Compile Include="Gadget\Controls\ModuleRequire.cs" />
+    <Compile Include="Gadget\Controls\Message.cs" />
+    <Compile Include="Gadget\Controls\TemplateLibraryDef.cs" />
+    <Compile Include="Gadget\Enums\MessageBundleErrorType.cs" />
+    <Compile Include="Gadget\GadgetCounters.cs" />
+    <Compile Include="Gadget\Controls\ModulePrefs.cs" />
+    <Compile Include="Gadget\Controls\ContentBlock.cs" />
+    <Compile Include="Gadget\GadgetErrors.cs" />
+    <Compile Include="Gadget\GadgetMaster.cs" />
+    <Compile Include="Gadget\LifecycleEventKey.cs" />
+    <Compile Include="Gadget\MessageBundleItemError.cs" />
+    <Compile Include="Gadget\ViewSize.cs" />
+    <Compile Include="OSML\Controls\ExternalRequestControl.cs" />
+    <Compile Include="OSML\Controls\OsRender.cs" />
+    <Compile Include="OSML\Controls\OsHtml.cs" />
+    <Compile Include="OSML\Controls\OsHttpRequest.cs" />
+    <Compile Include="OSML\Controls\OsElseTag.cs" />
+    <Compile Include="OSML\Controls\OsIfTag.cs" />
+    <Compile Include="OSML\Controls\OsGet.cs" />
+    <Compile Include="OSML\Controls\DataScript.cs" />
+    <Compile Include="OSML\Controls\OsTagTemplate.cs" />
+    <Compile Include="Gadget\Controls\ParamControl.cs" />
+    <Compile Include="OSML\Controls\OsmlRepeater.cs" />
+    <Compile Include="OSML\Controls\OsmlName.cs" />
+    <Compile Include="OSML\Controls\OsmlNav.cs" />
+    <Compile Include="OSML\Controls\OsmlPeopleSelector.cs" />
+    <Compile Include="OSML\Controls\OsTemplate.cs" />
+    <Compile Include="OSML\Extensions\RenderRequest.cs" />
+    <Compile Include="OSML\Templates\Style.cs" />
+    <Compile Include="OSML\Templates\JavaScript.cs" />
+    <Compile Include="OSML\Templates\Namespace.cs" />
+    <Compile Include="OSML\Templates\TemplateDef.cs" />
+    <Compile Include="OSML\Templates\Template.cs" />
+    <Compile Include="OSML\Templates\TemplateLibraryContext.cs" />
+    <Compile Include="OSML\Templates\TemplatesRoot.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="OSML\Controls\OsmlBadge.cs" />
+    <Compile Include="XmlNamespaces.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="OSML\Resources\00_Readme.txt" />
+    <Content Include="OSML\Resources\osmlSupport.js" />
+    <Content Include="OSML\Resources\testJs.htm" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
