@@ -1,0 +1,175 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{5B09E84C-CBA6-46D0-98A5-7F8ABF390032}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MySpace.DataPipeline.Tests</RootNamespace>
+    <AssemblyName>MySpace.DataPipeline.Test</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;NUNIT</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="MbUnit.Framework, Version=2.4.2.355, Culture=neutral, PublicKeyToken=5e72ecd30bc408d5">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files\MbUnit\bin\MbUnit.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="MbUnit.Framework.2.0, Version=2.4.2.355, Culture=neutral, PublicKeyToken=5e72ecd30bc408d5, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files\MbUnit\bin\MbUnit.Framework.2.0.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework, Version=2.5.8.10295, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files\NUnit 2.5.8\bin\net-2.0\framework\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="NUnitExtension.RowTest">
+      <HintPath>C:\Program Files\NUnit 2.5.8\bin\net-2.0\addins\NUnitExtension.RowTest.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Runtime.Serialization">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="xunit">
+      <HintPath>..\..\..\..\Programs\xUnit\1.6.1\xunit.dll</HintPath>
+    </Reference>
+    <Reference Include="xunit.extensions">
+      <HintPath>..\..\..\..\Programs\xUnit\1.6.1\xunit.extensions.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Mocks\OsOwnerRequest.cs" />
+    <Compile Include="Mocks\OsPeopleRequest.cs" />
+    <Compile Include="Mocks\OsViewerRequest.cs" />
+    <Compile Include="TestFrameworkHelpers\XunitHelpers.cs" />
+    <Compile Include="TestFrameworkHelpers\TestsOnAttribute.cs" />
+    <Compile Include="UnitTests\BulkVariableResolverTestFixture.cs" />
+    <Compile Include="UnitTests\AsyncRequestProcessorTestFixture.cs" />
+    <Compile Include="UnitTests\AsyncRequestPoolTestFixture.cs" />
+    <Compile Include="UnitTests\GenericExpressionEvalWrapperTestFixture.cs" />
+    <Compile Include="UnitTests\WrapperUtilityTestFixture.cs" />
+    <Compile Include="UnitTests\SecurityPolicyTestFixture.cs" />
+    <Compile Include="UnitTests\JsonDataTestFixture.cs" />
+    <Compile Include="UnitTests\ResourceBundleCatalogFixture.cs" />
+    <Compile Include="UnitTests\MessageBundleResolverTestFixture.cs" />
+    <Compile Include="UnitTests\GenericResourceBundleTests.cs" />
+    <Compile Include="UnitTests\VariableResolutionTestFixture.cs" />
+    <Compile Include="UnitTests\DataContextTestFixture.cs" />
+    <Compile Include="UnitTests\DataItemTestFixture.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestData\AccountTestData.cs" />
+    <Compile Include="TestData\ComplexExpressionResolverDataObject.cs" />
+    <Compile Include="TestData\SimpleDataContract.cs" />
+    <Compile Include="TestData\SimpleExpressionResolverDataObject.cs" />
+    <Compile Include="TestData\MockDataHelper.cs" />
+    <Compile Include="TestData\SampleIJsonSerializable.cs" />
+    <Compile Include="TestData\Samples.cs" />
+    <Compile Include="TestData\SampleSimpleDataControl.cs" />
+    <Compile Include="TestData\SimpleDataObject.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\DataPipeline\DataPipeline.csproj">
+      <Project>{2896BD9C-9CDB-4A49-B5CC-27CDB9003681}</Project>
+      <Name>DataPipeline</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\OpenSocial.DataContracts\OpenSocial.DataContracts.csproj">
+      <Project>{7AE04B79-C9D4-45D3-8641-BFF32348F73E}</Project>
+      <Name>OpenSocial.DataContracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\OpenSocial.EL\OpenSocial.EL.csproj">
+      <Project>{02033EE1-02E8-41DF-9282-96D919E7233F}</Project>
+      <Name>OpenSocial.EL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\TemplateFramework\TemplateFramework.csproj">
+      <Project>{E42409B5-15C2-43B9-BC94-FD2B16F04165}</Project>
+      <Name>TemplateFramework</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.0">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
