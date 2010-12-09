@@ -1,0 +1,7 @@
+<PartCoverSettings>
+  <Target>C:\Program Files\MbUnit\bin\MbUnit.Cons.exe</Target>
+  <TargetWorkDir>G:\workspaces\ms-dev\Platform\DataPipeline.Test\bin\Debug</TargetWorkDir>
+  <TargetArgs>G:\workspaces\ms-dev\Platform\DataPipeline.Test\bin\Debug\MySpace.DataPipeline.Test.dll</TargetArgs>
+  <LogLevel>8</LogLevel>
+  <Rule>+[MySpace.DataPipeline]*</Rule>
+</PartCoverSettings>
