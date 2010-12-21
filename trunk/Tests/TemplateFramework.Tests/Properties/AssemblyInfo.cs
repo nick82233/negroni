@@ -5,18 +5,14 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("DataPipeline")]
+[assembly: AssemblyTitle("TemplateFramework.Tests")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("DataPipeline")]
-[assembly: AssemblyCopyright("Copyright ©  2009")]
+[assembly: AssemblyProduct("TemplateFramework.Tests")]
+[assembly: AssemblyCopyright("Copyright ©  2010")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
-[assembly: InternalsVisibleTo("Negroni.OpenSocial.Test")]
-[assembly: InternalsVisibleTo("Negroni.TemplateFramework.Tests")]
-[assembly: InternalsVisibleTo("Negroni.DataPipeline.Tests")]
-
 
 // Setting ComVisible to false makes the types in this assembly not visible 
 // to COM components.  If you need to access a type in this assembly from 
@@ -24,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("b64ae702-3ef1-4307-8633-6d5e7339e308")]
+[assembly: Guid("0bf7f896-894a-4d37-aab1-e87ec6311c23")]
 
 // Version information for an assembly consists of the following four values:
 //
