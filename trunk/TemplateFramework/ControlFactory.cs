@@ -304,7 +304,22 @@ namespace Negroni.TemplateFramework
 			return FactorySingletons[key];
 		}
 
-		/// <summary>
+        /// <summary>
+        /// Returns a list of all currently defined control factory keys
+        /// </summary>
+        /// <returns></returns>
+        static public List<string> GetControlFactoryKeys()
+        {
+            List<string> factoryKeys = new List<string>();
+
+            foreach (var key in FactorySingletons.Keys)
+            {
+                factoryKeys.Add(key);
+            }
+            return factoryKeys;
+        }
+        
+        /// <summary>
 		/// Removes a previously registered ControlFactory singleton
 		/// </summary>
 		/// <param name="key"></param>
