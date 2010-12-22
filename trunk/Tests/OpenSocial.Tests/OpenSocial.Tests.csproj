@@ -1,0 +1,287 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{F289062D-C8C9-4E65-8F55-942F60492793}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MySpace.OpenSocial.Test</RootNamespace>
+    <AssemblyName>MySpace.OpenSocial.Test</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <StartupObject>OpenSocial.Test.Program</StartupObject>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation />
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="MbUnit.Framework, Version=2.4.2.355, Culture=neutral, PublicKeyToken=5e72ecd30bc408d5">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\workspaces_local\MbUnit\v2\output\v3_5_Framework\MbUnit.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="MbUnit.Framework.2.0, Version=2.4.2.355, Culture=neutral, PublicKeyToken=5e72ecd30bc408d5, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\workspaces_local\MbUnit\v2\output\v3_5_Framework\MbUnit.Framework.2.0.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Controls\ControlFactoryCountersTests.cs" />
+    <Compile Include="Controls\ControlFactoryTests.cs" />
+    <Compile Include="Controls\BaseContainerControlTests.cs" />
+    <Compile Include="Controls\GadgetLiteralControlTestFixture.cs" />
+    <Compile Include="Controls\OsVarTestFixture.cs" />
+    <Compile Include="Controls\GadgetControlFactoryTests.cs" />
+    <Compile Include="Gadget\CloneGadgetTests.cs" />
+    <Compile Include="Gadget\RootElementMasterTests.cs" />
+    <Compile Include="Gadget\MessageBundleTests.cs" />
+    <Compile Include="Gadget\GadgetExternalTemplatesTestFixture.cs" />
+    <Compile Include="Gadget\ViewSizeTestFixture.cs" />
+    <Compile Include="Gadget\StaticGadgetTests.cs" />
+    <Compile Include="Gadget\GadgetValidatorTests.cs" />
+    <Compile Include="Gadget\InternationalEncodingTests.cs" />
+    <Compile Include="Gadget\MySpaceViewSettingsTests.cs" />
+    <Compile Include="Gadget\MessageTests.cs" />
+    <Compile Include="Gadget\GadgetCounterTests.cs" />
+    <Compile Include="Gadget\MySpaceAppSettingsTests.cs" />
+    <Compile Include="Gadget\ModulePrefsTests.cs" />
+    <Compile Include="Helpers\TestableMarkupDef.cs" />
+    <Compile Include="Mocks\OsOwnerRequest.cs" />
+    <Compile Include="Mocks\OsPeopleRequest.cs" />
+    <Compile Include="Mocks\OsViewerRequest.cs" />
+    <Compile Include="OSML\ContentBlockTests.cs" />
+    <Compile Include="Gadget\GadgetMasterTests.cs" />
+    <Compile Include="Controls\BaseDataControlTests.cs" />
+    <Compile Include="OSML\VariableTagTests.cs" />
+    <Compile Include="OSML\OsRenderTest.cs" />
+    <Compile Include="OSML\OsHtmlTest.cs" />
+    <Compile Include="OSML\IfElseTestFixture.cs" />
+    <Compile Include="OSML\RepeaterTests.cs" />
+    <Compile Include="CustomTagTests\CustomTagFactoryTests.cs" />
+    <Compile Include="OSML\DataScriptTests.cs" />
+    <Compile Include="OSML\GenericControlTestFixture.cs" />
+    <Compile Include="OSML\OsmlControlAttributeTests.cs" />
+    <Compile Include="OSML\ScopedDataTests.cs" />
+    <Compile Include="OSML\TagTemplateTests.cs" />
+    <Compile Include="CustomTagTests\CustomTagTests.cs" />
+    <Compile Include="OSML\OffsetParserTests.cs" />
+    <Compile Include="Gadget\OffsetListTests.cs" />
+    <Compile Include="Gadget\OffsetItemTests.cs" />
+    <Compile Include="OSML\RenderTests.cs" />
+    <Compile Include="OSML\TemplateLibrariesTestFixture.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Standalone\OSMLTestInterface.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Standalone\OSMLTestInterface.Designer.cs">
+      <DependentUpon>OSMLTestInterface.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TestData\AccountTestData.cs" />
+    <Compile Include="TestData\ExternalMessageBundlesGadgetTestData.cs" />
+    <Compile Include="TestData\GadgetWithProfileRightView.cs" />
+    <Compile Include="TestData\GadgetWithProfileLeftView.cs" />
+    <Compile Include="TestData\GadgetWithViewsOverlap.cs" />
+    <Compile Include="TestData\GadgetWithViews.cs" />
+    <Compile Include="TestData\DataGadgetSharedDataKeys.cs" />
+    <Compile Include="TestData\DataGadgetAttrRepeatIfTestData.cs" />
+    <Compile Include="TestData\ExternalSourceGadgetTestData.cs" />
+    <Compile Include="TestData\DataGadgetViewScoped.cs" />
+    <Compile Include="TestData\SecurityPolicyGadget.cs" />
+    <Compile Include="TestData\GadgetWithSimpleTemplate.cs" />
+    <Compile Include="TestData\DataGadgetRepeatInJavaScriptBlock.cs" />
+    <Compile Include="TestData\GadgetCustomTagTemplates.cs" />
+    <Compile Include="TestData\GadgetVarsInCustomTemplateInstance.cs" />
+    <Compile Include="TestData\GadgetVarsInTemplate.cs" />
+    <Compile Include="TestData\GadgetVarsInDataPipeline.cs" />
+    <Compile Include="TestData\MessageBundles\MessageBundleData.cs" />
+    <Compile Include="TestData\Partials\ModulePrefsFormattedLargeData.cs" />
+    <Compile Include="TestData\StaticGadgetApp.cs" />
+    <Compile Include="TestData\DataGadgetDupeDataKeys.cs" />
+    <Compile Include="TestData\DataGadgetRepeatIfTestData.cs" />
+    <Compile Include="TestData\DataGadgetEmptyAttrRepeatTestData.cs" />
+    <Compile Include="TestData\DataGadgetResolvablePointerParams.cs" />
+    <Compile Include="TestData\DataGadgetTriplePointerParams.cs" />
+    <Compile Include="TestData\DataGadgetCrosspointerParams.cs" />
+    <Compile Include="TestData\DataGadgetNestedTagAttrRepeatTestData.cs" />
+    <Compile Include="TestData\InternationalGadgetTestData.cs" />
+    <Compile Include="TestData\DataGadgetRepeatRenamedContextTestData.cs" />
+    <Compile Include="TestData\DataGadgetRepeatContextTestData.cs" />
+    <Compile Include="TestData\GadgetWithoutTemplatesData.cs" />
+    <Compile Include="TestData\GadgetXmlEvents.cs" />
+    <Compile Include="TestData\GadgetXmlVersioned.cs" />
+    <Compile Include="TestData\Partials\ContentBlockTrailingClientScript.cs" />
+    <Compile Include="TestData\Partials\ModulePrefsFullData.cs" />
+    <Compile Include="TestData\Partials\ModPrefMySpaceViewSettings.cs" />
+    <Compile Include="TestData\Partials\IfTestData.cs" />
+    <Compile Include="TestData\Partials\ModulePrefsInlineMessagesData.cs" />
+    <Compile Include="TestData\Partials\ModPrefMySpaceAppSettings.cs" />
+    <Compile Include="TestData\TemplateLibraries\BasicLibrary.cs" />
+    <Compile Include="TestData\TemplateLibraries\GadgetReferencingTemplateLibrary.cs" />
+    <Compile Include="TestData\DataGadgetStaticAttrRepeatTestData.cs" />
+    <Compile Include="TestData\DataGadgetAttrRepeatTestData.cs" />
+    <Compile Include="TestData\DataGadgetTestData.cs" />
+    <Compile Include="TestData\Partials\ModulePrefsData.cs" />
+    <Compile Include="TestData\Partials\DataScriptBlockData.cs" />
+    <Compile Include="TestData\TagTemplateContentBlockTestData.cs" />
+    <Compile Include="TestData\TemplateGadgetTestData.cs" />
+    <Compile Include="TestData\SuppressedWhitespaceAndDivGadget.cs" />
+    <Compile Include="TestData\FullGadgetTestData.cs" />
+    <Compile Include="TestData\GadgetTestData.cs" />
+    <Compile Include="OSML\VariableDecodingTests.cs" />
+    <Compile Include="OSML\OsmlTemplateTest.cs" />
+    <Compile Include="OSML\OsmlLinkTest.cs" />
+    <Compile Include="OSML\OsmlNameTest.cs" />
+    <Compile Include="Controls\ControlTestHelper.cs" />
+    <Compile Include="OSML\OsmlControlTestBase.cs" />
+    <Compile Include="OSML\OsmlLiteralTest.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="OsmlTest.mbunit" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Standalone\OSMLTestInterface.resx">
+      <DependentUpon>OSMLTestInterface.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Samples\CustomTags.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\DreamOsT_Gadget.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\flatGadgetXml.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\localizedGadget.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\MultiViewGadget.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\OpenSocial09_APIApp.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\RepeaterSample.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\SimpleFlatGadget.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\SimpleName_OsT.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="volumes.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="TestData\DataPipeline\" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\DataPipeline\DataPipeline.csproj">
+      <Project>{2896BD9C-9CDB-4A49-B5CC-27CDB9003681}</Project>
+      <Name>DataPipeline</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\OpenSocial.DataContracts\OpenSocial.DataContracts.csproj">
+      <Project>{7AE04B79-C9D4-45D3-8641-BFF32348F73E}</Project>
+      <Name>OpenSocial.DataContracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\OpenSocial.EL\OpenSocial.EL.csproj">
+      <Project>{02033EE1-02E8-41DF-9282-96D919E7233F}</Project>
+      <Name>OpenSocial.EL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\OpenSocial\OpenSocial.csproj">
+      <Project>{CFBF88AF-F921-4751-BBBF-F65A99C9103D}</Project>
+      <Name>OpenSocial</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\TemplateFramework\TemplateFramework.csproj">
+      <Project>{E42409B5-15C2-43B9-BC94-FD2B16F04165}</Project>
+      <Name>TemplateFramework</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
