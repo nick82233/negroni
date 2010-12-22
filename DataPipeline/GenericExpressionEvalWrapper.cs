@@ -55,9 +55,9 @@ namespace Negroni.DataPipeline
         /// Registers a DataContract as a valid type for Generic Expression evalution
         /// </summary>
         /// <param name="contractType"></param>
-        public static Dictionary<string, FieldInfo> GetDataContractEvaluator(Type contractType)
-        {
-            if (null == contractType) return null;
+		public static Dictionary<string, FieldInfo> GetDataFieldEvaluator(Type contractType)
+		{
+			if (null == contractType) return null;
             if (!registeredDataFieldInvokers.ContainsKey(contractType))
             {
                 lock (registeredDataFieldInvokers)
@@ -65,8 +65,8 @@ namespace Negroni.DataPipeline
                     //check again now that we've aquired the lock
                     if (!registeredDataFieldInvokers.ContainsKey(contractType))
                     {
-                        registeredDataFieldInvokers.Add(contractType, WrapperUtility.LoadKeyInvokers(contractType));
-                    }
+						registeredDataFieldInvokers.Add(contractType, WrapperUtility.LoadFieldInvokers(contractType));
+					}
                 }
             }
             return registeredDataFieldInvokers[contractType];
@@ -131,17 +131,17 @@ namespace Negroni.DataPipeline
             {
                 return null;
             }
-            Dictionary<string, FieldInfo> fieldEvaluators = GetDataContractEvaluator(MyWrappedObject.GetType());
-            if (fieldEvaluators.ContainsKey(expression))
-            {
-                return WrapperUtility.ResolveExpressionValue(expression, MyWrappedObject, fieldEvaluators);
-            }
-            else
-            {
-                Dictionary<string, PropertyInfo> propertyEvaluators = GetDataPropertyEvaluator(MyWrappedObject.GetType());
-                return WrapperUtility.ResolveExpressionValue(expression, MyWrappedObject, propertyEvaluators);
-            }
-        }
+			Dictionary<string, PropertyInfo> propertyEvaluators = GetDataPropertyEvaluator(MyWrappedObject.GetType());
+			if (propertyEvaluators.ContainsKey(expression))
+			{
+				return WrapperUtility.ResolveExpressionValue(expression, MyWrappedObject, propertyEvaluators);
+			}
+			else
+			{
+				Dictionary<string, FieldInfo> fieldEvaluators = GetDataFieldEvaluator(MyWrappedObject.GetType());
+				return WrapperUtility.ResolveExpressionValue(expression, MyWrappedObject, fieldEvaluators);
+			}
+		}
 
         #endregion
     }

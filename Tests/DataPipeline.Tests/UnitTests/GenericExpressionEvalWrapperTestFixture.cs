@@ -33,7 +33,7 @@ namespace Negroni.DataPipeline.Tests
 
 			GenericExpressionEvalWrapper wrapper = new GenericExpressionEvalWrapper(data);
 
-			int invokerCount = GenericExpressionEvalWrapper.GetDataContractEvaluator(data.GetType()).Count;
+			int invokerCount = GenericExpressionEvalWrapper.GetDataFieldEvaluator(data.GetType()).Count;
 			
 			Assert.Greater(invokerCount, 0);
 
@@ -50,7 +50,7 @@ namespace Negroni.DataPipeline.Tests
 
 			GenericExpressionEvalWrapper wrapper = new GenericExpressionEvalWrapper(data);
 			
-			int invokerCount = GenericExpressionEvalWrapper.GetDataContractEvaluator(data.GetType()).Count;
+			int invokerCount = GenericExpressionEvalWrapper.GetDataFieldEvaluator(data.GetType()).Count;
 
 			Assert.AreEqual(invokerCount, 0);
 

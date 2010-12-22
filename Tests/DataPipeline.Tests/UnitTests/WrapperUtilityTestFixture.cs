@@ -38,7 +38,7 @@ namespace Negroni.DataPipeline.Tests
 			Assert.IsNotNull(rslt, "Result is null");
 			string result = rslt.ToString();
 			Assert.AreEqual(testString, result, "Direct ResolveExpressionValue call failed");
-			Assert.AreEqual(result, WrapperUtility.ResolveExpressionValue(valExpr, data, GenericExpressionEvalWrapper.GetDataContractEvaluator(data.GetType())));
+			Assert.AreEqual(result, WrapperUtility.ResolveExpressionValue(valExpr, data, GenericExpressionEvalWrapper.GetDataFieldEvaluator(data.GetType())));
 
 			DataContext dc = new DataContext();
 			dc.RegisterDataItem("foo", wrapper);
