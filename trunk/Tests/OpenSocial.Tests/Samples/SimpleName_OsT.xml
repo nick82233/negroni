@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Module>
+	<ModulePrefs title="Hello World">
+		<Require feature="opensocial-0.7"/>
+		<!-- Allows templates -->
+		<Require feature="opensocial-templates"/>
+		<!-- Allows data to be pulled in to scope -->
+		<Require feature="opensocial-datapipelining"/>
+		<!-- Allows multiple views to be defined and thus rendered client or server -->
+		<Require feature="views"/>
+	</ModulePrefs>
+	<Content type="html" view="profile">
+		<script type="text/os-data">
+			<os:ViewerRequest key="Viewer" id="VIEWER" profileDetails="ABOUT,BOOKS"/>
+			
+		</script>
+		<script type="text/os-template">
+			<div>
+				Hello, ${Viewer.DisplayName}. Welcome to our app.
+			</div>
+		</script>
+	</Content>
+</Module>

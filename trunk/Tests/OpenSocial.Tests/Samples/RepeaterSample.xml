@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Module  xmlns:os="http://ns.opensocial.org/2008/markup" >
+  <ModulePrefs title="Hello World">
+    <Require feature="opensocial-0.9"/>
+    <Require feature="opensocial-templates"/>
+    <Require feature="opensocial-datapipelining"/>
+    <Require feature="views"/>
+  </ModulePrefs>
+  <Content type="html" view="canvas">
+    <script type="text/os-data">
+      <os:ViewerRequest key='vwr' />
+      <os:PeopleRequest key='myfriends' userid="@viewer" groupid="@friends" />
+    </script>
+    <script type="text/os-template">
+      <img src="${vwr.Image}" style="float:right" />
+
+      <h1>
+        I, <span style="color:green;">${vwr.Name}</span>, am on canvas
+      </h1>
+
+      <div id="myval"> </div>
+      <input id="variable" value="vwr.DisplayName" />
+      <button onclick="getVariableValue()" >Get Value </button>
+      <script type="text/javascript">
+        //<![CDATA[
+
+function getVariableValue(){
+	var x = document.getElementById("variable");
+	var parts = x.value.split(".");
+	var key = parts[0];
+	var data = null;
+	if(key.indexOf("[") > -1){
+		var arp = key.split('[');
+		data = opensocial.data.getDataContext().getDataSet(arp[0]);
+		var arp2 = arp[1].split(']');
+		data = data[arp2[0]];
+	}
+	else{
+		data = opensocial.data.getDataContext().getDataSet(key);
+	}
+	var val = data[parts[1]];
+	var elem = document.getElementById("myval");
+	elem.innerHTML = val;
+}
+//]]>
+      </script >
+      <div>
+        Here are my friends
+      </div>
+      <os:Repeat expression="${Top.myfriends}">
+        <div>
+          Friend: ${Cur.Name} <img src="${Cur.Image}" />
+        </div>
+      </os:Repeat>
+
+    </script>
+  </Content>
+</Module>
