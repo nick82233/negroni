@@ -1713,7 +1713,7 @@ namespace Negroni.DataPipeline
 		//    }
 		//}
 
-				/// <summary>
+		/// <summary>
 		/// Gets a late-bound value member from the given object
 		/// </summary>
 		/// <param name="Viewer"></param>
@@ -1729,18 +1729,8 @@ namespace Negroni.DataPipeline
 				return obj;
 			}
 
-			Type t = obj.GetType();
-
-			PropertyInfo pinfo = t.GetProperty(member);
-			if (null == pinfo)
-			{
-				LogVariableCalculateError("val member " + member, "object: " + obj.GetType().Name + " does not have member: " + member);
-				return null;
-			}
-			else
-			{
-				return t.InvokeMember(member, BindingFlags.GetProperty | BindingFlags.GetField, null, obj, null);
-			}
+			GenericExpressionEvalWrapper wrapper = new GenericExpressionEvalWrapper(obj);
+			return wrapper.ResolveExpressionValue(member);
 		}
 
 		#region IDisposable Members

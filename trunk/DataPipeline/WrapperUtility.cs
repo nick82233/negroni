@@ -67,7 +67,7 @@ namespace Negroni.DataPipeline
         /// <remarks>This only loads "Field" values (not properties) that are
         /// tagged with the DataMember attribute.</remarks>
         /// <returns></returns>
-        public static Dictionary<string, FieldInfo> LoadKeyInvokers(Type dataContract)
+        public static Dictionary<string, FieldInfo> LoadFieldInvokers(Type dataContract)
         {
             Dictionary<string, FieldInfo> invokers = new Dictionary<string, FieldInfo>();
 
@@ -76,19 +76,29 @@ namespace Negroni.DataPipeline
                 return invokers;
             }
 
-            FieldInfo[] fields = dataContract.GetFields();
+			object[] classAttrs = dataContract.GetCustomAttributes(typeof(DataContractAttribute), true);
+			bool isDataContract = (classAttrs.Length > 0);
+
+			FieldInfo[] fields = dataContract.GetFields();
 
             for (int i = 0; i < fields.Length; i++)
             {
-                object[] attrs = fields[i].GetCustomAttributes(typeof(DataMemberAttribute), true);
-                if (attrs.Length > 0)
-                {
-                    DataMemberAttribute fieldDef = attrs[0] as DataMemberAttribute;
-                    if (fieldDef == null) continue; //shouldn't need this line
+				if (isDataContract)
+				{
+					object[] attrs = fields[i].GetCustomAttributes(typeof(DataMemberAttribute), true);
+					if (attrs.Length > 0)
+					{
+						DataMemberAttribute fieldDef = attrs[0] as DataMemberAttribute;
+						if (fieldDef == null) continue; //shouldn't need this line
 
-                    invokers.Add(fieldDef.Name, fields[i]);
-                }
-            }
+						invokers.Add(fieldDef.Name, fields[i]);
+					}
+				}
+				else
+				{
+					invokers.Add(fields[i].Name, fields[i]);
+				}
+			}
 
             return invokers;
         }

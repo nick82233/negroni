@@ -1120,5 +1120,44 @@ namespace Negroni.DataPipeline.Tests
 	
 		}
 
+
+		class AnObject
+		{
+			public string PropVal
+			{
+				get;
+				set;
+			}
+
+			public string FieldVal = null;
+		}
+
+		[Test]
+		public void AutoWrappedObjectTests()
+		{
+			DataContext dc = new DataContext();
+
+			AnObject unwrapped = new AnObject
+			{
+				PropVal = "fooProp",
+				FieldVal = "fooField"
+			};
+
+			GenericExpressionEvalWrapper wrapped = new GenericExpressionEvalWrapper(unwrapped);
+
+			dc.RegisterDataItem("wrapped", wrapped);
+			dc.RegisterDataItem("unwrapped", unwrapped);
+
+			Assert.IsFalse(string.IsNullOrEmpty(dc.CalculateVariableValue("${wrapped.PropVal}")));
+			Assert.IsFalse(string.IsNullOrEmpty(dc.CalculateVariableValue("${wrapped.FieldVal}")));
+
+			Assert.AreEqual(unwrapped.PropVal, dc.CalculateVariableValue("${wrapped.PropVal}"));
+			Assert.AreEqual(unwrapped.PropVal, dc.CalculateVariableValue("${unwrapped.PropVal}"));
+			string val = dc.CalculateVariableValue("${unwrapped.PropVal}");
+			Assert.AreEqual(unwrapped.FieldVal, dc.CalculateVariableValue("${wrapped.FieldVal}"));
+			Assert.AreEqual(unwrapped.FieldVal, dc.CalculateVariableValue("${unwrapped.FieldVal}"));
+
+		}
+	
 	}
 }
