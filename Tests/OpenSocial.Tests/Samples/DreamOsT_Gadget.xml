@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Module>
+	<ModulePrefs title="Hello Dream World">
+		<Require feature="opensocial-0.7"/>
+		<!-- Allows templates -->
+		<Require feature="opensocial-templates"/>
+		<!-- Allows data to be pulled in to scope -->
+		<Require feature="opensocial-datapipelining"/>
+		<!-- Allows multiple views to be defined and thus rendered client or server -->
+		<Require feature="views"/>
+	</ModulePrefs>
+	<Content type="html">
+		<script type="text/os-data">
+			<os:OwnerRequest key="Owner" id="OWNER" profileDetails="ABOUT,BOOKS"/>
+			<os:Request key="ownerDreams"
+				url="http://www.dreamsite.com?command;eq;getdreamsforuser&amp;userid;eq;${Top.OwnerID}"
+				method="GET" authentication="SIGNED"/>
+		</script>
+		<script type="text/os-template">
+			<div>
+				Hello, ${Viewer.DisplayName}. Welcome to our app.
+				In this app, we show the dreams that you've entered into our system.
+
+				<div repeat="${ownerDreams}">
+					${Cur.DreamTitle} was dreamed on ${Cur.DreamDate}.
+					<os:Nav view="dreamview" />
+					<!--
+						<os:Param name="DreamID" value="${Cur.DreamID}"/>
+					</os:Nav> -->
+					Click here to view dream in full.
+				</div>
+				<hr/>
+				<os:Badge person="Viewer" />
+			</div>
+		</script>
+	</Content>
+	<Content type="html" view="dreamview">
+		<script type="text/os-data">
+			<os:Request key="ownerDream"
+			url="http://www.dreamsite.com?command;eq;getdream&amp;userid;eq;${Top.OwnerID}&amp;dreamid;eq;${Params.DreamID}"
+			method="GET" authentication="SIGNED"/>
+		</script>
+		<script type="text/os-template">
+			This is a detailed view of your dream.
+			You dreamed it on ${ownerDream.DreamDate}.<br/>
+			Below is the narrative of the dream you entered:<br/>
+			<i>${ownerDream.DreamNarrative}</i>
+		</script>
+	</Content>
+</Module>

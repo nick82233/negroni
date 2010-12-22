@@ -1,0 +1,1981 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Module xmlns:os="http://ns.opensocial.org/2008/markup" >
+  <ModulePrefs title="OpenSocial 0.9 API test app" description="OpenSocial 0.9 API test app">
+    <Require feature="opensocial-0.9"/>
+    <Require feature="opensocial-templates"/>
+    <Require feature="opensocial-data"/>
+  </ModulePrefs>
+  <Content type="html" view="canvas">
+    <script type="text/os-data">
+      <os:ViewerRequest key='vwr' />
+    </script>
+    <script type="text/os-template">
+      <h1>OS 0.9 API, ${vwr.displayName}</h1>
+    </script>
+    <div class="xcontentblockview-canvas"  id="_osmlContentBlock__osmlContentBlock_0">
+      <style type="text/css">
+        body,td,tr{ margin:0; font-family:Segoe UI, Tahoma, Arial; font-size:8pt; background-color:white; color:black; }
+        #heading { background-color:#0000FF; color:white;}
+        #loading { display:none; }
+        .header { background-color:#0000FF; color:white; font-size:12pt; margin:5px; border:solid 2px blue; width:98%; }
+        .header span{ color:red; }
+        .testContainer { background-color:white; color:black; }
+        .backtoapi { color:white; }
+        #heading a:visited, a { color:white; }
+        .person { float:left; }
+        input { width:100px;}
+        div { overflow:auto; width:100%; }
+      </style>
+
+      <script type='text/javascript' src='http://x.myspace.com/modules/common/static/js/system.web.extensions/1.0.61025.0/microsoftajax.js'></script>
+      <script type="text/javascript">
+        //<![CDATA[
+
+        function init() {
+            gadgets.window.adjustHeight();
+        }
+        
+        MyOpenSpace.OsmlDataMapper = MyOpenSpace.OsmlDataMapper_;
+
+        String.prototype.replaceAll = function(
+            strTarget, // The substring you want to replace
+            strSubString // The string you want to replace in.
+            ) {
+            var strText = this;
+            var resultHtmlStr = '';
+            var intIndexOfMatch = strText.indexOf(strTarget);
+            var g_testAppGlobalError = 'false';
+
+            // Keep looping while an instance of the target string
+            // still exists in the string.
+            while (intIndexOfMatch != -1) {
+                // Relace out the current instance.
+                strText = strText.replace(strTarget, strSubString)
+
+                // Get the index of any next matching substring.
+                intIndexOfMatch = strText.indexOf(strTarget);
+            }
+
+            // Return the updated string with ALL the target strings
+            // replaced out with the new substring.
+            return (strText);
+        }
+            
+        // test methods
+        function showApiTests() {
+            $get('apiTesting').style.display = "block";
+            $get('testResults').style.display = "none";
+        }
+        function hideApiTests() {
+            $get('apiTesting').style.display = "none";
+            $get('testResults').style.display = "block";
+        }
+        function addResult(id, name, data) {
+            resultHtmlStr += '[' + name + ']<div id="' + id + '-' + name + '">' + data + '</div>';
+        }
+
+        function conStrings(strings) {
+            if (strings == null)
+            { return "undefined"; }
+            var returnedStr = "";
+            for (i = 0; i < strings.length; i++) {
+                returnedStr += strings[i];
+            }
+            return returnedStr;
+        }
+        //]]>
+      </script>
+
+      <div id="mainContent">
+        <div id="loading">
+          <img src="http://ajaxload.info/cache/00/00/00/4C/EE/1E/4-1.gif" alt="" id="Img1" border="0" /> Loading...
+        </div>
+
+
+        <div id="heading">
+          open social testing<br />
+          <div id="backApi">
+            <a href="javascript:showApiTests();" id="backtoapi">Back</a>
+          </div>
+        </div>
+
+        <div id="apiTesting">
+
+          <div id="makeRequest" class="header">
+            <span>makeRequest</span>
+            <div class="testContainer">
+              <table>
+                <tr>
+                  <td>url</td>
+                  <td>CallBack</td>
+                  <td>AUTHORIZATION</td>
+                  <td>CONTENT_TYPE</td>
+                  <td>GET_SUMMARIES</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="text" id="makeRequestUrl" value="http://www.openspaceeditor.com/makeRequest.htm" />
+                  </td>
+                  <td>
+                    <input type="text" id="makeRequestCallBack" value="_" />
+                  </td>
+                  <td>
+                    <input type="text" id="makeRequestAUTHORIZATION" value="gadgets.io.AuthorizationType.NONE" />
+                  </td>
+                  <td>
+                    <input type="text" id="makeRequestCONTENT_TYPE" value="gadgets.io.ContentType.TEXT" />
+                  </td>
+                  <td>
+                    <input type="text" id="makeRequestGET_SUMMARIES" value="false" />
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>METHOD</td>
+                  <td>NUM_ENTRIES</td>
+                  <td>POST_DATA</td>
+                  <td>REFRESH_INTERVAL</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="text" id="makeRequestMETHOD" value="gadgets.io.MethodType.GET" />
+                  </td>
+                  <td>
+                    <input type="text" id="makeRequestNUM_ENTRIES" value="_" />
+                  </td>
+                  <td>
+                    <input type="text" id="makeRequestPOST_DATA" value="_" />
+                  </td>
+                  <td>
+                    <input type="text" id="makeRequestRefresh_Interval" value="_" />
+                  </td>
+                  <td>
+                    <input type="button" onclick="testMakeRequest();" id="makeRequestTest" value="Test" />
+                  </td>
+                </tr>
+              </table>
+            </div>
+
+            <script type="text/javascript">
+              //<![CDATA[
+                    // ref: http://code.google.com/apis/opensocial/articles/makerequest.html
+                    function testMakeRequest() {
+                        var opt_params = {};
+
+                        var url;
+                        var callback;
+
+                        // if a param is not wanted at all, pass '_' to explicitly ignore it                
+                        if ($get('makeRequestUrl').value != '_')
+                            url = $get('makeRequestUrl').value;
+
+                        if ($get('makeRequestAUTHORIZATION').value != '_')
+                            opt_params[gadgets.io.RequestParameters.AUTHORIZATION] = eval($get('makeRequestAUTHORIZATION').value);
+
+                        // JSON type: http://www.xul.fr/ajax-json-menu.json
+                        if ($get('makeRequestCONTENT_TYPE').value != '_')
+                            opt_params[gadgets.io.RequestParameters.CONTENT_TYPE] = eval($get('makeRequestCONTENT_TYPE').value);
+
+                        if ($get('makeRequestGET_SUMMARIES').value != '_')
+                            opt_params[gadgets.io.RequestParameters.GET_SUMMARIES] = $get('makeRequestGET_SUMMARIES').value;
+
+                        if ($get('makeRequestMETHOD').value != '_')
+                            opt_params[gadgets.io.RequestParameters.METHOD] = eval($get('makeRequestMETHOD').value);                     
+
+                        if ($get('makeRequestNUM_ENTRIES').value != '_')
+                            opt_params[gadgets.io.RequestParameters.NUM_ENTRIES] = $get('makeRequestNUM_ENTRIES').value;
+
+                        if ($get('makeRequestPOST_DATA').value != '_')
+                        opt_params[gadgets.io.RequestParameters.POST_DATA] = eval($get('makeRequestPOST_DATA').value);
+                            //opt_params[gadgets.io.RequestParameters.POST_DATA] = { "user": "fasdf" };
+
+                        if ($get('makeRequestRefresh_Interval').value != '_')
+                            opt_params[gadgets.io.RequestParameters.REFRESH_INTERVAL] = parseInt(eval($get('makeRequestRefresh_Interval').value));
+
+                        $get('testResults').innerHTML = "Loading...";
+
+                        hideApiTests();
+
+                        gadgets.io.makeRequest(url, testMakeRequestResponse, opt_params);
+
+                    }
+                    function testMakeRequestResponse(data, url, errored) {
+                        resultHtmlStr = "";
+
+                        // show error msg and error code            
+                        if (!errored) {
+                            resultHtmlStr += '<div class="singleResult" \><br>';
+                            resultHtmlStr += '<div>'
+                            resultHtmlStr += data.text;
+                            resultHtmlStr += '</div>'
+                            resultHtmlStr += '</div>';
+                        }
+                        else {
+                            resultHtmlStr = 'ErrorCode: ' + data.errorCode + ' | ' + 'Error Message: ' + data.errorMessage;
+                            //resultHtmlStr += "makeRequest failed:(" + data + ")(" + url + ")(" + errored + ")" + "\r\n";
+                        }
+
+                        $get('testResults').innerHTML = resultHtmlStr;
+                    }
+                //]]>
+            </script>
+          </div>
+
+          <div id="newFetchPeopleRequest" class="header">
+            newFetch<span>People</span>Request
+            <div class="testContainer">
+              <table>
+                <tr>
+                  <td>ID</td>
+                  <td>GroupID</td>
+                  <td>[Filter]</td>
+                  <td>[FilterValue]</td>
+                  <td>[First]</td>
+                  <td>[Max]</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="text" id="fetchPeopleID" value="VIEWER" />
+                  </td>
+                  <td>
+                    <input type="text" id="fetchPeopleGroupId" value="FRIENDS" />
+                  </td>
+                  <td>
+                    <select id="fetchPeopleFilter">
+                      <option value="_"></option>
+                      <option value="opensocial.DataRequest.FilterType.ALL">ALL</option>
+                      <option value="opensocial.DataRequest.FilterType.HAS_APP">HAS_APP</option>
+                      <option value="MyOpenSpace.DataRequest.FilterType.ONLINE_FRIENDS">ONLINE_FRIENDS</option>
+                      <option value="opensocial.DataRequest.FilterType.TOP_FRIENDS">TOP_FRIENDS</option>
+                      <option value="MyOpenSpace.DataRequest.FilterType.TOP_ONLINE_FRIENDS">TOP_ONLINE_FRIENDS</option>
+                    </select>
+                  </td>
+                  <td>
+                    <select id="fetchPeopleFilterValue">
+                      <option value="_"></option>
+                      <option value="MyOpenSpace.DataRequest.FilterValue.TRUE">TRUE</option>
+                      <option value="MyOpenSpace.DataRequest.FilterValue.FALSE">FALSE</option>
+                    </select>
+                  </td>
+                  <td>
+                    <input type="text" id="fetchPeopleFirst" value="_" />
+                  </td>
+                  <td>
+                    <input type="text" id="fetchPeopleMax" value="_" />
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="button" onclick="testFetchPeople();" id="fetchPeopleTest" value="Test" />
+                  </td>
+                </tr>
+              </table>
+            </div>
+
+            <script type="text/javascript">
+              //<![CDATA[
+                    function testFetchPeople() {
+                        /*
+                        idSpec:idSpec, //"VIEWER_FRIENDS, OWNER_FRIENDS", GROUPID
+                        sortOrder:opt_params[fields.SORT_ORDER], //
+                        filter:opt_params[fields.FILTER] || opensocial.DataRequest.FilterType.ALL // "HAP_APP, ONLINE_FRIENDS, ALL. Default is ALL
+                        first:opt_params[fields.FIRST] || 0, // first index of friends
+                        max:opt_params[fields.MAX], //maximum number of friends returned
+                        online:opt_params[MyOpenSpace.DetailType.GET_ONLINE] || false,
+                        status:opt_params[MyOpenSpace.DetailType.GET_STATUS] || false,
+                        mood:opt_params[MyOpenSpace.DetailType.GET_MOOD] || false
+                        */
+                        var opt_params = {};
+
+                        // if a param is not wanted at all, pass '_' to explicitly ignore it
+                        if ($get('fetchPeopleFilter').value != '_')
+                            opt_params[opensocial.DataRequest.PeopleRequestFields.FILTER] = eval($get('fetchPeopleFilter').value);
+                            
+                        if ($get('fetchPeopleFilterValue').value != '_')
+                            opt_params[MyOpenSpace.DataRequest.PeopleRequestFields.FILTER_VALUE] = eval($get('fetchPeopleFilterValue').value);
+
+                        if ($get('fetchPeopleFirst').value != '_')
+                            opt_params[opensocial.DataRequest.PeopleRequestFields.FIRST] = $get('fetchPeopleFirst').value;
+
+                        if ($get('fetchPeopleMax').value != '_')
+                            opt_params[opensocial.DataRequest.PeopleRequestFields.MAX] = $get('fetchPeopleMax').value;
+
+                        $get('testResults').innerHTML = "Loading...";
+
+                        hideApiTests();
+
+                        os = opensocial.Container.get();
+                        dataReqObj = os.newDataRequest();
+
+                        var idStr = $get('fetchPeopleID').value;
+                        var groupId = $get('fetchPeopleGroupId').value;
+                        var vf = new opensocial.IdSpec();
+
+                        if ((idStr != 'null') && (idStr != 'empty')) {
+                            var v = idStr;
+                            vf.setField(opensocial.IdSpec.Field.USER_ID, v);
+                            vf.setField(opensocial.IdSpec.Field.GROUP_ID, groupId);
+                        }
+                        else{
+                            vf = null;
+                        }
+
+
+                        var viewerReq = null;
+                        if (idStr == 'empty')
+                            viewerReq = os.newFetchPeopleRequest(opt_params);
+                        else
+                            viewerReq = os.newFetchPeopleRequest(vf, opt_params);
+                        dataReqObj.add(viewerReq);
+                        dataReqObj.send(testFetchPeopleResponse);
+                    }
+                    function testFetchPeopleResponse(data) {
+                        // show error msg and error code            
+                        if (data.hadError()) {
+                            var thisErrorCode;
+                            var thisErrorMsg;
+                            if (data.get('FETCH_PEOPLE') != null) {
+                                thisErrorCode = data.get('FETCH_PEOPLE').getErrorCode();
+                                thisErrorMsg = data.get('FETCH_PEOPLE').getErrorMessage();
+                            }
+                            else {
+                                thisErrorCode = "Unknown ErrorCode!";
+                                thisErrorMsg = "Unknown ErrorMsg!";
+                            }
+
+                            $get('testResults').innerHTML = 'ErrorCode: ' + thisErrorCode + ' | ' + 'Error Message: ' + thisErrorMsg;
+                            return;
+                        }
+                        $get('testResults').innerHTML = "";
+                        resultHtmlStr = "";
+                        var viewer = data.get("FETCH_PEOPLE").getData();
+                        viewer.each(visualizePeople);
+                        $get('testResults').innerHTML = resultHtmlStr;
+                    }
+                    function visualizePeople(p) {
+                        //var id = p.getField('id');
+                        var id = p.getField(opensocial.Person.Field.ID);
+                        var displayName = p.getDisplayName();
+                        var thumbnailUrl = p.getField(opensocial.Person.Field.THUMBNAIL_URL);
+                        var profileUrl = p.getField(opensocial.Person.Field.PROFILE_URL);
+                        var userType = p.getField(MyOpenSpace.Person.Field.USER_TYPE);
+                        resultHtmlStr += '<div class="singleResult" id=\'' + id + '\'><img height=\'50\' width=\'50\' src=\'' + thumbnailUrl + '\'><br>';
+                        addResult(id, 'name', displayName);
+                        addResult(id, 'thumbnailUrl', thumbnailUrl);
+                        addResult(id, 'profileUrl', profileUrl);
+                        addResult(id, 'id', id);
+                        addResult(id, 'userType', userType);
+                        resultHtmlStr += '</div>';
+                    }
+                
+                    //]]>
+            </script>
+          </div>
+
+          <div id="newFetchPersonRequest" class="header">
+            newFetch<span>Person</span>Request
+            <div class="testContainer">
+              <table>
+                <tr>
+                  <td>ID</td>
+                  <td colspan="2">[Fields]</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="text" id="fetchPersonID" value="VIEWER" />
+                  </td>
+                  <td>
+                    <input type="text" id="fetchFields" value="@all" />
+                  </td>
+                  <td>
+                    <input type="button" onclick="testFetchPerson();" id="fetchPersonTest" value="Test" />
+                  </td>
+                </tr>
+              </table>
+            </div>
+
+            <script type="text/javascript">
+              //<![CDATA[
+                    function testFetchPerson() {
+                        var opt_params = {};
+
+                        if ($get('fetchFields').value != '_') {
+                            if($get('fetchFields').value == '@all'){
+                                opt_params[opensocial.DataRequest.PeopleRequestFields.PROFILE_DETAILS] = "@all";
+                            }
+                            else{
+                                opt_params[opensocial.DataRequest.PeopleRequestFields.PROFILE_DETAILS] = eval($get('fetchFields').value); //"[opensocial.Person.Field.ABOUT_ME,opensocial.Person.Field.BODY_TYPE]", etc
+                            }
+                        }
+
+                        $get('testResults').innerHTML = "Loading...";
+
+                        hideApiTests();
+                   
+                    os = opensocial.Container.get();
+                    dataReqObj = os.newDataRequest();
+                    var viewerReq;
+                    var id = $get('fetchPersonID').value;
+                    if (!isNaN(id))
+                        id = parseInt(id);                    
+                    if ($get('fetchFields').value != '_')
+                        viewerReq = os.newFetchPersonRequest(id, opt_params);
+                    else
+                        viewerReq = os.newFetchPersonRequest(id);
+                    dataReqObj.add(viewerReq);
+                    dataReqObj.send(testFetchPersonResponse);
+                    }
+
+                    function testFetchPersonResponse(data) {
+                        // show error msg and error code            
+                        if (data.hadError()) {
+                            var thisErrorCode;
+                            var thisErrorMsg;
+
+                            if (data.get('FETCH_PERSON') != null) {
+                                thisErrorCode = data.get('FETCH_PERSON').getErrorCode();
+                                thisErrorMsg = data.get('FETCH_PERSON').getErrorMessage();
+                            }
+                            else {
+                                thisErrorCode = "Unknown ErrorCode!";
+                                thisErrorMsg = "Unknown ErrorMsg!";
+                            }
+
+                            $get('testResults').innerHTML = 'ErrorCode: ' + thisErrorCode + ' | ' + 'Error Message: ' + thisErrorMsg;
+
+                            return;
+                        }
+                        resultHtmlStr = "";
+
+                        var viewer = data.get("FETCH_PERSON").getData();
+                        // basic
+                        var id = viewer.getField(opensocial.Person.Field.ID);
+                        var displayName = viewer.getDisplayName();
+                        var thumbnailUrl = viewer.getField(opensocial.Person.Field.THUMBNAIL_URL);
+                        var profileUrl = viewer.getField(opensocial.Person.Field.PROFILE_URL);
+
+                        // per request                                  
+                        var about_me = viewer.getField(opensocial.Person.Field.ABOUT_ME);
+                        var age = viewer.getField(opensocial.Person.Field.AGE);
+                        
+                        var body_type = viewer.getField(opensocial.Person.Field.BODY_TYPE);                    
+                        var body_type_build = 'undefined';
+                        var body_type_height = 'undefined';
+                        if (body_type != null) {
+                            body_type_build = body_type.getField('build');
+                            body_type_height = body_type.getField('height');
+                        } 
+                        
+                        var books = conStrings(viewer.getField(opensocial.Person.Field.BOOKS));
+                        var children = viewer.getField(opensocial.Person.Field.CHILDREN);
+                        
+                        var current_location = viewer.getField(opensocial.Person.Field.CURRENT_LOCATION);
+                        var current_location_country = 'undefined';
+                        var current_location_postalCode = 'undefined';
+                        var current_location_region = 'undefined';
+                        if (current_location != null) {
+                            current_location_country = current_location.getField('country');
+                            current_location_postalCode = current_location.getField('postalCode');
+                            current_location_region = current_location.getField('region');
+                        } 
+
+
+                        var date_of_birth = viewer.getField(opensocial.Person.Field.DATE_OF_BIRTH);
+                        var date_of_birth_str = 'undefined';
+                        if (date_of_birth != null) {
+                            date_of_birth_str = date_of_birth._toFormattedString();
+                        }
+
+                        var drinker = viewer.getField(opensocial.Person.Field.DRINKER);
+                        var drinker_displayValue = 'undefined';;
+                        if (drinker != null) {
+                            drinker_displayValue = drinker.getDisplayValue();
+                        }
+                        
+                        //var emails = viewer.getField(opensocial.Person.Field.EMAILS); //Not supported
+                        var ethnicity = viewer.getField(opensocial.Person.Field.ETHNICITY);
+
+
+                        var gender = viewer.getField(opensocial.Person.Field.GENDER);
+                        var gender_displayValue = 'undefined';
+                        if (gender != null) {
+                            gender_displayValue = gender.getDisplayValue();
+                        } 
+                        
+                        
+                        var has_app = viewer.getField(opensocial.Person.Field.HAS_APP);
+                        var heroes = conStrings(viewer.getField(opensocial.Person.Field.HEROES));
+                        var interests = conStrings(viewer.getField(opensocial.Person.Field.INTERESTS));
+                        var jobs = viewer.getField(opensocial.Person.Field.JOBS);
+                        
+                        var looking_for = viewer.getField(opensocial.Person.Field.LOOKING_FOR);
+                        var looking_for_displayValue = "";
+                        if(null !== looking_for && 0 !== looking_for.length){
+                            for(var i = 0; i < looking_for.length; i++){
+                                looking_for_displayValue += looking_for[i].getKey() + ":" + looking_for[i].getDisplayValue() + ", ";
+                            }
+                        }
+                        else{
+                            looking_for_displayValue = "undefined";
+                        }
+
+                        var movies = conStrings(viewer.getField(opensocial.Person.Field.MOVIES));
+                        var music = conStrings(viewer.getField(opensocial.Person.Field.MUSIC));
+
+                        var name = viewer.getField(opensocial.Person.Field.NAME);
+                        var name_displayValue = (name == null) ? 'undefined' : name.getField('unstructured');
+
+                        var network_presence = viewer.getField(opensocial.Person.Field.NETWORK_PRESENCE);
+                        var network_presence_displayValue = 'undefined';
+                        if (network_presence != null) {
+                            network_presence_displayValue = network_presence.getDisplayValue();
+                        }
+                        
+                        var profile_song = viewer.getField(opensocial.Person.Field.PROFILE_SONG); 
+                        var relationship_status = viewer.getField(opensocial.Person.Field.RELATIONSHIP_STATUS);
+                        var religion = viewer.getField(MyOpenSpace.Person.Field.RELIGION);
+                        var sexualOrientaion = viewer.getField(opensocial.Person.Field.SEXUAL_ORIENTATION);
+
+                        var smoker = viewer.getField(MyOpenSpace.Person.Field.SMOKER);                    
+                        var smoker_displayValue = 'undefined'; ;
+                        if (smoker != null) {
+                            smoker_displayValue = smoker.getDisplayValue();
+                        }
+
+                        var status = viewer.getField(opensocial.Person.Field.STATUS);
+                        var tvShows = conStrings(viewer.getField(opensocial.Person.Field.TV_SHOWS));
+                        var urls = viewer.getField(opensocial.Person.Field.URLS);
+                        var urls_value = 'undefined';
+                        if (urls != null) {
+                            urls_value = "";
+                            for (i = 0; i < urls.length; i++) {
+                                urls_value += urls[i].getField('address');
+                            }
+                        }
+                        var large_image = viewer.getField(MyOpenSpace.Person.Field.LARGE_IMAGE);
+                        var large_image_type = 'undefined';
+                        var large_image_address = 'undefined'
+                        if (large_image != null) {
+                            large_image_type = large_image.getField('type');
+                            large_image_address = large_image.getField('address');
+                        }
+
+                        var medium_image = viewer.getField(MyOpenSpace.Person.Field.MEDIUM_IMAGE);
+                        var medium_image_type = 'undefined';
+                        var medium_image_address = 'undefined'
+                        if (medium_image != null) {
+                            medium_image_type = medium_image.getField('type');
+                            medium_image_address = medium_image.getField('address');
+                        }
+                        
+                        
+                        //var photos = viewer.getField(MyOpenSpace.Person.Field.URLS);
+               
+                        resultHtmlStr += '<div class="singleResult" id=\'' + id + '\'><img height=\'50\' width=\'50\' src=\'' + thumbnailUrl + '\'><br>';
+
+                        // basic
+                        addResult(id, 'id', id);
+                        addResult(id, 'displayName', displayName);
+                        addResult(id, 'thumbnailUrl', thumbnailUrl);
+                        addResult(id, 'profileUrl', profileUrl);
+
+                        // per request
+                        addResult(id, 'about_me', about_me);
+                        addResult(id, 'age', age);
+                        addResult(id, 'body_type_build', body_type_build);
+                        addResult(id, 'body_type_height', body_type_height);
+                        addResult(id, 'books', books);
+                        addResult(id, 'children', children);
+                        addResult(id, 'current_location_country', current_location_country);
+                        addResult(id, 'current_location_postalCode', current_location_postalCode);
+                        addResult(id, 'current_location_region', current_location_region);
+                        addResult(id, 'date_of_birth_str', date_of_birth_str);
+                        addResult(id, 'drinker_displayValue', drinker_displayValue);
+                        // addResult(id, 'emails ', emails);
+                        addResult(id, 'ethnicity', ethnicity);
+                        addResult(id, 'gender_displayValue ', gender_displayValue);
+                        addResult(id, 'has_app', has_app);
+                        addResult(id, 'heroes', heroes);
+                        addResult(id, 'interests ', interests);
+                        addResult(id, 'jobs', jobs);
+                        addResult(id, 'looking_for_displayValue ', looking_for_displayValue);
+                        addResult(id, 'movies', movies);
+                        addResult(id, 'music', music);
+                        addResult(id, 'name_displayValue', name_displayValue);
+                        addResult(id, 'network_presence_displayValue ', network_presence_displayValue);
+                        addResult(id, 'profile_song', profile_song);
+                        addResult(id, 'relationship_status  ', relationship_status);
+                        addResult(id, 'religion', religion);
+                        addResult(id, 'sexualOrientaion', sexualOrientaion);
+                        addResult(id, 'smoker_displayValue', smoker_displayValue);
+                        addResult(id, 'status', status);
+                        addResult(id, 'tvShows', tvShows);
+                        addResult(id, 'urls_value', urls_value);
+                        addResult(id, 'large_image_type', large_image_type);
+                        addResult(id, 'large_image_address', large_image_address);
+                        addResult(id, 'medium_image_type', medium_image_type);
+                        addResult(id, 'medium_image_address', medium_image_address);
+                                                             
+                        resultHtmlStr += '</div>';
+                        $get('testResults').innerHTML = resultHtmlStr;
+                    }
+                    //]]>
+            </script>
+          </div>
+
+          <div id="newFetchAlbumsRequest" class="header">
+            new<span>FetchAlbums</span>Request
+            <div class="testContainer">
+              <table>
+                <tr>
+                  <td>ID</td>
+                  <td>GroupID</td>
+                  <td>[AlbumID]</td>
+                  <td>[First]</td>
+                  <td>[Max]</td>
+                  <td>[Fields]</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="text" id="fetchAlbumsPersonID" value="VIEWER" />
+                  </td>
+                  <td>
+                    <input type="text" id="fetchAlbumsUserIdGroup" value="SELF" />
+                  </td>
+                  <td>
+                    <input type="text" id="fetchAlbumsAlbumId" value="_" />
+                  </td>
+                  <td>
+                    <input type="text" id="fetchAlbumsFirst" value="_" />
+                  </td>
+                  <td>
+                    <input type="text" id="fetchAlbumsMax" value="_" />
+                  </td>
+                  <td>
+                    <input type="text" id="fetchAlbumsFields" value="@all" />
+                  </td>
+                  <td>
+                    <input type="button" onclick="testFetchAlbums();" id="fetchAlbumsTest" value="Test" />
+                  </td>
+                </tr>
+              </table>
+            </div>
+
+            <script type="text/javascript">
+              //<![CDATA[
+                    function testFetchAlbums() {
+                        var opt_params = {};
+                        if($get('fetchAlbumsAlbumId').value != '') 
+                            opt_params[opensocial.Album.Field.ID] = $get('fetchAlbumsAlbumId').value;
+                        
+                        if ($get('fetchAlbumsFirst').value != '_')
+                            opt_params[opensocial.DataRequest.AlbumRequestFields.FIRST] = $get('fetchAlbumsFirst').value;
+                            
+                        if ($get('fetchAlbumsMax').value != '_')
+                            opt_params[opensocial.DataRequest.AlbumRequestFields.MAX] = $get('fetchAlbumsMax').value;
+
+                        if ($get('fetchAlbumsFields').value != '_')
+                            opt_params[opensocial.DataRequest.AlbumRequestFields.ALBUM_DETAILS] = $get('fetchAlbumsFields').value;
+                            
+                        $get('testResults').innerHTML = "Loading...";
+                        
+                        // idSpec
+                        var v = $get('fetchAlbumsPersonID').value;
+                        var g = $get('fetchAlbumsUserIdGroup').value;
+                        var vf = new opensocial.IdSpec();
+                        vf.setField(opensocial.IdSpec.Field.USER_ID, v);
+                        vf.setField(opensocial.IdSpec.Field.GROUP_ID, g);
+                        
+                        hideApiTests();
+
+                        os = opensocial.Container.get();
+                        dataReqObj = os.newDataRequest();
+                        var viewerReq = os.newFetchAlbumsRequest(vf, opt_params);
+                        dataReqObj.add(viewerReq);
+                        dataReqObj.send(testFetchAlbumsResponse);
+                    }
+                    function testFetchAlbumsResponse(data) {
+                        if (data.hadError()) {
+                            var thisErrorCode;
+                            var thisErrorMsg;
+                            if (data.get('FETCH_ALBUMS') != null) {
+                                thisErrorCode = data.get('FETCH_ALBUMS').getErrorCode();
+                                thisErrorMsg = data.get('FETCH_ALBUMS').getErrorMessage();
+                            }
+                            else {
+                                thisErrorCode = "Unknown ErrorCode!";
+                                thisErrorMsg = "Unknown ErrorMsg!";
+                            }
+
+                            $get('testResults').innerHTML = 'ErrorCode: ' + thisErrorCode + ' | ' + 'Error Message: ' + thisErrorMsg;
+                            return;
+                        }
+
+                        $get('testResults').innerHTML = "";
+                        resultHtmlStr = "";
+
+                        var albums = data.get('FETCH_ALBUMS').getData();
+                        albums.each(visualizeAlbums);
+
+                        $get('testResults').innerHTML = resultHtmlStr;
+                    }
+
+                    function visualizeAlbums(p) {
+                        var id = p.getField(opensocial.Album.Field.ID);
+                        var mediaItemCount = p.getField(opensocial.Album.Field.MEDIA_ITEM_COUNT);
+                        var mediaType = p.getField(opensocial.Album.Field.MEDIA_TYPE);
+                        var ownerId = p.getField(opensocial.Album.Field.OWNER_ID);
+                        var caption = p.getField(opensocial.Album.Field.CAPTION);
+                        var thumbnailUrl = p.getField(opensocial.Album.Field.THUMBNAIL_URL);
+                        var location = p.getField(opensocial.Album.Field.LOCATION);
+                        var msPrivacyLevel = p.getField(MyOpenSpace.Album.Field.PRIVACY_LEVEL);
+
+                        resultHtmlStr += '<div class="singleResult" id=\'' + id + '\'><img height=\'50\' width=\'50\' src=\'' + thumbnailUrl + '\'><br>';
+
+                        addResult(id, 'ID', id);
+                        addResult(id, 'MEDIA_ITEM_COUNT', mediaItemCount);
+                        addResult(id, 'MEDIA_TYPE', mediaType);
+                        addResult(id, 'OWNER_ID', ownerId);
+                        addResult(id, 'CAPTION', caption);
+                        addResult(id, 'THUMBNAIL_URL', thumbnailUrl);
+                        addResult(id, 'LOCATION', location);
+                        addResult(id, 'PRIVACY_LEVEL', msPrivacyLevel);
+                        resultHtmlStr += '</div>';
+                    }
+                    //]]>
+            </script>
+          </div>
+
+          <div id="newCreateAlbumRequest" class="header">
+            new<span>CreateAlbum</span>Request
+            <div class="testContainer">
+              <table>
+                <tr>
+                  <td>ID</td>
+                  <td>GroupID</td>
+                  <td colspan="2">Album JSON</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="text" name="newAlbumUserId" id="newAlbumUserId" value="VIEWER" />
+                  </td>
+                  <td>
+                    <input type="text" name="newAlbumUserIdDistance" id="newAlbumUserIdDistance" value="SELF" />
+                  </td>
+                  <td>
+                    <input type="text" name="newAlbumJSON" id="newAlbumJSON" value='{"caption":"caption","description":"description","title":"title"}' />
+                  </td>
+                  <td>
+                    <input type="button" onclick="newCreateAlbumRequest();" value="Test" />
+                  </td>
+                </tr>
+              </table>
+            </div>
+
+            <script type="text/javascript">
+              //<![CDATA[
+                    function newCreateAlbumRequest() {
+                        var album_data = gadgets.json.parse($get('newAlbumJSON').value);
+                        
+                        // idSpec
+                        var v = $get('newAlbumUserId').value;
+                        var g = $get('newAlbumUserIdDistance').value;
+                        var vf = new opensocial.IdSpec();
+                        vf.setField(opensocial.IdSpec.Field.USER_ID, v);
+                        vf.setField(opensocial.IdSpec.Field.GROUP_ID, g); 
+                        
+                        $get('testResults').innerHTML = "Loading...";
+
+                        hideApiTests();
+
+                        os = opensocial.Container.get();
+                        dataReqObj = os.newDataRequest();
+                        
+                        var viewerReq = os.newCreateAlbumRequest(vf, album_data);
+                        dataReqObj.add(viewerReq);
+                        dataReqObj.send(testNewCreateAlbumResponse);
+
+                    }
+
+                    function testNewCreateAlbumResponse(data) {
+                        resultHtmlStr = "";
+                        // show error msg and error code            
+                        if (data.hadError()) {
+                            var thisErrorCode;
+                            var thisErrorMsg;
+                            if (data.get('CREATE_ALBUM') != null) {
+                                thisErrorCode = data.get('CREATE_ALBUM').getErrorCode();
+                                thisErrorMsg = data.get('CREATE_ALBUM').getErrorMessage();
+                            }
+                            else {
+                                thisErrorCode = "Unknown ErrorCode!";
+                                thisErrorMsg = "Unknown ErrorMsg!";
+                            }
+
+                            $get('testResults').innerHTML = 'ErrorCode: ' + thisErrorCode + ' | ' + 'Error Message: ' + thisErrorMsg;
+                            return;
+                        }
+                        var response = data.get('CREATE_ALBUM').getData();
+                        
+                        resultHtmlStr += '<div class="singleResult" \><br>';
+                        addResult('singleResult', 'id', response);
+                        resultHtmlStr += '</div>';
+
+                        $get('testResults').innerHTML = resultHtmlStr;
+                    }
+                    //]]>
+            </script>
+          </div>
+
+          <div id="newUpdateAlbumRequest" class="header">
+            new<span>UpdateAlbum</span>Request
+            <div class="testContainer">
+              <table>
+                <tr>
+                  <td>ID</td>
+                  <td>GroupID</td>
+                  <td>AlbumID</td>
+                  <td colspan="2">Album JSON</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="text" id="newUpdateAlbumUserId" name="newUpdateAlbumUserId" value="VIEWER" />
+                  </td>
+                  <td>
+                    <input type="text" name="newUpdateAlbumUserIdDistance" id="newUpdateAlbumUserIdDistance" value="SELF" />
+                  </td>
+                  <td>
+                    <input type="text" id="newUpdateAlbumId" value="" />
+                  </td>
+                  <td>
+                    <input type="text" name="newUpdateAlbumJSON" id="newUpdateAlbumJSON" value='{"caption":"caption updated","description":"description updated","title":"title updated"}' />
+                  </td>
+                  <td>
+                    <input type="button" onclick="newUpdateAlbumRequest();" value="Test" />
+                  </td>
+                </tr>
+              </table>
+            </div>
+
+            <script type="text/javascript">
+              //<![CDATA[
+                    function newUpdateAlbumRequest() {
+                        var album_data = gadgets.json.parse($get('newUpdateAlbumJSON').value);
+                        var album_id = $get('newUpdateAlbumId').value;
+                        
+                        // idSpec
+                        var v = $get('newUpdateAlbumUserId').value;
+                        var g = $get('newUpdateAlbumUserIdDistance').value;
+                        var vf = new opensocial.IdSpec();
+                        vf.setField(opensocial.IdSpec.Field.USER_ID, v);
+                        vf.setField(opensocial.IdSpec.Field.GROUP_ID, g); 
+                        
+                        $get('testResults').innerHTML = "Loading...";
+
+                        hideApiTests();
+
+                        os = opensocial.Container.get();
+                        dataReqObj = os.newDataRequest();
+                        
+                        var viewerReq = os.newUpdateAlbumRequest(vf, album_id, album_data);
+                        dataReqObj.add(viewerReq);
+                        dataReqObj.send(testNewUpdateAlbumResponse);
+
+                    }
+
+                    function testNewUpdateAlbumResponse(data) {
+                        resultHtmlStr = "";
+                        // show error msg and error code            
+                        if (data.hadError()) {
+                            var thisErrorCode;
+                            var thisErrorMsg;
+                            if (data.get('UPDATE_ALBUM') != null) {
+                                thisErrorCode = data.get('UPDATE_ALBUM').getErrorCode();
+                                thisErrorMsg = data.get('UPDATE_ALBUM').getErrorMessage();
+                            }
+                            else {
+                                thisErrorCode = "Unknown ErrorCode!";
+                                thisErrorMsg = "Unknown ErrorMsg!";
+                            }
+
+                            $get('testResults').innerHTML = 'ErrorCode: ' + thisErrorCode + ' | ' + 'Error Message: ' + thisErrorMsg;
+                            return;
+                        }
+                        var response = data.get('UPDATE_ALBUM').getData();
+                        
+                        resultHtmlStr += '<div class="singleResult" \><br>';
+                        addResult('singleResult', 'id', response);
+                        resultHtmlStr += '</div>';
+
+                        $get('testResults').innerHTML = resultHtmlStr;
+                    }
+                    //]]>
+            </script>
+          </div>
+
+          <div id="newFetchMediaItemsRequest" class="header">
+            newFetch<span>MediaItems</span>Request
+            <div class="testContainer">
+              <table>
+                <tr>
+                  <td>ID</td>
+                  <td>GroupID</td>
+                  <td>AlbumID</td>
+                  <td>[MediaItemID(s)]</td>
+                  <td>[MediaItemType]</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="text" id="fetchMediaItemPersonID" value="VIEWER" />
+                  </td>
+                  <td>
+                    <input type="text" id="fetchMediaItemGrpId" value="SELF" />
+                  </td>
+                  <td>
+                    <input maxlength="25" type="text" id="fetchMediaItemAlbumId" value="" />
+                  </td>
+                  <td>
+                    <input maxlength="25" type="text" id="fetchMediaItemMediaId" value="_" />
+                  </td>
+                  <td>
+                    <select id="fetchMediaItemMediaType">
+                      <option></option>
+                      <option>image</option>
+                      <option>video</option>
+                    </select>
+                  </td>
+                </tr>
+                <tr>
+                  <td>[First]</td>
+                  <td>[Max]</td>
+                  <td colspan="2">[Fields]</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="text" id="fetchMediaItemFirst" value="_" />
+                  </td>
+                  <td>
+                    <input type="text" id="fetchMediaItemMax" value="_" />
+                  </td>
+                  <td>
+                    <input type="text" id="fetchMediaItemFields" value="@all" />
+                  </td>
+                  <td>
+                    <input type="button" onclick="testFetchMediaItems();" id="fetchMediaItemsRequest" value="Test" />
+                  </td>
+                </tr>
+              </table>
+            </div>
+
+            <script type="text/javascript">
+              //<![CDATA[
+                    function testFetchMediaItems() {
+
+                        /**
+                        * Creates an object to be used when sending to the server
+                        * @param {opensocial.IdSpec} idSpec The IdSpec object of the person who owns the mediaItems.
+                        * @param {string} albumId Id of the album to fetch mediaItems from.
+                        * @param {Map&lt;string|string&gt;} opt_params Optional parameters specified when retrieving the mediaItems, supported are:
+                        opensocial.DataRequest.MediaItemRequestFields.FIRST - for paging purposes, first record to fetch
+                        opensocial.DataRequest.MediaItemRequestFields.MAX - for paging purposes, maximum number of records to fetch
+                        opensocial.MediaItem.Field.TYPE - used to filter results by media type, opensocial.MediaItem.Type.IMAGE and opensocial.MediaItem.Type.VIDEO supported, must be an array
+                        opensocial.MediaItem.Field.ID - used when requesting specific mediaItems, must be an array
+                        * @return {Object} A request object
+                        * @internal
+                        */
+                        var opt_params = {};
+
+                        // if a param is not wanted at all, pass '_' to explicitly ignore it
+                        if ($get('fetchMediaItemFirst').value != '_')
+                            opt_params[opensocial.DataRequest.MediaItemRequestFields.FIRST] = $get('fetchMediaItemFirst').value;
+
+                        if ($get('fetchMediaItemMax').value != '_')
+                            opt_params[opensocial.DataRequest.MediaItemRequestFields.MAX] = $get('fetchMediaItemMax').value;
+
+                        if ($get('fetchMediaItemMediaType').value != "")
+                            opt_params[opensocial.MediaItem.Field.TYPE] = [$get('fetchMediaItemMediaType').value];
+
+                        if ($get('fetchMediaItemMediaId').value != '_')
+                            opt_params[opensocial.MediaItem.Field.ID] = $get('fetchMediaItemMediaId').value.split(",");
+
+                        if ($get('fetchMediaItemFields').value != '_')
+                            opt_params[opensocial.DataRequest.MediaItemRequestFields.MEDIA_ITEM_DETAILS] = $get('fetchMediaItemFields').value;
+
+                        var albumId = $get('fetchMediaItemAlbumId').value;
+
+                        hideApiTests();
+
+                        var dataReqObj = opensocial.newDataRequest();
+
+                        var idStr = $get('fetchMediaItemPersonID').value;
+                        var groupId = $get('fetchMediaItemGrpId').value;
+                        var vf = new opensocial.IdSpec();
+
+                        if ((idStr != 'null') && (idStr != 'empty')) {
+                            var v = idStr;
+
+                            vf.setField(opensocial.IdSpec.Field.USER_ID, v);
+                            if (groupId != '_') {
+                                vf.setField(opensocial.IdSpec.Field.GROUP_ID, groupId);
+                            }
+                        } else
+                            vf = null;
+                        var viewerReq = null;
+
+                        viewerReq = dataReqObj.newFetchMediaItemsRequest(vf, albumId, opt_params);
+                        dataReqObj.add(viewerReq);
+                        dataReqObj.send(testFetchMediaItemsResponse);
+                    }
+
+                    function testFetchMediaItemsResponse(data) {
+                        // show error msg and error code            
+                        if (data.hadError()) {
+                            var thisErrorCode;
+                            var thisErrorMsg;
+                            if (data.get('FETCH_MEDIAITEMS') != null) {
+                                thisErrorCode = data.get('FETCH_MEDIAITEMS').getErrorCode();
+                                thisErrorMsg = data.get('FETCH_MEDIAITEMS').getErrorMessage();
+                            }
+                            else {
+                                thisErrorCode = "Unknown ErrorCode!";
+                                thisErrorMsg = "Unknown ErrorMsg!";
+                            }
+
+                            $get('testResults').innerHTML = 'ErrorCode: ' + thisErrorCode + ' | ' + 'Error Message: ' + thisErrorMsg;
+                            return;
+                        }
+                        $get('testResults').innerHTML = "";
+
+                        resultHtmlStr = "";
+                        var myMediaItemsData = data.get("FETCH_MEDIAITEMS").getData();
+                        myMediaItemsData.each(visualizeMediaItems);
+                        $get('testResults').innerHTML = resultHtmlStr;
+                    }
+                    function visualizeMediaItems(p) {
+                        var id = p.getField(opensocial.MediaItem.Field.ID);
+                        var created = p.getField(opensocial.MediaItem.Field.CREATED);
+                        var albumId = p.getField(opensocial.MediaItem.Field.ALBUM_ID);
+                        var desc = p.getField(opensocial.MediaItem.Field.DESCRIPTION);
+                        var duration = p.getField(opensocial.MediaItem.Field.DURATION);
+                        var lang = p.getField(opensocial.MediaItem.Field.LANGUAGE);
+                        var mimeType = p.getField(opensocial.MediaItem.Field.MIME_TYPE);
+                        var numComments = p.getField(opensocial.MediaItem.Field.NUM_COMMENTS);
+                        var numViews = p.getField(opensocial.MediaItem.Field.NUM_VIEWS);
+                        var numVotes = p.getField(opensocial.MediaItem.Field.NUM_VOTES);
+                        var rating = p.getField(opensocial.MediaItem.Field.RATING);
+                        var tags = p.getField(opensocial.MediaItem.Field.TAGS);
+                        var thumbnailUrl = p.getField(opensocial.MediaItem.Field.THUMBNAIL_URL);
+                        var title = p.getField(opensocial.MediaItem.Field.TITLE);
+                        var type = p.getField(opensocial.MediaItem.Field.TYPE);
+                        var url = p.getField(opensocial.MediaItem.Field.URL);
+                        var taggedPeople = p.getField(opensocial.MediaItem.Field.TAGGED_PEOPLE);
+                        
+                        var privacy = p.getField(MyOpenSpace.MediaItem.Field.PRIVACY_LEVEL);
+                        var numTags = p.getField(MyOpenSpace.MediaItem.Field.NUM_TAGS);
+                        var msTaggedPeople = p.getField(MyOpenSpace.MediaItem.Field.TAGGED_PEOPLE);
+                        var mediaItemUri = p.getField(MyOpenSpace.MediaItem.Field.MEDIA_ITEM_URI);
+                        
+                        resultHtmlStr += '<div class="singleResult" id=\'' + id + '\'><img height=\'50\' width=\'50\' src=\'' + thumbnailUrl + '\'><br>';
+
+                        addResult(id, 'id', id);
+                        addResult(id, 'created', created);
+                        addResult(id, 'albumId', albumId);
+                        addResult(id, 'desc', desc);
+                        addResult(id, 'duration', duration);
+                        addResult(id, 'lang', lang);
+                        addResult(id, 'mimeType', mimeType);
+                        addResult(id, 'numComments', numComments);
+                        addResult(id, 'numViews', numViews);
+                        addResult(id, 'numVotes', numVotes);
+                        addResult(id, 'rating', rating);
+                        addResult(id, 'tags', tags);
+                        addResult(id, 'thumbnailUrl', thumbnailUrl);
+                        addResult(id, 'title', title);
+                        addResult(id, 'type', type);
+                        addResult(id, 'url', url);
+                        addResult(id, 'taggedPeople', taggedPeople);
+                        addResult(id, 'privacy', privacy);
+                        addResult(id, 'numTags', numTags);
+                        addResult(id, 'msTaggedPeople', msTaggedPeople);
+                        addResult(id, 'mediaItemUri', mediaItemUri);
+                        
+                        resultHtmlStr += "<hr>";
+                    }
+                    //]]>
+            </script>
+          </div>
+
+          <div id="newFetchPersonStatusMoodRequest" class="header">
+            newFetchPerson<span>StatusMood</span>Request
+            <div class="testContainer">
+              <table>
+                <tr>
+                  <td>ID</td>
+                  <td>GroupID</td>
+                  <td>[Fields]</td>
+                  <td>[First]</td>
+                  <td>[Max]</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="text" id="fetchStatusMoodUserId" value="VIEWER" />
+                  </td>
+                  <td>
+                    <input type="text" id="fetchStatusMoodGroupId" value="SELF" />
+                  </td>
+                  <td>
+                    <input type="text" id="fetchStatusMoodFields" value="@all" />
+                  </td>
+                  <td>
+                    <input type="text" id="fetchStatusMoodFirst" value="_" />
+                  </td>
+                  <td>
+                    <input type="text" id="fetchStatusMoodMax" value="_" />
+                  </td>
+                  <td>
+                    <input type="button" onclick="testFetchStatusMood();" id="Button3" value="Test" />
+                  </td>
+                </tr>
+              </table>
+            </div>
+
+            <script type="text/javascript">
+              //<![CDATA[
+                    function testFetchStatusMood() {
+
+                        var opt_params = {};
+                        
+                        if ($get('fetchStatusMoodFirst').value != '_')
+                            opt_params[MyOpenSpace.DataRequest.StatusMoodRequestFields.FIRST] = $get('fetchStatusMoodFirst').value;
+
+                        if ($get('fetchStatusMoodMax').value != '_')
+                            opt_params[MyOpenSpace.DataRequest.StatusMoodRequestFields.MAX] = $get('fetchStatusMoodMax').value;
+                            
+                        if ($get('fetchStatusMoodFields').value != '_')
+                            opt_params[MyOpenSpace.DataRequest.StatusMoodRequestFields.STATUS_MOOD_DETAILS] = $get('fetchStatusMoodFields').value;
+
+                        $get('testResults').innerHTML = "Loading...";
+
+                        hideApiTests();
+                        
+                        var idSpec = opensocial.newIdSpec();
+                        var groupId = $get('fetchStatusMoodGroupId').value;
+                        var userId = $get('fetchStatusMoodUserId').value;
+
+                        if (userId !== null) {
+                            idSpec.setField(opensocial.IdSpec.Field.USER_ID, userId);
+                            idSpec.setField(opensocial.IdSpec.Field.GROUP_ID, groupId);
+                        }
+                        else{
+                            idSpec = null;
+                        }
+
+                        os = opensocial.Container.get();
+                        dataReqObj = os.newDataRequest();
+                        var viewerReq = os.newFetchPersonStatusMoodRequest(idSpec, opt_params);
+                        dataReqObj.add(viewerReq);
+                        dataReqObj.send(testFetchStatusResponse);
+                    }
+                    function testFetchStatusResponse(data) {
+                        if (data.hadError()) {
+                            var thisErrorCode;
+                            var thisErrorMsg;
+                            if (data.get($get('FETCH_PERSON_STATUS_MOOD').value) != null) {
+                                thisErrorCode = data.get('FETCH_PERSON_STATUS_MOOD').getErrorCode();
+                                thisErrorMsg = data.get('FETCH_PERSON_STATUS_MOOD').getErrorMessage();
+                            }
+                            else {
+                                thisErrorCode = "Unknown ErrorCode!";
+                                thisErrorMsg = "Unknown ErrorMsg!";
+                            }
+
+                            $get('testResults').innerHTML = 'ErrorCode: ' + thisErrorCode + ' | ' + 'Error Message: ' + thisErrorMsg;
+                            return;
+                        }
+
+                        $get('testResults').innerHTML = "";
+                        resultHtmlStr = "";
+                        var status = data.get('FETCH_PERSON_STATUS_MOOD').getData();
+
+                        processStatus(status);
+
+                        $get('testResults').innerHTML = resultHtmlStr;
+                    }
+                    function processStatus(p) {
+                        // to be veirifed filed
+                        var status = p.getField(MyOpenSpace.PersonStatusMood.Field.STATUS);
+                        var mood = p.getField(MyOpenSpace.PersonStatusMood.Field.MOOD);
+                        var moodImageUrl = p.getField(MyOpenSpace.PersonStatusMood.Field.MOOD_IMAGE_URL);
+                        var moodLastUpdated = p.getField(MyOpenSpace.PersonStatusMood.Field.MOOD_LAST_UPDATED);
+                        
+                        resultHtmlStr += '<div class="singleResult" id=\'' + status + '\'><br>';
+                        addResult(status, 'STATUS', status);
+                        addResult(mood, 'MOOD', mood);
+                        addResult(moodImageUrl, 'MOOD_IMAGE_URL', moodImageUrl);
+                        addResult(moodLastUpdated, 'MOOD_LAST_UPDATED', moodLastUpdated);
+                        resultHtmlStr += '</div>';
+                    }
+                    //]]>
+            </script>
+          </div>
+
+          <div id="newFetchActivityRequest" class="header">
+            new<span>FetchActivity</span>Request
+            <div class="testContainer">
+              <table>
+                <tr>
+                  <td>ID</td>
+                  <td>GroupID</td>
+                  <td>[Fields]</td>
+                  <td>[First]</td>
+                  <td>[Max]</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="text" id="newFetchActivityRequestID" value="VIEWER"/>
+                  </td>
+                  <td>
+                    <input type="text" id="newFetchActivityRequestDistance" value="SELF" />
+                  </td>
+                  <td>
+                    <input type="text" id="newFetchActivityRequestFields" value="@all" />
+                  </td>
+                  <td>
+                    <input type="text" id="newFetchActivityRequestStartIndex" value="_" />
+                  </td>
+                  <td>
+                    <input type="text" id="newFetchActivityRequestCount" value="_" />
+                  </td>
+                  <td>
+                    <input type="button" onclick="newFetchActivityRequest();" id="getActivitiesButton" value="Test" />
+                  </td>
+                </tr>
+              </table>
+            </div>
+
+            <script type="text/javascript">
+              //<![CDATA[
+                    function newFetchActivityRequest() 
+                    {
+                        var opt_params = {};
+                        if ($get('newFetchActivityRequestStartIndex').value != '_')
+                            opt_params[opensocial.DataRequest.ActivityRequestFields.FIRST] = $get('newFetchActivityRequestStartIndex').value;
+                        if ($get('newFetchActivityRequestCount').value != '_')
+                            opt_params[opensocial.DataRequest.ActivityRequestFields.MAX] = $get('newFetchActivityRequestCount').value;
+                        if ($get('newFetchActivityRequestFields').value != '_')
+                            opt_params[opensocial.DataRequest.ActivityRequestFields.ACTIVITY_DETAILS] = $get('newFetchActivityRequestFields').value;
+
+                        // idSpec
+                        var v = $get('newFetchActivityRequestID').value;
+                        var g = $get('newFetchActivityRequestDistance').value;
+                        var vf = new opensocial.IdSpec();
+                        vf.setField(opensocial.IdSpec.Field.USER_ID, v);
+                        vf.setField(opensocial.IdSpec.Field.GROUP_ID, g); 
+                        
+                        $get('testResults').innerHTML = "Loading...";
+
+                        hideApiTests();
+
+                        os = opensocial.Container.get();
+                        dataReqObj = os.newDataRequest();
+                        
+                        var viewerReq = os.newFetchActivitiesRequest(vf, opt_params);
+                        dataReqObj.add(viewerReq);
+                        dataReqObj.send(testNewFetchActivityRequest);
+                    }
+                    function testNewFetchActivityRequest(data) {
+                        hideApiTests();
+                        
+                        if (data.hadError()) {
+                            var thisErrorCode;
+                            var thisErrorMsg;
+                            if (data.get('FETCH_ACTIVITIES') != null) {
+                                thisErrorCode = data.get('FETCH_ACTIVITIES').getErrorCode();
+                                thisErrorMsg = data.get('FETCH_ACTIVITIES').getErrorMessage();
+                            }
+                            else {
+                                thisErrorCode = "Unknown ErrorCode!";
+                                thisErrorMsg = "Unknown ErrorMsg!";
+                            }
+
+                            $get('testResults').innerHTML = 'ErrorCode: ' + thisErrorCode + ' | ' + 'Error Message: ' + thisErrorMsg;
+                            return;
+                        }
+
+                        $get('testResults').innerHTML = "";
+                        resultHtmlStr = "";
+
+                        var activities = data.get('FETCH_ACTIVITIES').getData();
+                        activities.each(visualizeActivities);
+                        $get('testResults').innerHTML = resultHtmlStr;
+                    }
+                    function visualizeActivities(p)
+                    {
+                        var id=(new Date()).getTime();
+                        resultHtmlStr += '<div class="singleResult" id="'+id+'" style="border-bottom: 1px solid black; margin-bottom:5px;">';
+                        
+                        for(var a in opensocial.Activity.Field){
+                            addResult(id, opensocial.Activity.Field[a], p.getField(opensocial.Activity.Field[a]));
+                        }
+                        
+                        resultHtmlStr += '</div>';
+                    }  
+                    //]]>
+            </script>
+          </div>
+
+          <div id="newUpdatePersonAppDataRequest" class="header">
+            new<span>UpdateAppData</span>Request
+            <div class="testContainer">
+              <table>
+                <tr>
+                  <td>Key</td>
+                  <td>Value</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="text" id="KEY" value="mykey1" />
+                  </td>
+                  <td>
+                    <input type="text" id="VALUE" value='{"keykey":"valuevalue"}' />
+                  </td>
+                  <td>
+                    <input type="button" onclick="newUpdatePersonAppDataRequest();" id="testNewUpdatePersonAppDataRequest" value="Test" />
+                  </td>
+                </tr>
+              </table>
+            </div>
+
+            <script type="text/javascript">
+              //<![CDATA[
+                    function newUpdatePersonAppDataRequest() {
+                        var opt_params = {};
+
+                        $get('testResults').innerHTML = "Loading...";
+
+                        hideApiTests();
+
+                        os = opensocial.Container.get();
+                        dataReqObj = os.newDataRequest();
+                        var viewerReq = os.newUpdatePersonAppDataRequest($get('KEY').value, gadgets.json.parse($get('VALUE').value));
+                        dataReqObj.add(viewerReq);
+                        dataReqObj.send(testNewUpdatePersonAppDataRequest);
+
+                    }
+
+                    function testNewUpdatePersonAppDataRequest(data) {
+                        resultHtmlStr = "";
+                        // show error msg and error code            
+                        if (data.hadError()) {
+                            var thisErrorCode;
+                            var thisErrorMsg;
+                            if (data.get('UPDATE_PERSON_DATA') != null) {
+                                thisErrorCode = data.get('UPDATE_PERSON_DATA').getErrorCode();
+                                thisErrorMsg = data.get('UPDATE_PERSON_DATA').getErrorMessage();
+                            }
+                            else {
+                                thisErrorCode = "Unknown ErrorCode!";
+                                thisErrorMsg = "Unknown ErrorMsg!";
+                            }
+
+                            $get('testResults').innerHTML = 'ErrorCode: ' + thisErrorCode + ' | ' + 'Error Message: ' + thisErrorMsg;
+                            return;
+                        }
+                        resultHtmlStr += '<div class="singleResult" \><br>';
+                        resultHtmlStr += '<div>'
+                        resultHtmlStr += "update done";
+                        resultHtmlStr += '</div>'
+                        resultHtmlStr += '</div>';
+
+                        $get('testResults').innerHTML = resultHtmlStr;
+                    }
+                    //]]>
+            </script>
+          </div>
+
+          <div id="newFetchPersonAppDataRequest" class="header">
+            new<span>FetchAppData</span>Request
+            <div class="testContainer">
+              <table>
+                <tr>
+                  <td>ID</td>
+                  <td>GroupID</td>
+                  <td>Key</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="text" id="newFetchPersonAppDataRequestFetchID" value="VIEWER" />
+                  </td>
+                  <td>
+                    <input type="text" id="newFetchPersonAppDataRequestFetchIDDistance" value="SELF" />
+                  </td>
+                  <td>
+                    <input type="text" id="FetchKey" value="mykey1"/>
+                  </td>
+                  <td>
+                    <input type="button" onclick="newFetchPersonAppDataRequest();" id="testNewFetchPersonAppDataRequest" value="Test" />
+                  </td>
+                </tr>
+              </table>
+            </div>
+
+            <script type="text/javascript">
+              //<![CDATA[
+                    function newFetchPersonAppDataRequest() {
+                        var opt_params = {};
+
+                        $get('testResults').innerHTML = "Loading...";
+
+                        hideApiTests();
+
+                        os = opensocial.Container.get();
+                        dataReqObj = os.newDataRequest();
+
+                        // key in data to get the key/value pair
+                        var fetchKey = $get('FetchKey').value;
+
+                        // IdSpec
+                        var v = $get('newFetchPersonAppDataRequestFetchID').value;
+                        var g = $get('newFetchPersonAppDataRequestFetchIDDistance').value;
+                        var vf = new opensocial.IdSpec();
+                        vf.setField(opensocial.IdSpec.Field.USER_ID, v);
+                        vf.setField(opensocial.IdSpec.Field.GROUP_ID, g);
+
+                        var viewerReq = os.newFetchPersonAppDataRequest(vf, fetchKey);
+                        dataReqObj.add(viewerReq);
+                        dataReqObj.send(testNewFetchPersonAppDataRequest);
+
+                    }
+                    function testNewFetchPersonAppDataRequest(data) {
+
+                        resultHtmlStr = "";
+                        // show error msg and error code            
+                        if (data.hadError()) {
+                            var thisErrorCode;
+                            var thisErrorMsg;
+                            if (data.get('FETCH_PERSON_DATA') != null) {
+                                thisErrorCode = data.get('FETCH_PERSON_DATA').getErrorCode();
+                                thisErrorMsg = data.get('FETCH_PERSON_DATA').getErrorMessage();
+                            }
+                            else {
+                                thisErrorCode = "Unknown ErrorCode!";
+                                thisErrorMsg = "Unknown ErrorMsg!";
+                            }
+
+                            $get('testResults').innerHTML = 'ErrorCode: ' + thisErrorCode + ' | ' + 'Error Message: ' + thisErrorMsg;
+                            return;
+                        }
+
+                        resultHtmlStr += '<div class="singleResult" \><br>';
+                        resultHtmlStr += '<div>'
+                        
+                        var appDatas = data.get('FETCH_PERSON_DATA').getData();
+                        
+                        for(var id in appDatas){
+                            var appData = appDatas[id];
+                            
+                            resultHtmlStr += "User:" + id + "<br>";
+                        
+                            for(var key in appData){
+                                resultHtmlStr += key + "=" + appData[key] + "<br>";
+                            }
+                            
+                            resultHtmlStr += "<br>";
+                        
+                        }
+                        
+                        resultHtmlStr += '</div>'
+                        resultHtmlStr += '</div>';
+
+                        $get('testResults').innerHTML = resultHtmlStr;
+
+                    }
+                    //]]>
+            </script>
+          </div>
+
+          <div id="newDeletePersonAppDataRequest" class="header">
+            new<span>RemoveAppData</span>Request
+            <div class="testContainer">
+              <table>
+                <tr>
+                  <td>Key</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="text" id="DeleteKey" value="mykey1" />
+                  </td>
+                  <td>
+                    <input type="button" onclick="newRemovePersonAppDataRequest();" id="testNewDeletePersonAppDataRequest" value="Test" />
+                  </td>
+                </tr>
+              </table>
+            </div>
+
+            <script type="text/javascript">
+              //<![CDATA[
+                        function newRemovePersonAppDataRequest() {
+                            var opt_params = {};
+
+                            $get('testResults').innerHTML = "Loading...";
+
+                            hideApiTests();
+
+                            os = opensocial.Container.get();
+                            dataReqObj = os.newDataRequest();
+                            var viewerReq = os.newRemovePersonAppDataRequest($get('DeleteKey').value);
+                            dataReqObj.add(viewerReq);
+                            dataReqObj.send(testNewRemovePersonAppDataRequest);
+
+                        }
+                        function testNewRemovePersonAppDataRequest(data) {
+                            resultHtmlStr = "";
+                            // show error msg and error code            
+                            if (data.hadError()) {
+                                var thisErrorCode;
+                                var thisErrorMsg;
+                                if (data.get('REMOVE_PERSON_DATA') != null) {
+                                    thisErrorCode = data.get('REMOVE_PERSON_DATA').getErrorCode();
+                                    thisErrorMsg = data.get('REMOVE_PERSON_DATA').getErrorMessage();
+                                }
+                                else {
+                                    thisErrorCode = "Unknown ErrorCode!";
+                                    thisErrorMsg = "Unknown ErrorMsg!";
+                                }
+
+                                $get('testResults').innerHTML = 'ErrorCode: ' + thisErrorCode + ' | ' + 'Error Message: ' + thisErrorMsg;
+                                return;
+                            }
+                            resultHtmlStr += '<div class="singleResult" \><br>';
+                            resultHtmlStr += '<div>'
+                            resultHtmlStr += "delete done";
+                            resultHtmlStr += '</div>'
+                            resultHtmlStr += '</div>';
+
+                            $get('testResults').innerHTML = resultHtmlStr;
+                        }
+                        //]]>
+            </script>
+          </div>
+
+          <div id="postActivity" class="header">
+            request<span>CreateActivity</span>
+            <div class="testContainer">
+              <table>
+                <tr>
+                  <td>templateTitle</td>
+                  <td>template_params</td>
+                  <td>media_items</td>
+                  <td colspan="2">createActivityPriority</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="text" id="templateTitle" value="Template_6665"/>
+                  </td>
+                  <td>
+                    <input type="text" id="template_params" value="artist,realName,song,realSong"/>
+                  </td>
+                  <td>
+                    <input type="text" id="media_items" value=",http://api.myspace.com/v1/users/367969547/albums/560500/photos/6180869" />
+                  </td>
+                  <td>
+                    <input type="text" id="createActivityPriority" value="opensocial.CreateActivityPriority.HIGH" />
+                  </td>
+                  <td>
+                    <input type="button" onclick="testPostActivity();" id="testPostActviityButton" value="Test" />
+                  </td>
+                </tr>
+              </table>
+            </div>
+
+            <script type="text/javascript">
+              //<![CDATA[
+                    function testPostActivity() {
+                        var params = {};
+                        params[opensocial.Activity.Field.TITLE_ID] = $get('templateTitle').value;
+
+                        var template_params = ($get('template_params').value).split(",");
+
+                        params[opensocial.Activity.Field.TEMPLATE_PARAMS] = {};
+                        for (i = 0; i < template_params.length - 1; i++) {
+                            params[opensocial.Activity.Field.TEMPLATE_PARAMS][template_params[i]] = template_params[++i];
+                        }
+
+                        var mediaItemArray = [];
+
+                        var arr = ($get('media_items').value).split(",");
+
+                        // http://api.myspace.com/v1/users/367969547/albums/560500/photos/6180869
+                        // http://api.myspace.com/v1/users/367969547/albums/560500/photos/6180872
+                        for (i = 0; i < arr.length - 1; i++) {
+                            mediaItemArray.push(opensocial.newMediaItem(arr[i], arr[++i]));
+                        }
+
+                        params[opensocial.Activity.Field.MEDIA_ITEMS] = mediaItemArray;
+
+                        var activity = opensocial.newActivity(params);
+
+                        var pri = eval($get('createActivityPriority').value);
+                        opensocial.requestCreateActivity(activity, pri, postActivityResponse);
+                    }
+
+                    function postActivityResponse(response) {
+                        hideApiTests();
+                        if (response.hadError()) {
+                            $get('testResults').innerHTML = "requestCreateActivity failed.";
+                            return;
+                        }
+
+                        //var status = response.getData()["postactivitystatus"];                
+                        $get('testResults').innerHTML = "Loading...";
+                        resultHtmlStr = "";
+                        var id = "testPostActivity";
+                        resultHtmlStr += '<div class="singleResult" id=\'' + id + '\'><br>';
+                        addResult(id, 'postActivity', status);
+                        resultHtmlStr += "posted activity";
+                        resultHtmlStr += '</div>';
+                        $get('testResults').innerHTML = resultHtmlStr;
+                    }        
+                    //]]>
+            </script>
+          </div>
+
+          <div id="adjustHeight" class="header">
+            <span>adjustHeight</span>
+            <div class="testContainer">
+              <table>
+                <tr>
+                  <td colspan="2">ID</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="text" id="adjustHeightField"/>
+                  </td>
+                  <td>
+                    <input type="button" onclick="testAdjustHeight();" id="testAdjustHeightInput" value="Test" />
+                  </td>
+                </tr>
+              </table>
+            </div>
+
+            <script type="text/javascript">
+              //<![CDATA[
+                    function testAdjustHeight() {
+                        $get('testResults').innerHTML = "Loading...";
+                        hideApiTests();
+                        var v = $get('adjustHeightField').value;
+                        var height;
+                        var alreadyDid = false;
+
+                        if (isNaN(v)) {
+                            alreadyDid = true;
+                            gadgets.window.adjustHeight(v);
+                        }
+                        else if (v.indexOf(".") < 0) {
+                            height = parseInt(v);
+                        }
+                        else {
+                            height = parseFloat(v);
+                        }
+
+                        if (!alreadyDid) {
+                            gadgets.window.adjustHeight(v);
+                        }
+
+                        var d = testGetViewDimensions();
+
+                        resultHtmlStr = "";
+                        var id = "testAdjustheight";
+                        resultHtmlStr += '<div class="singleResult" id=\'' + id + '\'><br>';
+                        addResult(id, 'Height', d.height);
+                        addResult(id, 'Width', d.width);
+                        resultHtmlStr += '</div>';
+                        $get('testResults').innerHTML = resultHtmlStr;
+                    }
+                    function testGetViewDimensions() {
+                        var dimension = gadgets.window.getViewportDimensions();
+                        return dimension;
+                    }
+                    //]]>
+            </script>
+          </div>
+
+          <div id="htmlEscape" class="header">
+            <span>htmlEscape</span>
+            <div class="testContainer">
+              <table>
+                <tr>
+                  <td>Key</td>
+                  <td>Value</td>
+                  <td>htmlEscape?</td>
+                  <td colspan="2">Read</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="text" id="htmlEscapeKey" value="key"/>
+                  </td>
+                  <td>
+                    <input type="text" id="htmlEscapeValue" value="MyValue1"/>
+                  </td>
+                  <td>
+                    <input type="text" id="htmlEscapeSignal" value="opensocial.EscapeType.HTML_ESCAPE"/>
+                  </td>
+                  <td>
+                    <input type="text" id="htmlEscapeRead"/>
+                  </td>
+                  <td>
+                    <input type="button" onclick="testHtmlEscapeKey();" id="testHtmlEscapeKeyButton" value="Test" />
+                  </td>
+                </tr>
+              </table>
+            </div>
+
+            <script type="text/javascript">
+              //<![CDATA[
+                    /*  escape the JSON control symbols
+                    0 : false,  '\000'
+                    // new line
+                    10 : true,  '\012'
+                    // carriage return
+                    13 : true,  '\015'
+                    // double quote
+                    34 : true,  '\034'
+                    // single quote
+                    39 : true,   '\047'
+                    // less than
+                    60 : true,   '\074'
+                    // greater than
+                    62 : true,   '\076'
+                    // Backslash
+                    92 : true,   '\134'
+                    // line separator
+                    8232 : true,  '\u2028'
+                    // paragraph separator
+                    8233 : true   '\u2029'
+                    */
+                    var g_FetchAppData = '';
+                    function testHtmlEscapeKey() {
+                        g_testAppGlobalError = 'false';
+                        os = opensocial.Container.get();
+                        var udr = os.newDataRequest();
+                        var key = $get('htmlEscapeKey').value;
+                        var value = $get('htmlEscapeValue').value;
+                        var escapeType = eval($get('htmlEscapeSignal').value);
+
+                        var vf = new opensocial.IdSpec();
+                        vf.setField(opensocial.IdSpec.Field.USER_ID, "VIEWER");
+                        vf.setField(opensocial.IdSpec.Field.NETWORK_DISTANCE, 0);
+
+                        var updatedData = null;
+                        if (value == "null") {
+                            updatedData = null;
+                        }
+                        else {
+                            updatedData = value;
+                        }
+                        udr.add(os.newUpdatePersonAppDataRequest(key, updatedData), 'appvar');
+                        udr.send(updateResponse);
+
+                        hideApiTests();
+
+                        // fetch data
+                        var dr = os.newDataRequest();
+                        var optParam = {};
+                        optParam[opensocial.DataRequest.DataRequestFields.ESCAPE_TYPE] = escapeType;
+                        dr.add(os.newFetchPersonAppDataRequest("VIEWER", key, optParam), 'appvar');
+                        dr.send(fetchResponse);
+
+                        // check the fetch status
+                        if (g_testAppGlobalError === 'true') {
+                            $get('testResults').innerHTML = "newFetchPersonAppDataRequest failed.";
+                            return;
+                        }
+
+                        // delete
+                        var deleterequest = os.newDataRequest();
+                        deleterequest.add(os.newRemovePersonAppDataRequest(key), 'appvar');
+                        deleterequest.send(deleteResponse)
+
+                        // check the fetch status
+                        if (g_testAppGlobalError === 'true') {
+                            $get('testResults').innerHTML = "newDeletePersonAppDataRequest failed.";
+                            return;
+                        }
+
+                        hideApiTests();
+                        $get('testResults').innerHTML = "Loading...";
+                        resultHtmlStr = "";
+                        var id = "testHtmlEscape";
+                        resultHtmlStr += '<div class="singleResult" id=\'' + id + '\'><br>';
+                        addResult(id, 'htmlEscape', g_FetchAppData);
+                        resultHtmlStr += '</div>';
+                        $get('testResults').innerHTML = resultHtmlStr;
+                    }
+
+                    function updateResponse(response) {
+                        // check response
+                        if (response.hadError()) {
+                            g_testAppGlobalError = 'true';
+                            $get('testResults').innerHTML = "newUpdatePersonAppDataRequest failed.";
+                            return;
+                        }
+                    }
+
+                    function fetchResponse(response) {
+                        if (response.hadError()) {
+                            g_testAppGlobalError = 'true';
+                            return;
+                        }
+
+                        var keyToRead = $get('htmlEscapeKey').value;
+                        var data = response.get('appvar').getData()[367969547][keyToRead];
+                        g_FetchAppData = data;
+                    }
+
+                    function deleteResponse(response) {
+                        if (response.hadError()) {
+                            g_testAppGlobalError = 'true';
+                            return;
+                        }
+
+                        try {
+                            var keyToRead = $get('htmlEscapeKey').value;
+                            var data = response.get('appvar').getData()[367969547][keyToRead];
+                            g_FetchAppData = data;
+                        }
+                        catch (err) {
+                            return;
+                        }
+                        g_testAppGlobalError = 'true';
+
+                    }
+                    //]]>
+            </script>
+          </div>
+
+          <div id="requestPermission" class="header">
+            <span>requestPermission</span>
+            <div class="testContainer">
+              <table>
+                <tr>
+                  <td colspan="2">ID</td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="text" id="requestPermissions" value="[MyOpenSpace.Permission.VIEWER_ACCESS_TO_PUBLIC_VIDEOS_PHOTOS]"/>
+                  </td>
+                  <td>
+                    <input type="button" onclick="testRequestPermission();" id="testrequestPermissions" value="Test" />
+                  </td>
+                </tr>
+              </table>
+            </div>
+
+            <script type="text/javascript">
+              //<![CDATA[
+                    //            -	MyOpenSpace.Permission.VIEWER_DISPLAY_ON_PROFILE
+                    //            -	MyOpenSpace.Permission.VIEWER_DISPLAY_ON_HOME
+                    //            -	MyOpenSpace.Permission.VIEWER_SEND_UPDATES_TO_FRIENDS
+                    //            -	MyOpenSpace.Permission.VIEWER_SHOW_UPDATES_FROM_FRIENDS
+                    //            -	MyOpenSpace.Permission.VIEWER_ACCESS_TO_PRIVATE_VIDEOS_PHOTOS
+                    //            -	MyOpenSpace.Permission.VIEWER_ACCESS_TO_PUBLIC_VIDEOS_PHOTOS
+
+                    var os = opensocial.Container.get();
+                    var perStr = '';
+                    var permissions = '';
+
+                    function testRequestPermissionCallback(response) {
+                        if (response.hadError()) {
+                            var a = 0;
+                        }
+                        else {
+                            var data = response.getData();
+                            for (var index in data) {
+                                var b = 0;
+                            }
+                            var a = b;
+                        }
+                    }
+
+                    function testRequestPermission() {
+                        perStr = $get('requestPermissions').value;
+                        if (perStr != '_')
+                            permissions = eval(perStr);
+                        permission = [MyOpenSpace.Permission.VIEWER_ACCESS_TO_PUBLIC_VIDEOS_PHOTOS, MyOpenSpace.Permission.VIEWER_SEND_UPDATES_TO_FRIENDS];
+                        var hs = false;
+                        os.requestPermission(permissions, "Because I need them", testRequestPermissionCallback);
+                    }
+                    //]]>
+            </script>
+          </div>
+
+          <div id="requestNavigateTo" class="header">
+            <span>requestNavigateTo</span>
+            <div class="testContainer">
+              <table>
+                <tr>
+                  <td>ID</td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>
+                    <input type="text" id="requestNavigateToSurfaceName"/>
+                  </td>
+                  <td>
+                    <input type="button" onclick="testRequestNavigateTo();" id="Button7" value="Test" />
+                  </td>
+                </tr>
+              </table>
+            </div>
+
+            <script type="text/javascript">
+              //<![CDATA[
+                    // CANVAS
+                    // PROFILE
+                    // DEFAULT
+                    // HOME         
+                    function testRequestNavigateTo() {
+                        var v = $get('requestNavigateToSurfaceName').value;
+                        $get('testResults').innerHTML = "Loading...";
+                        hideApiTests();
+                        // var surface_objs = opensocial.getEnvironment().getSupportedSurfaces(); // this is OS0.7 code
+                        var surface_objs = gadgets.views.getSupportedViews()
+                        var surface_obj;
+                        var assigned = false;
+                        for (var s in surface_objs) {
+                            if (surface_objs[s] && surface_objs[s].getName() === v) {
+                                assigned = true;
+                                surface_obj = surface_objs[s];
+                                break;
+                            }
+                        }
+                        var params = {};
+                        params["a"] = "b";
+                        params["c"] = "d";
+                        if (!assigned) {
+                            if (v === 'null')
+                                surface_obj = null;
+                            else
+                                surface_obj = v;
+                        }
+                        
+                        gadgets.views.requestNavigateTo(surface_obj, params);
+                        // no result is shown
+                    }
+                    //]]>
+            </script>
+          </div>
+
+        </div>
+
+        <div id="testResults" style="width:100%; overflow:auto; height:100%;"></div>
+
+      </div>
+
+      <script type="text/javascript">
+        //<![CDATA[    
+    init();//]]>
+      </script>
+    </div>
+  </Content>
+</Module>

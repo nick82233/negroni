@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Module>
+  <ModulePrefs title="Hello World">
+    <Require feature="opensocial-0.9"/>
+    <Require feature="opensocial-templates"/>
+    <Require feature="opensocial-datapipelining"/>
+    <Require feature="views"/>
+
+    <Locale>
+      <MessageBundle>
+        <Msg name="helloworld">Hello World</Msg>
+        <Msg name="congrats">Congratulations on using OSML</Msg>
+      </MessageBundle>
+    </Locale>
+    <Locale lang="es">
+      <MessageBundle>
+        <Msg name="helloworld">Hola Mundo</Msg>
+        <Msg name="congrats">Felicidades en el uso de OSML</Msg>
+      </MessageBundle>
+    </Locale>
+    <Locale lang="fr">
+      <MessageBundle>
+        <Msg name="helloworld">Bonjour tout le monde</Msg>
+        <Msg name="congrats">Félicitations à l'utilisation de OSML</Msg>
+      </MessageBundle>
+    </Locale>
+    <Locale lang="ja">
+      <MessageBundle>
+        <Msg name="helloworld">ハローワールド</Msg>
+        <Msg name="congrats">おめでとうOSMLを使用して</Msg>
+      </MessageBundle>
+    </Locale>
+
+
+  </ModulePrefs>
+  <Content type="html" view="canvas">
+    <script type="text/os-data">
+      <os:PersonRequest key="Viewer" id="VIEWER" />
+    </script>
+    <script type="text/os-template">
+      <h1>${Msg.helloworld}</h1>
+      <hr />
+      <br />
+      ${Msg.congrats}
+    </script>
+  </Content>
+</Module>

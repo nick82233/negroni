@@ -1,0 +1,99 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Module  xmlns:os="http://ns.opensocial.org/2008/markup" >
+  <ModulePrefs title="Hello World">
+    <Require feature="opensocial-0.8"/>
+    <Require feature="opensocial-templates"/>
+    <Require feature="opensocial-datapipelining"/>
+    <Require feature="views"/>
+  </ModulePrefs>
+  <Content type="html" view="canvas">
+    <script type="text/os-template" tag="my:SimpleTag">
+      <h1>I am a simple custom tag</h1>
+    </script>
+    <script type="text/os-template" tag="my:NestingSimpleTag">
+      <div style="margin:10px;border:5px solid green;">
+        I have a nested simple tag.
+        <my:SimpleTag></my:SimpleTag>
+      </div>
+    </script>
+
+    <script type="text/os-template" tag="my:ParamBorderTag">
+      <div style="margin:20px;border:12px solid ${My.borderColor};">
+        This tag uses borderColor: ${My.borderColor}
+      </div>
+    </script>
+
+    <script type="text/os-template" tag="hello:World">
+      <div style="border:3px dashed green;margin:2px;padding:5px;width:150px;float:left;">Hello World</div>
+    </script>
+  </Content>
+
+  <Content type="html" view="home">
+    <script type="text/os-template">
+      Empty Home
+    </script>
+  </Content>
+
+
+  <Content type="html" view="profile">
+    <script type="text/os-template">
+      <h2>Also a blank profile</h2>
+    </script>
+  </Content>
+
+  <Content type="html" view="canvas">
+    <script type="text/os-template">
+      <div>
+        <h1>I am on canvas</h1>
+        Custom tags below:
+      </div>
+      <my:SimpleTag></my:SimpleTag>
+      <hr />
+      <div>Three hello:World tags below</div>
+      <hello:World></hello:World>
+      <hello:World></hello:World>
+      <hello:World></hello:World>
+
+
+      <br style="clear:both;" />
+
+      <my:NestingSimpleTag />
+
+      <br style="clear:both;" />
+
+      And two ParamBorderTags
+
+      <my:ParamBorderTag>
+        <borderColor>Green</borderColor>
+      </my:ParamBorderTag>
+
+      <my:ParamBorderTag>
+        <borderColor>Red</borderColor>
+      </my:ParamBorderTag>
+
+      <my:ParamBorderTag>
+        <borderColor>#FF54E8</borderColor>
+      </my:ParamBorderTag>
+
+
+      <button onclick='addTemplate("hello:World");' >Add 'hello:World' Template</button>
+
+      <br style="clear:both;" />
+      <div id="tmp" style="border:3px solid blue;padding:10px;height:100px;"></div>
+
+
+      <script type="text/javascript">
+        //<![CDATA[
+
+function addTemplate(tag){
+	var elem = document.getElementById("tmp");
+	var tplate = opensocial.template.getTemplate(tag);
+	tplate.renderInto(elem, null, true);
+}
+
+//]]>
+      </script>
+    </script>
+  </Content>
+</Module>
+

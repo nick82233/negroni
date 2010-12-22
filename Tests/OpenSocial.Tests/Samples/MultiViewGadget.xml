@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Module>
+  <ModulePrefs title="Hello World">
+    <Require feature="opensocial-0.8"/>
+    <Require feature="opensocial-templates"/>
+    <Require feature="opensocial-datapipelining"/>
+    <Require feature="views"/>
+  </ModulePrefs>
+  <Content type="html" view="profile">
+    <script type="text/os-data">
+      <os:ViewerRequest key="Viewer" id="VIEWER" profileDetails="ABOUT,BOOKS"/>
+    </script>
+    <script type="text/os-template">
+      <div>
+        Hello, ${Viewer.DisplayName}. Welcome to our app.
+        <os:Badge  person="$(Viewer)" />
+      </div>
+      <br />
+
+      <div>
+        <os:PeopleSelector group="${ViewerFriends}" multiple="true" />
+      </div>
+    </script>
+  </Content>
+  <Content type="html" view="canvas">
+    <script type="text/os-data">
+      <os:ViewerRequest key="Viewer" id="VIEWER" profileDetails="ABOUT,BOOKS"/>
+    </script>
+    <script type="text/os-template">
+      <div>
+        <h1>I am on canvas</h1>
+      </div>
+    </script>
+  </Content>
+  <Content type="html" view="canvas">
+    <script type="text/os-data">
+      <os:ViewerRequest key="Viewer" id="VIEWER" profileDetails="ABOUT,BOOKS"/>
+    </script>
+    <script type="text/os-template">
+      <div>
+        <h2>I am also on canvas second</h2>
+      </div>
+    </script>
+  </Content>
+  <Content type="html" view="canvas.about">
+    <script type="text/os-data">
+      <os:ViewerRequest key="Viewer" id="VIEWER" profileDetails="ABOUT,BOOKS"/>
+    </script>
+    <script type="text/os-template">
+      <div>
+        <h1>About my canvas</h1>
+      </div>
+    </script>
+  </Content>
+</Module>
