@@ -29,6 +29,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataPipeline.Tests", "Tests
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenSocial.Tests", "Tests\OpenSocial.Tests\OpenSocial.Tests.csproj", "{F289062D-C8C9-4E65-8F55-942F60492793}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenSocial.EL.Tests", "Tests\OpenSocial.EL.Tests\OpenSocial.EL.Tests.csproj", "{81720CB2-FFF4-4DBD-9CB0-F2EF512B8F59}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -165,6 +167,21 @@ Global
 		{F289062D-C8C9-4E65-8F55-942F60492793}.Release|IMPersistence.ActiveCfg = Release|Any CPU
 		{F289062D-C8C9-4E65-8F55-942F60492793}.Release|x64.ActiveCfg = Release|Any CPU
 		{F289062D-C8C9-4E65-8F55-942F60492793}.Release|x86.ActiveCfg = Release|Any CPU
+		{81720CB2-FFF4-4DBD-9CB0-F2EF512B8F59}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{81720CB2-FFF4-4DBD-9CB0-F2EF512B8F59}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{81720CB2-FFF4-4DBD-9CB0-F2EF512B8F59}.Debug|IMPersistence.ActiveCfg = Debug|Any CPU
+		{81720CB2-FFF4-4DBD-9CB0-F2EF512B8F59}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{81720CB2-FFF4-4DBD-9CB0-F2EF512B8F59}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{81720CB2-FFF4-4DBD-9CB0-F2EF512B8F59}.Deploy|Any CPU.ActiveCfg = Debug|Any CPU
+		{81720CB2-FFF4-4DBD-9CB0-F2EF512B8F59}.Deploy|Any CPU.Build.0 = Debug|Any CPU
+		{81720CB2-FFF4-4DBD-9CB0-F2EF512B8F59}.Deploy|IMPersistence.ActiveCfg = Debug|Any CPU
+		{81720CB2-FFF4-4DBD-9CB0-F2EF512B8F59}.Deploy|x64.ActiveCfg = Debug|Any CPU
+		{81720CB2-FFF4-4DBD-9CB0-F2EF512B8F59}.Deploy|x86.ActiveCfg = Debug|Any CPU
+		{81720CB2-FFF4-4DBD-9CB0-F2EF512B8F59}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{81720CB2-FFF4-4DBD-9CB0-F2EF512B8F59}.Release|Any CPU.Build.0 = Release|Any CPU
+		{81720CB2-FFF4-4DBD-9CB0-F2EF512B8F59}.Release|IMPersistence.ActiveCfg = Release|Any CPU
+		{81720CB2-FFF4-4DBD-9CB0-F2EF512B8F59}.Release|x64.ActiveCfg = Release|Any CPU
+		{81720CB2-FFF4-4DBD-9CB0-F2EF512B8F59}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -173,5 +190,6 @@ Global
 		{BE141CAC-875E-4F5F-8073-4E7BC87E0B7C} = {C8C3F54F-5A87-4A4F-BD28-EE2663F1FABE}
 		{402BD1A2-7394-4778-A235-724684592758} = {C8C3F54F-5A87-4A4F-BD28-EE2663F1FABE}
 		{F289062D-C8C9-4E65-8F55-942F60492793} = {C8C3F54F-5A87-4A4F-BD28-EE2663F1FABE}
+		{81720CB2-FFF4-4DBD-9CB0-F2EF512B8F59} = {C8C3F54F-5A87-4A4F-BD28-EE2663F1FABE}
 	EndGlobalSection
 EndGlobal
