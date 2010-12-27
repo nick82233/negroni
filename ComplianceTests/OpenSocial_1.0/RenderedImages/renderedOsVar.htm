@@ -1,0 +1,195 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html><head><title>
+OsVar Test Gadget
+</title>
+<script type="text/javascript" src="http://x.myspacecdn.com/OpenSocial/1.0/container.v10.015.js"></script>
+<script type="text/javascript" src="http://js.myspacecdn.com/OpenSocial/RPC/RpcContainer.003.js"></script>
+
+<script type="text/javascript">
+//<![CDATA[
+gadgets.rpc.setRelayUrl("..", "http://profile.myspace.com/Modules/Applications/Pages/rpc_relay.aspx");
+opensocial.Container.get().registerParam("remoteRelay", "http://profile.myspace.com/Modules/Applications/Pages/rpc_relay.aspx");
+opensocial.Container.get().registerParam("localRelay", "http://opensocial.msappspace.com/RPC/rpc_relay.html");
+opensocial.Container.get().registerParam("ownerId", "45070236");
+opensocial.Container.get().registerParam("viewerId", "45070236");
+opensocial.Container.get().registerParam("appId", "112917");
+opensocial.Container.get().registerParam("panelId", "apppanel_112917_canvas");
+gadgets.util.registerOnLoadHandler(function(){
+var thisApp = new MyOpenSpace.Application();
+thisApp.ID = 112917;
+thisApp.id = 112917;
+thisApp.name = "OsVar Test Gadget";
+thisApp.description = "Test cases on osVar";
+opensocial.Container.get().getMySpaceEnvironment().currentApplication = thisApp;
+});
+opensocial.Container.get().registerParam("ptoString", "COMMENTS,BLOG,BULLETINS,PROFILE,SEND_MESSAGE,SHARE_APP,ACTIVITY,ADD_TO_FRIENDS,APP_MESSAGE");
+opensocial.Container.get().registerParam("opensocial_token","hEvLMIgUVg8FIIMaTSug0Wdd9YNCwoAxApVvbuaRjGvdAay3wbokCJa14HGQuZjNbIG9xdiJled8C0mf650ZCbYnPZXnGZOtxV6rMZNbykQ=");//]]>
+</script>
+<style type="text/css">.myspace-peopleSelectorchecklist{height: 20px;	border: 1px solid #5794bf;	border-right: 0;	background: #fff url(http://c1.ac-images.myspacecdn.com/images02/32/l_4dd006862f9c4f079f576a6874a0a25c.png) no-repeat center right;padding-right: 17px;	font-size: 14px;line-height: 18px;overflow: hidden; display: inline-block; height: 20px; width: 170px;}.myspace-peopleselectorchecklist-container{	background-color: #fff;	border: 1px solid #999;	border-top: 0px solid;position:absolute;overflow-y: auto;overflow-x:hidden; }</style>
+<body onload="MyOpenSpace.OnLoad.runOnLoadHandlers();">
+<h1>os:Var Test Cases</h1>
+<p>
+Testing var "foo"
+</p>
+<p>Before set: </p>
+<p>Initial set: 0</p>
+<p>Added one with EL: 1</p>
+
+<h3>Looping increment to sum</h3>
+        <div>
+		  Item: 0 is Tom
+		  </div>
+        <div>
+		  Item: 1 is Signal Loss
+		  </div>
+        <div>
+		  Item: 2 is Jackson
+		  </div>
+        <div>
+		  Item: 3 is MySpace Secret Shows U.S.
+		  </div>
+        <div>
+		  Item: 4 is John
+		  </div>
+        <div>
+		  Item: 5 is Chris
+		  </div>
+        <div>
+		  Item: 6 is Solomon
+		  </div>
+        <div>
+		  Item: 7 is Brown
+		  </div>
+        <div>
+		  Item: 8 is Robby Valles
+		  </div>
+        <div>
+		  Item: 9 is Monica
+		  </div>
+        <div>
+		  Item: 10 is Underworld
+		  </div>
+        <div>
+		  Item: 11 is Ben
+		  </div>
+        <div>
+		  Item: 12 is James Gillmore
+		  </div>
+        <div>
+		  Item: 13 is C.
+		  </div>
+        <div>
+		  Item: 14 is kevin
+		  </div>
+        <div>
+		  Item: 15 is Lady Gaga
+		  </div>
+        <div>
+		  Item: 16 is Perfectly Flawed
+		  </div>
+        <div>
+		  Item: 17 is Donny Mack (DM)
+		  </div>
+        <div>
+		  Item: 18 is Fred
+		  </div>
+        <div>
+		  Item: 19 is Robbie Coleman
+		  </div>
+        <p>Sum: 20</p>
+
+<hr />
+<h2>Custom Tags</h2>
+<div style="border:4px solid gray;padding:4px;margin:10px;float:left;">
+vartest:Embedded tag <br/>
+<b>My.someVal:</b> Created with attr param
+</div>
+    <div style="border:4px solid gray;padding:4px;margin:10px;float:left;">
+vartest:Embedded tag <br/>
+<b>My.someVal:</b> Created with Element Param
+</div>
+    <div style="border:4px solid gray;padding:4px;margin:10px;float:left;">
+vartest:Embedded tag <br/>
+<b>My.someVal:</b> osVar registered value
+</div>
+    <br style="clear:both;" />
+
+<div style="border:4px solid red;padding:4px;margin:10px;float:left;">
+	vartest:InDefinition tag <br/>
+	<b>altKey:</b> Built altKey contains someVal: Any value will do here
+	</div>
+<div style="border:4px solid orange;padding:4px;margin:10px;float:left;">
+	vartest:InDefinition2 tag <br/>
+	<b>altKey:</b> Built altKey contains someVal: Another value is good
+	</div>
+<br style="clear:both;" />
+<p>Deregistered altKey (should be empty): <span id='afterDeregKey'></span></p>
+
+
+<hr style="clear:left;" />
+<h2>Data Pipeline variables</h2>
+string: I am registered with Data Pipeline
+
+<hr />
+<h2>Json Data</h2>
+
+jsonArrayVar.length: 3 <br/>
+jsonArrayVar[0]: 1 <br/>
+jsonArrayVar[1]: one <br/>
+jsonArrayVar[2]: three <br/>
+
+
+jsonObjectVar.length: 2 <br/>
+jsonObjectVar.id: jsonId <br/>
+jsonObjectVar.displayName: faux Person <br/>
+
+<h4>Repeating Data</h4>
+<b>jsonArrayVar</b>
+<ul>
+<li>1</li><li>one</li><li>three</li></ul>
+
+<b>jsonObjectVar</b>
+<ul>
+<li>[id, jsonId]</li><li>[displayName, faux Person]</li></ul>
+
+
+<script type="text/javascript">
+
+function testKeyDeregistration(){
+	var el = document.getElementById("afterDeregKey");
+	if(el.innerHTML.length > 0){
+		el.style.backgroundColor="red";
+		el.style.color="white";
+	}
+	else{
+		el.style.backgroundColor="#CCFFCC;";
+	}
+}
+
+
+testKeyDeregistration();
+</script>
+	  <script type="text/javascript" >
+//<![CDATA[
+opensocial.data.getDataContext().putDataSet("vwr", {"displayName":"Chris Cole","hasApp":"true","id":"myspace.com.person.45070236","msUserType":"RegularUser","name":{"familyName":"Cole","givenName":"Chris"},"profileUrl":"http:\/\/www.myspace.com\/ccole_myspace","thumbnailUrl":"http:\/\/c2.ac-images.myspacecdn.com\/images01\/47\/s_1828b71aab8a5f5e2ffa515533558e11.png"});
+opensocial.data.getDataContext().putDataSet("myfriends", {"Request":{"callingTag":"os:PeopleRequest","groupId":"@friends","userId":"@viewer"},"entry":[{"person":{"displayName":"Tom","hasApp":"false","id":"myspace.com.person.6221","msUserType":"RegularUser","name":{"familyName":"Anderson","givenName":"Tom"},"profileUrl":"http:\/\/www.myspace.com\/tom","thumbnailUrl":"http:\/\/c2.ac-images.myspacecdn.com\/images02\/148\/s_a0719bb1e0ef44588ffdf5834ce0f869.jpg"}},{"person":{"displayName":"Signal Loss","hasApp":"false","id":"myspace.com.person.111057162","msUserType":"RegularUser","name":{"familyName":"Newbould","givenName":"Maxwell"},"profileUrl":"http:\/\/www.myspace.com\/signalloss","thumbnailUrl":"http:\/\/c2.ac-images.myspacecdn.com\/images01\/107\/s_46cbc0263a72d04c4b9038de3341f63d.jpg"}},{"person":{"displayName":"Jackson","hasApp":"false","id":"myspace.com.person.343226807","msUserType":"RegularUser","name":{"familyName":"Mehoff","givenName":"Jackson"},"profileUrl":"http:\/\/www.myspace.com\/343226807","thumbnailUrl":"http:\/\/x.myspacecdn.com\/images\/no_pic.gif"}},{"person":{"displayName":"MySpace Secret Shows U.S.","hasApp":"false","id":"myspace.com.person.44431422","msUserType":"Ad","profileUrl":"http:\/\/www.myspace.com\/secretshows","thumbnailUrl":"http:\/\/c4.ac-images.myspacecdn.com\/images02\/130\/s_850fffd4c3664b0d9e630166b99d92a7.png"}},{"person":{"displayName":"John","hasApp":"false","id":"myspace.com.person.214878879","msUserType":"RegularUser","name":{"familyName":"Noss","givenName":"John"},"profileUrl":"http:\/\/www.myspace.com\/deckeration","thumbnailUrl":"http:\/\/c2.ac-images.myspacecdn.com\/images01\/105\/s_9ec73cf8bfe987d133b5b227f3ab3a19.jpg"}},{"person":{"displayName":"Chris","hasApp":"false","id":"myspace.com.person.219262","msUserType":"RegularUser","name":{"familyName":"Cole","givenName":"Chris"},"profileUrl":"http:\/\/www.myspace.com\/goosemanjack","thumbnailUrl":"http:\/\/c3.ac-images.myspacecdn.com\/images01\/127\/s_cc580d00a49ac8e2be1a13a4735072ce.jpg"}},{"person":{"displayName":"Solomon","hasApp":"false","id":"myspace.com.person.26426","msUserType":"RegularUser","profileUrl":"http:\/\/www.myspace.com\/solomon","thumbnailUrl":"http:\/\/c3.ac-images.myspacecdn.com\/images02\/1\/s_0b135b0d46ee4b3889f11281d8d4f422.jpg"}},{"person":{"displayName":"Brown","hasApp":"false","id":"myspace.com.person.66359","msUserType":"Other","profileUrl":"http:\/\/www.myspace.com\/madtokumbowl","thumbnailUrl":"http:\/\/c2.ac-images.myspacecdn.com\/images02\/71\/s_c38d7efa809c4788996c03f43f23082d.jpg"}},{"person":{"displayName":"Robby Valles","hasApp":"false","id":"myspace.com.person.2139789","msUserType":"RegularUser","name":{"familyName":"Valles","givenName":"Robby"},"profileUrl":"http:\/\/www.myspace.com\/robby","thumbnailUrl":"http:\/\/c4.ac-images.myspacecdn.com\/images02\/81\/s_1d9806e89c024407b88ee1872e373bbf.jpg"}},{"person":{"displayName":"Monica","hasApp":"false","id":"myspace.com.person.4859568","msUserType":"RegularUser","profileUrl":"http:\/\/www.myspace.com\/ciberch","thumbnailUrl":"http:\/\/c3.ac-images.myspacecdn.com\/images02\/151\/s_88bcd3986d104044888e07298a5180d6.jpg"}},{"person":{"displayName":"Underworld","hasApp":"false","id":"myspace.com.person.5550345","msUserType":"Band","profileUrl":"http:\/\/www.myspace.com\/underworld","thumbnailUrl":"http:\/\/c1.ac-images.myspacecdn.com\/images01\/60\/s_c53627c41b796f81cb4a941b94f4f654.jpg"}},{"person":{"displayName":"Ben","hasApp":"false","id":"myspace.com.person.12640313","msUserType":"Other","name":{"familyName":"De Bont","givenName":"Ben"},"profileUrl":"http:\/\/www.myspace.com\/bendebont","thumbnailUrl":"http:\/\/c4.ac-images.myspacecdn.com\/images01\/30\/s_110cd8dfa358917b990a7ed49fe7a53b.jpg"}},{"person":{"displayName":"James Gillmore","hasApp":"false","id":"myspace.com.person.12694323","msUserType":"RegularUser","name":{"familyName":"Gillmore","givenName":"James"},"profileUrl":"http:\/\/www.myspace.com\/boogsny","thumbnailUrl":"http:\/\/c3.ac-images.myspacecdn.com\/images01\/97\/s_27da8724b4fae0a7eab3a5209341eb72.jpg"}},{"person":{"displayName":"C.","hasApp":"false","id":"myspace.com.person.15411239","msUserType":"RegularUser","profileUrl":"http:\/\/www.myspace.com\/babydebusk","thumbnailUrl":"http:\/\/c1.ac-images.myspacecdn.com\/images01\/107\/s_c9791aefdab12ab7b9f95962f13c6214.jpg"}},{"person":{"displayName":"kevin","hasApp":"false","id":"myspace.com.person.15887270","msUserType":"RegularUser","profileUrl":"http:\/\/www.myspace.com\/meyerkm17","thumbnailUrl":"http:\/\/c2.ac-images.myspacecdn.com\/images02\/97\/s_69d5c0ae8dab46e4b826b68219965a01.jpg"}},{"person":{"displayName":"Lady Gaga","hasApp":"false","id":"myspace.com.person.16823935","msUserType":"Band","profileUrl":"http:\/\/www.myspace.com\/ladygaga","thumbnailUrl":"http:\/\/c3.ac-images.myspacecdn.com\/images02\/9\/s_ef9bd105c2894b7dac05a9b41fb0128e.jpg"}},{"person":{"displayName":"Perfectly Flawed","hasApp":"false","id":"myspace.com.person.16921687","msUserType":"RegularUser","name":{"familyName":"Desperado","givenName":"Faux"},"profileUrl":"http:\/\/www.myspace.com\/ms_desperate","thumbnailUrl":"http:\/\/c3.ac-images.myspacecdn.com\/images02\/80\/s_ee99fc541c454713be0ee15fcc17933e.jpg"}},{"person":{"displayName":"Donny Mack (DM)","hasApp":"false","id":"myspace.com.person.20599042","msUserType":"RegularUser","name":{"familyName":"Mack","givenName":"Donny"},"profileUrl":"http:\/\/www.myspace.com\/donnymack","thumbnailUrl":"http:\/\/c4.ac-images.myspacecdn.com\/images01\/81\/s_a910c793bc986c5c8a3e503e574d4377.jpg"}},{"person":{"displayName":"Fred","hasApp":"false","id":"myspace.com.person.27094770","msUserType":"RegularUser","name":{"familyName":"Roby","givenName":"Fred"},"profileUrl":"http:\/\/www.myspace.com\/kiptest27m_newvanity","thumbnailUrl":"http:\/\/c3.ac-images.myspacecdn.com\/images02\/9\/s_416f4e7f85ae488e8e9af329accdaf9e.jpg"}},{"person":{"displayName":"Robbie Coleman","hasApp":"false","id":"myspace.com.person.31517887","msUserType":"Other","name":{"familyName":"Coleman","givenName":"Robbie"},"profileUrl":"http:\/\/www.myspace.com\/robbiecoleman","thumbnailUrl":"http:\/\/c1.ac-images.myspacecdn.com\/images02\/53\/s_de7123a581864bcb81d1e20071a7688c.jpg"}}],"isFiltered":"false","itemsPerPage":"20","numOmittedEntries":"0","startIndex":"1","totalResults":"129"});
+opensocial.data.getDataContext().putDataSet("dpVar", "I am registered with Data Pipeline");
+opensocial.data.getDataContext().putDataSet("jsonArrayVar", [1,"one", "three"]);
+opensocial.data.getDataContext().putDataSet("jsonObjectVar", {"id":'jsonId',"displayName":"faux Person"});
+opensocial.data.getDataContext().putDataSet("foo", "1");
+opensocial.data.getDataContext().putDataSet("sum", "20");
+
+gadgets.util.registerOnLoadHandler(function(){
+	MyOpenSpace.ClientRequestProcessor.resolveRequests();
+});
+//]]>
+</script>
+<script type="text/javascript" >
+//<![CDATA[
+opensocial.template._rawTemplates = [];
+MyOpenSpace.template.TemplateProcessor.templatesXml["vartest:Embedded"] = "<Template xmlns:os=\"http://opensocial.org/templates\" xmlns:vartest=\"http://opensocial.org/templates\">\n<div style=\"border:4px solid gray;padding:4px;margin:10px;float:left;\">\nvartest:Embedded tag <br/>\n<b>My.someVal:</b> ${My.someVal}\n</div>\n    </Template>";
+MyOpenSpace.template.TemplateProcessor.templatesXml["vartest:InDefinition"] = "<Template xmlns:os=\"http://opensocial.org/templates\" xmlns:vartest=\"http://opensocial.org/templates\">\n	<os:Var key=\"altKey\" >Built altKey contains someVal: ${My.someVal}</os:Var>\n	<div style=\"border:4px solid red;padding:4px;margin:10px;float:left;\">\n	vartest:InDefinition tag <br/>\n	<b>altKey:</b> ${altKey}\n	</div>\n</Template>";
+MyOpenSpace.template.TemplateProcessor.templatesXml["vartest:InDefinition2"] = "<Template xmlns:os=\"http://opensocial.org/templates\" xmlns:vartest=\"http://opensocial.org/templates\">\n	<os:Var key=\"altKey\" >Built altKey contains someVal: ${My.someVal}</os:Var>\n	<div style=\"border:4px solid orange;padding:4px;margin:10px;float:left;\">\n	vartest:InDefinition2 tag <br/>\n	<b>altKey:</b> ${My.altKey}\n	</div>\n</Template>";
+//]]>
+</script>
+</body></html>

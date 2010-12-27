@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Module xmlns:os="http://ns.opensocial.org/2008/markup" xmlns:my="http://ns.opensocial.org/2008/x">
+  <ModulePrefs title="Simple Custom Tag" 
+  description="I love my new custom tags.  This displays multiple tag and template parameter usage variations" >
+    <Require feature="opensocial-1.0"/>
+    <Require feature="opensocial-templates"/>
+  </ModulePrefs>
+  <Content type="html" view="canvas">
+ 
+    <script type="text/os-template" tag="my:SimpleTag">
+      <h1 style="color:${My.color};" >I am a simple custom tag</h1>
+    </script>
+  </Content>
+ 
+  <Content type="html" view="canvas">
+  <script type="text/os-template" >
+      <div>
+        <h1>I am on canvas</h1>
+        Custom tags below:
+      </div>
+      <my:SimpleTag color="blue" />
+      <my:SimpleTag >
+      <color>red</color>
+      </my:SimpleTag >
+    </script>
+  </Content>
+</Module>
+

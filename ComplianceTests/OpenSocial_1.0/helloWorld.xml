@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Module xmlns:os="http://ns.opensocial.org/2008/markup" >
+  <ModulePrefs title="Hello World" description="This is the desc">
+    <Require feature="opensocial-1.0"/>
+    <Require feature="opensocial-templates"/>
+  </ModulePrefs>
+  <Content type="html" view="canvas">
+    <script type="text/os-data">
+     <os:ViewerRequest key='vwr' />
+    </script>
+    <script type="text/os-template">
+     <h1>Hello world, ${vwr.displayName}</h1>
+  </script>
+ </Content>
+</Module>
+
