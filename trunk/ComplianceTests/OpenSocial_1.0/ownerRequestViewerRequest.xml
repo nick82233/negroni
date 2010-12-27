@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Module>
+  <ModulePrefs title="Testing Owner and Viewer" 
+  description="Often the values of owner and viewer will be the same"
+>
+    <Require feature="opensocial-1.0"/>
+  </ModulePrefs>
+  <Content type="html" view="canvas">
+    <script xmlns:os="http://ns.opensocial.org/2008/markup" type="text/os-data">
+      <os:ViewerRequest key="vwr" fields="@all" />
+      <os:OwnerRequest key="owner" fields="@all" />
+   </script>
+    <script  type="text/os-template">
+    <h2>Owner Viewer Request App</h2>
+	
+	Viewer Name: ${vwr.displayName} <br/>
+	<p>
+	Owner Name: ${owner.displayName}
+	</p>
+	
+	
+    </script>
+  </Content>
+</Module>
