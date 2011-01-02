@@ -69,6 +69,13 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\workspaces_local\MbUnit\v2\output\v3_5_Framework\MbUnit.Framework.2.0.dll</HintPath>
     </Reference>
+    <Reference Include="nunit.framework, Version=2.5.8.10295, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\TemplateFramework.Tests\bin\Debug\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="NUnitExtension.RowTest">
+      <HintPath>..\TemplateFramework.Tests\bin\Debug\NUnitExtension.RowTest.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -81,9 +88,6 @@
     <Compile Include="ParseEngineTests.cs" />
     <Compile Include="ParserTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="OperationTest.xlsx" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
