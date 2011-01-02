@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Module xmlns:os="http://ns.opensocial.org/2008/markup" >
+  <ModulePrefs title="Friends need Hello also" description="This is the desc">
+    <Require feature="opensocial-1.0"/>
+    <Require feature="opensocial-templates"/>
+  </ModulePrefs>
+  <Content type="html" view="canvas">
+    <script type="text/os-data">
+     <!--
+	 <os:ViewerRequest key="vwr" />
+     <os:PeopleRequest key="friends" userId="@viewer" groupid="@friends" />
+	 -->
+	 <os:Var key="vwr">{"displayName": "John Doe"}</os:Var>
+	 <os:Var key="friends">[
+	 {"displayName": "Goosemanjack", "thumbnailUrl": "http://c3.ac-images.myspacecdn.com/images01/127/s_cc580d00a49ac8e2be1a13a4735072ce.jpg"}
+	 ,{"displayName": "Tom", "thumbnailUrl": "http://x.myspacecdn.com/modules/common/static/img/placeholders/userplaceholder.png"}
+	 ,{"displayName": "Ticker", "thumbnailUrl": "http://c1.ac-images.myspacecdn.com/images02/65/s_0f0243eda1b94c1794d78be329c3ac7c.png"}
+	 ]
+	 
+	 </os:Var>
+ 
+    </script>
+    <script type="text/os-template">
+     <h1>Hello world, ${vwr.displayName}</h1>
+	 Your friends are:
+ 
+	 <div>
+	 <os:Repeat expression="${friends}">
+	 <p>
+	 Friend number ${Context.index} is: ${Cur.displayName}
+	 <img src="${Cur.thumbnailUrl}" />
+	 </p>	 
+	 </os:Repeat>	 
+	 </div>
+ 
+  </script>
+ </Content>
+</Module>
+
