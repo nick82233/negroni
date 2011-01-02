@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Module xmlns:os="http://ns.opensocial.org/2008/markup" xmlns:myspace="http://ns.opensocial.org/2008/x" xmlns:my="http://ns.opensocial.org/2008/z">
+<Module xmlns:os="http://ns.opensocial.org/2008/markup">
   <ModulePrefs title="OsVar Test Gadget" description="Test cases on osVar"
   thumbnail=""
   >
