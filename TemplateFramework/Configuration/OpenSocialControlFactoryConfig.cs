@@ -27,6 +27,12 @@ namespace Negroni.TemplateFramework.Configuration
 	/// </summary>
 	public class OpenSocialControlFactoryConfig
 	{
+        /// <summary>
+        /// Fallback filename for manual load if the OpenSocialControlFactories config section
+        /// is not specified in the app.config/web.config
+        /// </summary>
+        static readonly string CONFIG_FILE = "OpenSocialControlFramework.config";
+
 		static ControlFactorySection configSection = ControlFactorySection.GetSection();
 
 		static private Dictionary<string, List<string>> _controlFactories = new Dictionary<string, List<string>>();

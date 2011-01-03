@@ -1,0 +1,437 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="GadgetsModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityContainer Name="GadgetsModelStoreContainer">
+          <EntitySet Name="App" EntityType="GadgetsModel.Store.App" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Gadget" EntityType="GadgetsModel.Store.Gadget" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="GadgetContent" EntityType="GadgetsModel.Store.GadgetContent" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Manifest" EntityType="GadgetsModel.Store.Manifest" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="RecordType" EntityType="GadgetsModel.Store.RecordType" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK_App_Gadget" Association="GadgetsModel.Store.FK_App_Gadget">
+            <End Role="Gadget" EntitySet="Gadget" />
+            <End Role="App" EntitySet="App" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Gadget_App" Association="GadgetsModel.Store.FK_Gadget_App">
+            <End Role="App" EntitySet="App" />
+            <End Role="Gadget" EntitySet="Gadget" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GadgetContent_Gadget" Association="GadgetsModel.Store.FK_GadgetContent_Gadget">
+            <End Role="Gadget" EntitySet="Gadget" />
+            <End Role="GadgetContent" EntitySet="GadgetContent" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GadgetContent_RecordType" Association="GadgetsModel.Store.FK_GadgetContent_RecordType">
+            <End Role="RecordType" EntitySet="RecordType" />
+            <End Role="GadgetContent" EntitySet="GadgetContent" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Manifest_App" Association="GadgetsModel.Store.FK_Manifest_App">
+            <End Role="App" EntitySet="App" />
+            <End Role="Manifest" EntitySet="Manifest" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Manifest_Gadget" Association="GadgetsModel.Store.FK_Manifest_Gadget">
+            <End Role="Gadget" EntitySet="Gadget" />
+            <End Role="Manifest" EntitySet="Manifest" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="App">
+          <Key>
+            <PropertyRef Name="AppId" />
+          </Key>
+          <Property Name="AppId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="nvarchar" Nullable="false" MaxLength="100" />
+          <Property Name="SourceUrl" Type="nvarchar" MaxLength="500" />
+          <Property Name="ManifestUrl" Type="nvarchar" MaxLength="500" />
+          <Property Name="LatestGadgetID" Type="int" />
+          <Property Name="CreateDate" Type="datetime" Nullable="false" />
+          <Property Name="UpdateDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Gadget">
+          <Key>
+            <PropertyRef Name="GadgetID" />
+          </Key>
+          <Property Name="GadgetID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="AppID" Type="int" />
+          <Property Name="Title" Type="nvarchar" MaxLength="50" />
+          <Property Name="TitleUrl" Type="nvarchar" MaxLength="255" />
+          <Property Name="SourceUrl" Type="nvarchar" MaxLength="500" />
+          <Property Name="IsLatest" Type="bit" Nullable="false" />
+          <Property Name="CreateDate" Type="datetime" Nullable="false" />
+          <Property Name="UpdateDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="GadgetContent">
+          <Key>
+            <PropertyRef Name="GadgetContentID" />
+          </Key>
+          <Property Name="GadgetContentID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="GadgetID" Type="int" Nullable="false" />
+          <Property Name="RecordTypeID" Type="int" Nullable="false" />
+          <Property Name="Content" Type="ntext" />
+          <Property Name="CreateDate" Type="datetime" Nullable="false" />
+          <Property Name="UpdateDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Manifest">
+          <Key>
+            <PropertyRef Name="AppID" />
+            <PropertyRef Name="GadgetID" />
+          </Key>
+          <Property Name="AppID" Type="int" Nullable="false" />
+          <Property Name="GadgetID" Type="int" Nullable="false" />
+          <Property Name="Note" Type="nvarchar" MaxLength="500" />
+          <Property Name="CreateDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RecordType">
+          <Key>
+            <PropertyRef Name="RecordTypeID" />
+          </Key>
+          <Property Name="RecordTypeID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="varchar" Nullable="false" MaxLength="50" />
+          <Property Name="Description" Type="varchar" MaxLength="500" />
+        </EntityType>
+        <Association Name="FK_App_Gadget">
+          <End Role="Gadget" Type="GadgetsModel.Store.Gadget" Multiplicity="0..1" />
+          <End Role="App" Type="GadgetsModel.Store.App" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Gadget">
+              <PropertyRef Name="GadgetID" />
+            </Principal>
+            <Dependent Role="App">
+              <PropertyRef Name="LatestGadgetID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Gadget_App">
+          <End Role="App" Type="GadgetsModel.Store.App" Multiplicity="0..1" />
+          <End Role="Gadget" Type="GadgetsModel.Store.Gadget" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="App">
+              <PropertyRef Name="AppId" />
+            </Principal>
+            <Dependent Role="Gadget">
+              <PropertyRef Name="AppID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GadgetContent_Gadget">
+          <End Role="Gadget" Type="GadgetsModel.Store.Gadget" Multiplicity="1" />
+          <End Role="GadgetContent" Type="GadgetsModel.Store.GadgetContent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Gadget">
+              <PropertyRef Name="GadgetID" />
+            </Principal>
+            <Dependent Role="GadgetContent">
+              <PropertyRef Name="GadgetID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GadgetContent_RecordType">
+          <End Role="RecordType" Type="GadgetsModel.Store.RecordType" Multiplicity="1" />
+          <End Role="GadgetContent" Type="GadgetsModel.Store.GadgetContent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RecordType">
+              <PropertyRef Name="RecordTypeID" />
+            </Principal>
+            <Dependent Role="GadgetContent">
+              <PropertyRef Name="RecordTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Manifest_App">
+          <End Role="App" Type="GadgetsModel.Store.App" Multiplicity="1" />
+          <End Role="Manifest" Type="GadgetsModel.Store.Manifest" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="App">
+              <PropertyRef Name="AppId" />
+            </Principal>
+            <Dependent Role="Manifest">
+              <PropertyRef Name="AppID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Manifest_Gadget">
+          <End Role="Gadget" Type="GadgetsModel.Store.Gadget" Multiplicity="1" />
+          <End Role="Manifest" Type="GadgetsModel.Store.Manifest" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Gadget">
+              <PropertyRef Name="GadgetID" />
+            </Principal>
+            <Dependent Role="Manifest">
+              <PropertyRef Name="GadgetID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="GadgetsModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+        <EntityContainer Name="GadgetsEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Apps" EntityType="GadgetsModel.App" />
+          <EntitySet Name="Gadgets" EntityType="GadgetsModel.Gadget" />
+          <EntitySet Name="GadgetContents" EntityType="GadgetsModel.GadgetContent" />
+          <EntitySet Name="Manifests" EntityType="GadgetsModel.Manifest" />
+          <EntitySet Name="RecordTypes" EntityType="GadgetsModel.RecordType" />
+          <AssociationSet Name="FK_App_Gadget" Association="GadgetsModel.FK_App_Gadget">
+            <End Role="Gadget" EntitySet="Gadgets" />
+            <End Role="App" EntitySet="Apps" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Gadget_App" Association="GadgetsModel.FK_Gadget_App">
+            <End Role="App" EntitySet="Apps" />
+            <End Role="Gadget" EntitySet="Gadgets" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Manifest_App" Association="GadgetsModel.FK_Manifest_App">
+            <End Role="App" EntitySet="Apps" />
+            <End Role="Manifest" EntitySet="Manifests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GadgetContent_Gadget" Association="GadgetsModel.FK_GadgetContent_Gadget">
+            <End Role="Gadget" EntitySet="Gadgets" />
+            <End Role="GadgetContent" EntitySet="GadgetContents" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Manifest_Gadget" Association="GadgetsModel.FK_Manifest_Gadget">
+            <End Role="Gadget" EntitySet="Gadgets" />
+            <End Role="Manifest" EntitySet="Manifests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GadgetContent_RecordType" Association="GadgetsModel.FK_GadgetContent_RecordType">
+            <End Role="RecordType" EntitySet="RecordTypes" />
+            <End Role="GadgetContent" EntitySet="GadgetContents" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="App">
+          <Key>
+            <PropertyRef Name="AppId" />
+          </Key>
+          <Property Name="AppId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" Unicode="true" FixedLength="false" />
+          <Property Name="SourceUrl" Type="String" MaxLength="500" Unicode="true" FixedLength="false" />
+          <Property Name="ManifestUrl" Type="String" MaxLength="500" Unicode="true" FixedLength="false" />
+          <Property Name="LatestGadgetID" Type="Int32" />
+          <Property Name="CreateDate" Type="DateTime" Nullable="false" />
+          <Property Name="UpdateDate" Type="DateTime" Nullable="false" />
+          <NavigationProperty Name="Gadget" Relationship="GadgetsModel.FK_App_Gadget" FromRole="App" ToRole="Gadget" />
+          <NavigationProperty Name="Gadgets" Relationship="GadgetsModel.FK_Gadget_App" FromRole="App" ToRole="Gadget" />
+          <NavigationProperty Name="Manifests" Relationship="GadgetsModel.FK_Manifest_App" FromRole="App" ToRole="Manifest" />
+        </EntityType>
+        <EntityType Name="Gadget">
+          <Key>
+            <PropertyRef Name="GadgetID" />
+          </Key>
+          <Property Name="GadgetID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AppID" Type="Int32" />
+          <Property Name="Title" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="TitleUrl" Type="String" MaxLength="255" Unicode="true" FixedLength="false" />
+          <Property Name="SourceUrl" Type="String" MaxLength="500" Unicode="true" FixedLength="false" />
+          <Property Name="IsLatest" Type="Boolean" Nullable="false" />
+          <Property Name="CreateDate" Type="DateTime" Nullable="false" />
+          <Property Name="UpdateDate" Type="DateTime" Nullable="false" />
+          <NavigationProperty Name="Apps" Relationship="GadgetsModel.FK_App_Gadget" FromRole="Gadget" ToRole="App" />
+          <NavigationProperty Name="App" Relationship="GadgetsModel.FK_Gadget_App" FromRole="Gadget" ToRole="App" />
+          <NavigationProperty Name="GadgetContents" Relationship="GadgetsModel.FK_GadgetContent_Gadget" FromRole="Gadget" ToRole="GadgetContent" />
+          <NavigationProperty Name="Manifests" Relationship="GadgetsModel.FK_Manifest_Gadget" FromRole="Gadget" ToRole="Manifest" />
+        </EntityType>
+        <EntityType Name="GadgetContent">
+          <Key>
+            <PropertyRef Name="GadgetContentID" />
+          </Key>
+          <Property Name="GadgetContentID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="GadgetID" Type="Int32" Nullable="false" />
+          <Property Name="RecordTypeID" Type="Int32" Nullable="false" />
+          <Property Name="Content" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="CreateDate" Type="DateTime" Nullable="false" />
+          <Property Name="UpdateDate" Type="DateTime" Nullable="false" />
+          <NavigationProperty Name="Gadget" Relationship="GadgetsModel.FK_GadgetContent_Gadget" FromRole="GadgetContent" ToRole="Gadget" />
+          <NavigationProperty Name="RecordType" Relationship="GadgetsModel.FK_GadgetContent_RecordType" FromRole="GadgetContent" ToRole="RecordType" />
+        </EntityType>
+        <EntityType Name="Manifest">
+          <Key>
+            <PropertyRef Name="AppID" />
+            <PropertyRef Name="GadgetID" />
+          </Key>
+          <Property Name="AppID" Type="Int32" Nullable="false" />
+          <Property Name="GadgetID" Type="Int32" Nullable="false" />
+          <Property Name="Note" Type="String" MaxLength="500" Unicode="true" FixedLength="false" />
+          <Property Name="CreateDate" Type="DateTime" Nullable="false" />
+          <NavigationProperty Name="App" Relationship="GadgetsModel.FK_Manifest_App" FromRole="Manifest" ToRole="App" />
+          <NavigationProperty Name="Gadget" Relationship="GadgetsModel.FK_Manifest_Gadget" FromRole="Manifest" ToRole="Gadget" />
+        </EntityType>
+        <EntityType Name="RecordType">
+          <Key>
+            <PropertyRef Name="RecordTypeID" />
+          </Key>
+          <Property Name="RecordTypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" Unicode="false" FixedLength="false" />
+          <Property Name="Description" Type="String" MaxLength="500" Unicode="false" FixedLength="false" />
+          <NavigationProperty Name="GadgetContents" Relationship="GadgetsModel.FK_GadgetContent_RecordType" FromRole="RecordType" ToRole="GadgetContent" />
+        </EntityType>
+        <Association Name="FK_App_Gadget">
+          <End Role="Gadget" Type="GadgetsModel.Gadget" Multiplicity="0..1" />
+          <End Role="App" Type="GadgetsModel.App" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Gadget">
+              <PropertyRef Name="GadgetID" />
+            </Principal>
+            <Dependent Role="App">
+              <PropertyRef Name="LatestGadgetID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Gadget_App">
+          <End Role="App" Type="GadgetsModel.App" Multiplicity="0..1" />
+          <End Role="Gadget" Type="GadgetsModel.Gadget" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="App">
+              <PropertyRef Name="AppId" />
+            </Principal>
+            <Dependent Role="Gadget">
+              <PropertyRef Name="AppID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Manifest_App">
+          <End Role="App" Type="GadgetsModel.App" Multiplicity="1" />
+          <End Role="Manifest" Type="GadgetsModel.Manifest" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="App">
+              <PropertyRef Name="AppId" />
+            </Principal>
+            <Dependent Role="Manifest">
+              <PropertyRef Name="AppID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GadgetContent_Gadget">
+          <End Role="Gadget" Type="GadgetsModel.Gadget" Multiplicity="1" />
+          <End Role="GadgetContent" Type="GadgetsModel.GadgetContent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Gadget">
+              <PropertyRef Name="GadgetID" />
+            </Principal>
+            <Dependent Role="GadgetContent">
+              <PropertyRef Name="GadgetID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Manifest_Gadget">
+          <End Role="Gadget" Type="GadgetsModel.Gadget" Multiplicity="1" />
+          <End Role="Manifest" Type="GadgetsModel.Manifest" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Gadget">
+              <PropertyRef Name="GadgetID" />
+            </Principal>
+            <Dependent Role="Manifest">
+              <PropertyRef Name="GadgetID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GadgetContent_RecordType">
+          <End Role="RecordType" Type="GadgetsModel.RecordType" Multiplicity="1" />
+          <End Role="GadgetContent" Type="GadgetsModel.GadgetContent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RecordType">
+              <PropertyRef Name="RecordTypeID" />
+            </Principal>
+            <Dependent Role="GadgetContent">
+              <PropertyRef Name="RecordTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="GadgetsModelStoreContainer" CdmEntityContainer="GadgetsEntities">
+          <EntitySetMapping Name="Apps"><EntityTypeMapping TypeName="GadgetsModel.App"><MappingFragment StoreEntitySet="App">
+            <ScalarProperty Name="AppId" ColumnName="AppId" />
+            <ScalarProperty Name="Name" ColumnName="Name" />
+            <ScalarProperty Name="SourceUrl" ColumnName="SourceUrl" />
+            <ScalarProperty Name="ManifestUrl" ColumnName="ManifestUrl" />
+            <ScalarProperty Name="LatestGadgetID" ColumnName="LatestGadgetID" />
+            <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+            <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="Gadgets"><EntityTypeMapping TypeName="GadgetsModel.Gadget"><MappingFragment StoreEntitySet="Gadget">
+            <ScalarProperty Name="GadgetID" ColumnName="GadgetID" />
+            <ScalarProperty Name="AppID" ColumnName="AppID" />
+            <ScalarProperty Name="Title" ColumnName="Title" />
+            <ScalarProperty Name="TitleUrl" ColumnName="TitleUrl" />
+            <ScalarProperty Name="SourceUrl" ColumnName="SourceUrl" />
+            <ScalarProperty Name="IsLatest" ColumnName="IsLatest" />
+            <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+            <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="GadgetContents"><EntityTypeMapping TypeName="GadgetsModel.GadgetContent"><MappingFragment StoreEntitySet="GadgetContent">
+            <ScalarProperty Name="GadgetContentID" ColumnName="GadgetContentID" />
+            <ScalarProperty Name="GadgetID" ColumnName="GadgetID" />
+            <ScalarProperty Name="RecordTypeID" ColumnName="RecordTypeID" />
+            <ScalarProperty Name="Content" ColumnName="Content" />
+            <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+            <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="Manifests"><EntityTypeMapping TypeName="GadgetsModel.Manifest"><MappingFragment StoreEntitySet="Manifest">
+            <ScalarProperty Name="AppID" ColumnName="AppID" />
+            <ScalarProperty Name="GadgetID" ColumnName="GadgetID" />
+            <ScalarProperty Name="Note" ColumnName="Note" />
+            <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="RecordTypes"><EntityTypeMapping TypeName="GadgetsModel.RecordType"><MappingFragment StoreEntitySet="RecordType">
+            <ScalarProperty Name="RecordTypeID" ColumnName="RecordTypeID" />
+            <ScalarProperty Name="Name" ColumnName="Name" />
+            <ScalarProperty Name="Description" ColumnName="Description" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams>
+      <Diagram Name="GadgetDB">
+        <EntityTypeShape EntityType="GadgetsModel.App" Width="1.5" PointX="0.625" PointY="0.75" Height="2.9417936197916656" IsExpanded="true" />
+        <EntityTypeShape EntityType="GadgetsModel.Gadget" Width="1.5" PointX="2.625" PointY="0.75" Height="3.3263964843749996" IsExpanded="true" />
+        <EntityTypeShape EntityType="GadgetsModel.GadgetContent" Width="1.5" PointX="4.625" PointY="0.75" Height="2.5571907552083335" IsExpanded="true" />
+        <EntityTypeShape EntityType="GadgetsModel.Manifest" Width="1.5" PointX="2.75" PointY="4.625" Height="2.1725878906249996" IsExpanded="true" />
+        <EntityTypeShape EntityType="GadgetsModel.RecordType" Width="1.5" PointX="6.625" PointY="0.75" Height="1.7879850260416674" IsExpanded="true" />
+        <AssociationConnector Association="GadgetsModel.FK_App_Gadget" ManuallyRouted="false">
+          <ConnectorPoint PointX="2.625" PointY="2.2208968098958328" />
+          <ConnectorPoint PointX="2.125" PointY="2.2208968098958328" />
+        </AssociationConnector>
+        <AssociationConnector Association="GadgetsModel.FK_Gadget_App" ManuallyRouted="false">
+          <ConnectorPoint PointX="2.125" PointY="1.4229484049479164" />
+          <ConnectorPoint PointX="2.625" PointY="1.4229484049479164" />
+        </AssociationConnector>
+        <AssociationConnector Association="GadgetsModel.FK_Manifest_App" ManuallyRouted="false">
+          <ConnectorPoint PointX="1.375" PointY="3.6917936197916656" />
+          <ConnectorPoint PointX="1.375" PointY="5.7112939453125" />
+          <ConnectorPoint PointX="2.75" PointY="5.7112939453125" />
+        </AssociationConnector>
+        <AssociationConnector Association="GadgetsModel.FK_GadgetContent_Gadget" ManuallyRouted="false">
+          <ConnectorPoint PointX="4.125" PointY="2.0285953776041667" />
+          <ConnectorPoint PointX="4.625" PointY="2.0285953776041667" />
+        </AssociationConnector>
+        <AssociationConnector Association="GadgetsModel.FK_Manifest_Gadget" ManuallyRouted="false">
+          <ConnectorPoint PointX="3.4375" PointY="4.076396484375" />
+          <ConnectorPoint PointX="3.4375" PointY="4.625" />
+        </AssociationConnector>
+        <AssociationConnector Association="GadgetsModel.FK_GadgetContent_RecordType" ManuallyRouted="false">
+          <ConnectorPoint PointX="6.625" PointY="1.6439925130208337" />
+          <ConnectorPoint PointX="6.125" PointY="1.6439925130208337" />
+        </AssociationConnector>
+      </Diagram>
+    </Diagrams>
+  </Designer>
+</edmx:Edmx>

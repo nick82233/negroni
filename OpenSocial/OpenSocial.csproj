@@ -8,8 +8,8 @@
     <ProjectGuid>{CFBF88AF-F921-4751-BBBF-F65A99C9103D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MySpace.OpenSocial</RootNamespace>
-    <AssemblyName>MySpace.OpenSocial</AssemblyName>
+    <RootNamespace>Negroni.OpenSocial</RootNamespace>
+    <AssemblyName>Negroni.OpenSocial</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>
@@ -62,17 +62,6 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MySpace.DataPipeline, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
-    <Reference Include="MySpace.Entity, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\_drop\MySpace.Entity.dll</HintPath>
-    </Reference>
-    <Reference Include="MySpace.OpenSocial.EL, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
-    <Reference Include="MySpace.Shared, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\_drop\MySpace.Shared.dll</HintPath>
-    </Reference>
-    <Reference Include="MySpace.TemplateFramework, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Data" />
@@ -158,7 +147,20 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\DataPipeline\DataPipeline.csproj">
+      <Project>{2896BD9C-9CDB-4A49-B5CC-27CDB9003681}</Project>
+      <Name>DataPipeline</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OpenSocial.EL\OpenSocial.EL.csproj">
+      <Project>{02033EE1-02E8-41DF-9282-96D919E7233F}</Project>
+      <Name>OpenSocial.EL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TemplateFramework\TemplateFramework.csproj">
+      <Project>{E42409B5-15C2-43B9-BC94-FD2B16F04165}</Project>
+      <Name>TemplateFramework</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

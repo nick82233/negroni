@@ -8,8 +8,8 @@
     <ProjectGuid>{E42409B5-15C2-43B9-BC94-FD2B16F04165}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MySpace.TemplateFramework</RootNamespace>
-    <AssemblyName>MySpace.TemplateFramework</AssemblyName>
+    <RootNamespace>Negroni.TemplateFramework</RootNamespace>
+    <AssemblyName>Negroni.TemplateFramework</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>
@@ -62,8 +62,6 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MySpace.DataPipeline, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
-    <Reference Include="MySpace.OpenSocial.EL, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Data" />
@@ -139,6 +137,16 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="LICENSE.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DataPipeline\DataPipeline.csproj">
+      <Project>{2896BD9C-9CDB-4A49-B5CC-27CDB9003681}</Project>
+      <Name>DataPipeline</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OpenSocial.EL\OpenSocial.EL.csproj">
+      <Project>{02033EE1-02E8-41DF-9282-96D919E7233F}</Project>
+      <Name>OpenSocial.EL</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
