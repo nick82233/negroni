@@ -8,8 +8,8 @@
     <ProjectGuid>{02033EE1-02E8-41DF-9282-96D919E7233F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MySpace.OpenSocial.EL</RootNamespace>
-    <AssemblyName>MySpace.OpenSocial.EL</AssemblyName>
+    <RootNamespace>Negroni.OpenSocial.EL</RootNamespace>
+    <AssemblyName>Negroni.OpenSocial.EL</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>
