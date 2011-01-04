@@ -5,11 +5,11 @@ using MbUnit.Framework;
 
 using Negroni.DataPipeline;
 using Negroni.TemplateFramework;
-using Negroni.OpenSocial.Test.OSML;
+using Negroni.OpenSocial.Tests.OSML;
 using Negroni.OpenSocial.OSML;
 using Negroni.OpenSocial.OSML.Controls;
 
-namespace Negroni.OpenSocial.Test.Gadget
+namespace Negroni.OpenSocial.Tests.Gadget
 {
 	[TestFixture]
 	[TestsOn(typeof(RootElementMaster))]

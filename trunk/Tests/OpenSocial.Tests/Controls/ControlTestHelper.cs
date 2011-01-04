@@ -9,7 +9,7 @@ using Negroni.OpenSocial.DataContracts;
 using Negroni.OpenSocial.Gadget.Controls;
 using Negroni.OpenSocial.Gadget;
 
-namespace Negroni.OpenSocial.Test.Controls
+namespace Negroni.OpenSocial.Tests.Controls
 {
 	class ControlTestHelper
 	{

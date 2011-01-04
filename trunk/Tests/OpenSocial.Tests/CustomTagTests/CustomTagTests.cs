@@ -8,12 +8,12 @@ using Negroni.OpenSocial.OSML;
 using Negroni.OpenSocial.OSML.Controls;
 
 using Negroni.DataPipeline;
-using Negroni.OpenSocial.Test.Controls;
-using Negroni.OpenSocial.Test.OSML;
+using Negroni.OpenSocial.Tests.Controls;
+using Negroni.OpenSocial.Tests.OSML;
 using Negroni.OpenSocial.DataContracts;
 
 
-namespace Negroni.OpenSocial.Test
+namespace Negroni.OpenSocial.Tests
 {
     /// <summary>
     /// A <see cref="TestFixture"/> for the <see cref="GadgetMaster"/> class.

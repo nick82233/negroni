@@ -7,10 +7,10 @@ using Negroni.OpenSocial.Gadget;
 using Negroni.OpenSocial.Gadget.Controls;
 using Negroni.OpenSocial.OSML;
 using Negroni.OpenSocial.OSML.Controls;
-using Negroni.OpenSocial.Test.TestData;
-using Negroni.OpenSocial.Test.OSML;
+using Negroni.OpenSocial.Tests.TestData;
+using Negroni.OpenSocial.Tests.OSML;
 
-namespace Negroni.OpenSocial.Test.Controls
+namespace Negroni.OpenSocial.Tests.Controls
 {
 	/// <summary>
 	/// A <see cref="TestFixture"/> for the <see cref="OsVar"/> class.

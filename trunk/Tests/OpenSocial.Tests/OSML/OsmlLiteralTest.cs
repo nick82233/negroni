@@ -5,10 +5,10 @@ using Negroni.TemplateFramework;
 using Negroni.OpenSocial.OSML.Controls;
 using Negroni.OpenSocial.Gadget.Controls;
 
-using Negroni.OpenSocial.Test.Controls;
+using Negroni.OpenSocial.Tests.Controls;
 
 
-namespace Negroni.OpenSocial.Test.OSML
+namespace Negroni.OpenSocial.Tests.OSML
 {
     /// <summary>
     /// A <see cref="TestFixture"/> for the <see cref="OsmlLiteral"/> class.

@@ -6,7 +6,7 @@ using Negroni.OpenSocial.OSML;
 using Negroni.OpenSocial.OSML.Controls;
 
 
-namespace Negroni.OpenSocial.Test.Gadget
+namespace Negroni.OpenSocial.Tests.Gadget
 {
     /// <summary>
     /// A <see cref="TestFixture"/> for the <see cref="OffsetItem"/> class.

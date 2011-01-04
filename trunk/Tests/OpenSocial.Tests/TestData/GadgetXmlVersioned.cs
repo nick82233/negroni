@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Negroni.OpenSocial.Test.TestData
+namespace Negroni.OpenSocial.Tests.TestData
 {
 	public static class GadgetXmlVersioned
 	{

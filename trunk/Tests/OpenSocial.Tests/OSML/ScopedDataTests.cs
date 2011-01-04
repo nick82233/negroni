@@ -7,11 +7,11 @@ using Negroni.OpenSocial.Gadget;
 using Negroni.OpenSocial.OSML;
 using Negroni.OpenSocial.OSML.Controls;
 
-using Negroni.OpenSocial.Test.TestData;
-using Negroni.OpenSocial.Test.TestData.Partials;
+using Negroni.OpenSocial.Tests.TestData;
+using Negroni.OpenSocial.Tests.TestData.Partials;
 using Negroni.OpenSocial.Gadget.Controls;
 
-namespace Negroni.OpenSocial.Test.OSML
+namespace Negroni.OpenSocial.Tests.OSML
 {
 	[TestFixture]
 	[TestsOn(typeof(BaseGadgetControl))]

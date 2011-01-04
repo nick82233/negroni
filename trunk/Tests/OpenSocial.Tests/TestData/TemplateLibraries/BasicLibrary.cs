@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Negroni.OpenSocial.Test.TestData.TemplateLibraries
+namespace Negroni.OpenSocial.Tests.TestData.TemplateLibraries
 {
 	/// <summary>
 	/// For spec, see 

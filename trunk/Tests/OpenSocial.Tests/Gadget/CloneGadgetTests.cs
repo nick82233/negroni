@@ -10,14 +10,14 @@ using Negroni.OpenSocial.Gadget.Controls;
 using Negroni.OpenSocial.OSML;
 using Negroni.OpenSocial.OSML.Controls;
 
-using Negroni.OpenSocial.Test.TestData;
-using Negroni.OpenSocial.Test.Controls;
-using Negroni.OpenSocial.Test.OSML;
+using Negroni.OpenSocial.Tests.TestData;
+using Negroni.OpenSocial.Tests.Controls;
+using Negroni.OpenSocial.Tests.OSML;
 
 using Negroni.DataPipeline;
 using Negroni.DataPipeline.Security;
 
-namespace Negroni.OpenSocial.Test.Gadget
+namespace Negroni.OpenSocial.Tests.Gadget
 {
     [TestFixture]
     [TestsOn(typeof(GadgetMaster))]

@@ -5,7 +5,7 @@ using Negroni.DataPipeline;
 using Negroni.OpenSocial.Gadget;
 using Negroni.OpenSocial.Gadget.Controls;
 
-namespace Negroni.OpenSocial.Test.TestData
+namespace Negroni.OpenSocial.Tests.TestData
 {
 	public class MessageBundleData
 	{

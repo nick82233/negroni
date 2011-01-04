@@ -7,10 +7,10 @@ using Negroni.OpenSocial.Gadget;
 using Negroni.OpenSocial.OSML;
 using Negroni.OpenSocial.OSML.Controls;
 
-using Negroni.OpenSocial.Test.TestData.Partials;
+using Negroni.OpenSocial.Tests.TestData.Partials;
 using Negroni.DataPipeline;
 
-namespace Negroni.OpenSocial.Test.OSML
+namespace Negroni.OpenSocial.Tests.OSML
 {
 	/// <summary>
 	/// A <see cref="TestFixture"/> for the <see cref="OsmlTemplateTest"/> class.

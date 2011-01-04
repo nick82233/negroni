@@ -3,12 +3,12 @@ using MbUnit.Framework;
 using Negroni.TemplateFramework;
 using Negroni.OpenSocial.Gadget;
 using Negroni.OpenSocial.OSML;
-using Negroni.OpenSocial.Test.TestData;
+using Negroni.OpenSocial.Tests.TestData;
 using Negroni.OpenSocial.Gadget.Controls;
 using Negroni.OpenSocial.OSML.Controls;
 
 
-namespace Negroni.OpenSocial.Test.Gadget
+namespace Negroni.OpenSocial.Tests.Gadget
 {
     /// <summary>
 	/// A <see cref="TestFixture"/> for the <see cref="OffsetList"/> class.

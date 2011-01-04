@@ -6,11 +6,11 @@ using Negroni.TemplateFramework;
 using Negroni.OpenSocial.OSML.Controls;
 using Negroni.OpenSocial.DataContracts;
 using Negroni.OpenSocial.Gadget.Controls;
-using Negroni.OpenSocial.Test.Controls;
+using Negroni.OpenSocial.Tests.Controls;
 using Negroni.DataPipeline;
-using Negroni.OpenSocial.Test.TestData;
+using Negroni.OpenSocial.Tests.TestData;
 
-namespace Negroni.OpenSocial.Test.OSML
+namespace Negroni.OpenSocial.Tests.OSML
 {
     /// <summary>
 	/// A <see cref="TestFixture"/> for the <see cref="OsmlControl"/> class.
@@ -38,13 +38,13 @@ namespace Negroni.OpenSocial.Test.OSML
 		}
 
 		[RowTest]
-		[Row(new object[]{"Hello ${Viewer.DisplayName}.  You suck", "Hello " + vname + ".  You suck"})]
+		[Row(new object[]{"Hello ${Viewer.displayName}.  You suck", "Hello " + vname + ".  You suck"})]
 		[Row(new object[] { "Static", "Static"})]
-		[Row(new object[] { "${Viewer.DisplayName}", vname })]
-		[Row(new object[] { " ${Viewer.DisplayName}", " " + vname })]
-		[Row(new object[] { "${Viewer.DisplayName} noon.", vname + " noon."})]
-		[Row(new object[] { "who ${Viewer.DisplayName}", "who " + vname})]
-		[Row(new object[] { "${Viewer.DisplayName}${Viewer.DisplayName}${Viewer.DisplayName}sucks${Viewer.DisplayName}", vname + vname + vname + "sucks" + vname })]
+		[Row(new object[] { "${Viewer.displayName}", vname })]
+		[Row(new object[] { " ${Viewer.displayName}", " " + vname })]
+		[Row(new object[] { "${Viewer.displayName} noon.", vname + " noon."})]
+		[Row(new object[] { "who ${Viewer.displayName}", "who " + vname})]
+		[Row(new object[] { "${Viewer.displayName}${Viewer.displayName}${Viewer.displayName}sucks${Viewer.displayName}", vname + vname + vname + "sucks" + vname })]
 		public void TestVariableReplacement(string sourceString, string expectedResult)
 		{
 			string result = BaseGadgetControl.ResolveDataContextVariables(sourceString, context);

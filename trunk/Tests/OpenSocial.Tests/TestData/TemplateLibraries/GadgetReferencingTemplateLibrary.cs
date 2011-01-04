@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Negroni.OpenSocial.Test.Helpers;
+using Negroni.OpenSocial.Tests.Helpers;
 
-using Negroni.OpenSocial.Test.OSML;
+using Negroni.OpenSocial.Tests.OSML;
 
-using Negroni.OpenSocial.Test.Controls;
-using Negroni.OpenSocial.Test.TestData.TemplateLibraries;
+using Negroni.OpenSocial.Tests.Controls;
+using Negroni.OpenSocial.Tests.TestData.TemplateLibraries;
 
-namespace Negroni.OpenSocial.Test.TestData
+namespace Negroni.OpenSocial.Tests.TestData
 {
 	public class GadgetReferencingTemplateLibrary : DataGadgetTestData
 	{

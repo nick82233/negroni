@@ -4,7 +4,7 @@ using System.Text;
 using Negroni.OpenSocial.DataContracts;
 using Negroni.DataPipeline;
 
-namespace Negroni.OpenSocial.Test.TestData
+namespace Negroni.OpenSocial.Tests.TestData
 {
 	static class AccountTestData
 	{

@@ -7,11 +7,11 @@ using Negroni.OpenSocial.Gadget;
 using Negroni.OpenSocial.OSML;
 using Negroni.OpenSocial.OSML.Controls;
 using Negroni.OpenSocial.DataContracts;
-using Negroni.OpenSocial.Test.Helpers;
+using Negroni.OpenSocial.Tests.Helpers;
 using Negroni.OpenSocial.Gadget.Controls;
-using Negroni.OpenSocial.Test.Controls;
+using Negroni.OpenSocial.Tests.Controls;
 
-namespace Negroni.OpenSocial.Test.TestData
+namespace Negroni.OpenSocial.Tests.TestData
 {
 	public static class GadgetTestData
 	{

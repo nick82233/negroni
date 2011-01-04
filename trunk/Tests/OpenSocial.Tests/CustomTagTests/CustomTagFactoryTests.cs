@@ -6,10 +6,10 @@ using Negroni.TemplateFramework;
 using Negroni.OpenSocial.OSML;
 using Negroni.OpenSocial.OSML.Controls;
 
-using Negroni.OpenSocial.Test.OSML;
-using Negroni.OpenSocial.Test.Controls;
+using Negroni.OpenSocial.Tests.OSML;
+using Negroni.OpenSocial.Tests.Controls;
 
-namespace Negroni.OpenSocial.Test
+namespace Negroni.OpenSocial.Tests
 {
     /// <summary>
 	/// A <see cref="TestFixture"/> for the <see cref="CustomTagFactory"/> class.

@@ -8,11 +8,11 @@ using Negroni.OpenSocial.Gadget;
 using Negroni.OpenSocial.OSML;
 using Negroni.OpenSocial.OSML.Controls;
 
-using Negroni.OpenSocial.Test.Controls;
-using Negroni.OpenSocial.Test.Helpers;
-using Negroni.OpenSocial.Test.TestData;
+using Negroni.OpenSocial.Tests.Controls;
+using Negroni.OpenSocial.Tests.Helpers;
+using Negroni.OpenSocial.Tests.TestData;
 
-namespace Negroni.OpenSocial.Test.OSML
+namespace Negroni.OpenSocial.Tests.OSML
 {
 	[TestFixture]
 	[TestsOn(typeof(OsTagTemplate))]

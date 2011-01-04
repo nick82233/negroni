@@ -13,8 +13,8 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyCopyright("Copyright © FIM 2008")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
-[assembly: InternalsVisibleTo("Negroni.OpenSocial.Test")]
-[assembly: InternalsVisibleTo("OpenSocial.Test.LongTests")]
+[assembly: InternalsVisibleTo("Negroni.OpenSocial.Tests")]
+[assembly: InternalsVisibleTo("OpenSocial.Tests.LongTests")]
 
 // Setting ComVisible to false makes the types in this assembly not visible 
 // to COM components.  If you need to access a type in this assembly from 

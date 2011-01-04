@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Negroni.OpenSocial.Test.Helpers;
+using Negroni.OpenSocial.Tests.Helpers;
 
-namespace Negroni.OpenSocial.Test.TestData.Partials
+namespace Negroni.OpenSocial.Tests.TestData.Partials
 {
 	class ContentBlockTrailingClientScript : TestableMarkupDef
 	{

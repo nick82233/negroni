@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Negroni.OpenSocial.Gadget;
 
-namespace Negroni.OpenSocial.Test.TestData.Partials
+namespace Negroni.OpenSocial.Tests.TestData.Partials
 {
 	/// <summary>
 	/// Sample data for gadget having MySpaceAppSettings info
