@@ -10,10 +10,10 @@ using Negroni.TemplateFramework.Parsing;
 using Negroni.OpenSocial.OSML;
 using Negroni.OpenSocial.OSML.Controls;
 
-using Negroni.OpenSocial.Test.TestData;
+using Negroni.OpenSocial.Tests.TestData;
 
 
-namespace Negroni.OpenSocial.Test.Controls
+namespace Negroni.OpenSocial.Tests.Controls
 {
     /// <summary>
 	/// A <see cref="TestFixture"/> for the <see cref="testFactory"/> class.

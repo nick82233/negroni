@@ -14,7 +14,7 @@ using Negroni.OpenSocial.DataContracts;
 using Negroni.OpenSocial.Gadget;
 using Negroni.OpenSocial.OSML;
 using Negroni.OpenSocial.OSML.Controls;
-using Negroni.OpenSocial.Test.TestData;
+using Negroni.OpenSocial.Tests.TestData;
 
 namespace OpenSocial.Test.Standalone
 {

@@ -6,7 +6,7 @@ using Negroni.OpenSocial.OSML;
 using Negroni.OpenSocial.OSML.Controls;
 
 
-namespace Negroni.OpenSocial.Test.OSML
+namespace Negroni.OpenSocial.Tests.OSML
 {
 
 	public class RenderTests

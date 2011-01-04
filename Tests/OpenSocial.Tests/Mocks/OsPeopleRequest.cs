@@ -5,7 +5,7 @@ using Negroni.TemplateFramework;
 using Negroni.OpenSocial.DataContracts;
 using Negroni.OpenSocial.OSML.Controls;
 
-namespace Negroni.OpenSocial.Test
+namespace Negroni.OpenSocial.Tests
 {
 	/// <summary>
 	/// Base class for data controls

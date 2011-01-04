@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Negroni.OpenSocial.Test.Helpers
+namespace Negroni.OpenSocial.Tests.Helpers
 {
 	public abstract class TestableMarkupDef
 	{

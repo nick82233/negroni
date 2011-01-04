@@ -28,7 +28,6 @@ namespace Negroni.OpenSocial.Gadget.Controls
 	/// </summary>
 	[MarkupTag("Param")]
 	[ContextGroup(typeof(ModulePrefs))]
-	[ContextGroup(typeof(BaseContainerControl))]
 	public class ParamControl : BaseGadgetControl
 	{
 		/// <summary>

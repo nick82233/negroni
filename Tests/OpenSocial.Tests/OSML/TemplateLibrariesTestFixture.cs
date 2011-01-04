@@ -7,15 +7,15 @@ using Negroni.OpenSocial.OSML.Controls;
 using Negroni.OpenSocial.OSML.Templates;
 using Negroni.OpenSocial.Gadget.Controls;
 
-using Negroni.OpenSocial.Test.Helpers;
-using Negroni.OpenSocial.Test.TestData;
-using Negroni.OpenSocial.Test.TestData.Partials;
-using Negroni.OpenSocial.Test.TestData.TemplateLibraries;
-using Negroni.OpenSocial.Test.OSML;
+using Negroni.OpenSocial.Tests.Helpers;
+using Negroni.OpenSocial.Tests.TestData;
+using Negroni.OpenSocial.Tests.TestData.Partials;
+using Negroni.OpenSocial.Tests.TestData.TemplateLibraries;
+using Negroni.OpenSocial.Tests.OSML;
 using Negroni.TemplateFramework;
-using Negroni.OpenSocial.Test.Controls;
+using Negroni.OpenSocial.Tests.Controls;
 
-namespace Negroni.OpenSocial.Test.Gadget
+namespace Negroni.OpenSocial.Tests.Gadget
 {
 	[TestFixture]
 	[TestsOn(typeof(Template))]

@@ -11,11 +11,11 @@ using Negroni.DataPipeline;
 using Negroni.OpenSocial.DataContracts;
 using Negroni.OpenSocial.OSML.Controls;
 using Negroni.OpenSocial.Gadget.Controls;
-using Negroni.OpenSocial.Test.Controls;
+using Negroni.OpenSocial.Tests.Controls;
 
-using Negroni.OpenSocial.Test.TestData;
+using Negroni.OpenSocial.Tests.TestData;
 
-namespace Negroni.OpenSocial.Test.OSML
+namespace Negroni.OpenSocial.Tests.OSML
 {
 	public class OsmlControlTestBase
 	{

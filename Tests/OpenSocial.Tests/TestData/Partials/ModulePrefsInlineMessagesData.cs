@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Negroni.OpenSocial.Test.TestData.Partials
+namespace Negroni.OpenSocial.Tests.TestData.Partials
 {
 	/// <summary>
 	/// Gadget module preferences

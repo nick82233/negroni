@@ -4,7 +4,7 @@ using System.Text;
 using Negroni.TemplateFramework;
 using Negroni.OpenSocial.OSML.Controls;
 
-namespace Negroni.OpenSocial.Test
+namespace Negroni.OpenSocial.Tests
 {
 	/// <summary>
 	/// A person request for the specific owner

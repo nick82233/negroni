@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Negroni.OpenSocial.Test.Helpers;
+using Negroni.OpenSocial.Tests.Helpers;
 
 
-namespace Negroni.OpenSocial.Test.TestData
+namespace Negroni.OpenSocial.Tests.TestData
 {
 	public class ExternalMessageBundlesGadgetTestData : TestableMarkupDef
 	{

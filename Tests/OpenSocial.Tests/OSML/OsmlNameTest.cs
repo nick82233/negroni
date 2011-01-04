@@ -4,9 +4,9 @@ using MbUnit.Framework;
 using Negroni.DataPipeline;
 using Negroni.OpenSocial.OSML.Controls;
 using Negroni.OpenSocial.DataContracts;
-using Negroni.OpenSocial.Test.Controls;
+using Negroni.OpenSocial.Tests.Controls;
 
-namespace Negroni.OpenSocial.Test.OSML
+namespace Negroni.OpenSocial.Tests.OSML
 {
     /// <summary>
 	/// A <see cref="TestFixture"/> for the <see cref="OsmlName"/> class.

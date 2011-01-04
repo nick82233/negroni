@@ -7,10 +7,10 @@ using Negroni.OpenSocial.Gadget;
 using Negroni.OpenSocial.Gadget.Controls;
 using Negroni.OpenSocial.OSML;
 using Negroni.OpenSocial.OSML.Controls;
-using Negroni.OpenSocial.Test.TestData;
+using Negroni.OpenSocial.Tests.TestData;
 
 
-namespace Negroni.OpenSocial.Test.Controls
+namespace Negroni.OpenSocial.Testss.Controls
 {
 	/// <summary>
 	/// A <see cref="TestFixture"/> for the <see cref="BaseContainerControl"/> class.

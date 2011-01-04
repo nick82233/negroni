@@ -4,7 +4,7 @@ using System.Text;
 using MbUnit.Framework;
 using Negroni.OpenSocial.Gadget;
 
-namespace Negroni.OpenSocial.Test.Gadget
+namespace Negroni.OpenSocial.Tests.Gadget
 {
 	
     /// <summary>

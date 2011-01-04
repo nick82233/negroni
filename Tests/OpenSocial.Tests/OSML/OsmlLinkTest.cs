@@ -6,7 +6,7 @@ using Negroni.OpenSocial.OSML.Controls;
 using Negroni.TemplateFramework;
 using Negroni.OpenSocial.Gadget;
 
-namespace Negroni.OpenSocial.Test.OSML
+namespace Negroni.OpenSocial.Tests.OSML
 {
     /// <summary>
 	/// A <see cref="TestFixture"/> for the <see cref="OsmlNavTest"/> class.

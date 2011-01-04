@@ -10,14 +10,14 @@ using Negroni.OpenSocial.Gadget.Controls;
 using Negroni.OpenSocial.OSML;
 using Negroni.OpenSocial.OSML.Controls;
 
-using Negroni.OpenSocial.Test.TestData;
-using Negroni.OpenSocial.Test.Controls;
-using Negroni.OpenSocial.Test.OSML;
+using Negroni.OpenSocial.Tests.TestData;
+using Negroni.OpenSocial.Tests.Controls;
+using Negroni.OpenSocial.Tests.OSML;
 
 using Negroni.DataPipeline;
 using Negroni.DataPipeline.Security;
 
-namespace Negroni.OpenSocial.Test.Gadget
+namespace Negroni.OpenSocial.Tests.Gadget
 {
 	/// <summary>
     /// A <see cref="TestFixture"/> for the <see cref="GadgetMaster"/> class.
@@ -622,6 +622,22 @@ namespace Negroni.OpenSocial.Test.Gadget
 			List<IExternalDataSource> srcs = target.GetExternalServerRenderControls("home");
 			Assert.AreEqual(data.ExpectedExternalControlCount, srcs.Count, "Ext control count wrong");
 
+		}
+
+		[Test]
+		public void EmbeddedObjectRenders()
+		{
+			GadgetWithObjectTag data = new GadgetWithObjectTag();
+
+			GadgetMaster target = new GadgetMaster(testFactory, data.Source);
+			string errs = null;
+			if (target.Errors.HasParseErrors() && target.Errors.ParseErrors != null && target.Errors.ParseErrors.Count > 0)
+			{
+				errs = target.Errors.ParseErrors[0].Message;
+			}
+			Assert.IsFalse(target.Errors.HasParseErrors(), "Parse errors found: " + errs);
+
+			CheckRender(target, "canvas", data.ExpectedCanvas);
 		}
 
     }

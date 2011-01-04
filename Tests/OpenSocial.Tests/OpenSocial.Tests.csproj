@@ -8,8 +8,8 @@
     <ProjectGuid>{F289062D-C8C9-4E65-8F55-942F60492793}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MySpace.OpenSocial.Test</RootNamespace>
-    <AssemblyName>MySpace.OpenSocial.Test</AssemblyName>
+    <RootNamespace>Negroni.OpenSocial.Tests</RootNamespace>
+    <AssemblyName>Negroni.OpenSocial.Tests</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <StartupObject>OpenSocial.Test.Program</StartupObject>
@@ -25,6 +25,8 @@
     </FileUpgradeFlags>
     <OldToolsVersion>3.5</OldToolsVersion>
     <UpgradeBackupLocation />
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <TargetFrameworkProfile />
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -37,17 +39,15 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;MBUNIT</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
@@ -62,13 +62,11 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MbUnit.Framework, Version=2.4.2.355, Culture=neutral, PublicKeyToken=5e72ecd30bc408d5">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\workspaces_local\MbUnit\v2\output\v3_5_Framework\MbUnit.Framework.dll</HintPath>
+    <Reference Include="MbUnit.Framework">
+      <HintPath>..\lib\mbunit\v3_5_Framework\MbUnit.Framework.dll</HintPath>
     </Reference>
-    <Reference Include="MbUnit.Framework.2.0, Version=2.4.2.355, Culture=neutral, PublicKeyToken=5e72ecd30bc408d5, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\workspaces_local\MbUnit\v2\output\v3_5_Framework\MbUnit.Framework.2.0.dll</HintPath>
+    <Reference Include="MbUnit.Framework.2.0">
+      <HintPath>..\lib\mbunit\v3_5_Framework\MbUnit.Framework.2.0.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework, Version=2.5.8.10295, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -79,16 +77,17 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="xunit">
-      <HintPath>..\TemplateFramework.Tests\bin\Debug\xunit.dll</HintPath>
+      <HintPath>..\lib\xunit.dll</HintPath>
     </Reference>
     <Reference Include="xunit.extensions">
-      <HintPath>..\TemplateFramework.Tests\bin\Debug\xunit.extensions.dll</HintPath>
+      <HintPath>..\lib\xunit.extensions.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -143,6 +142,7 @@
       <DependentUpon>OSMLTestInterface.cs</DependentUpon>
     </Compile>
     <Compile Include="TestData\AccountTestData.cs" />
+    <Compile Include="TestData\GadgetWithObjectTag.cs" />
     <Compile Include="TestData\ExternalMessageBundlesGadgetTestData.cs" />
     <Compile Include="TestData\GadgetWithProfileRightView.cs" />
     <Compile Include="TestData\GadgetWithProfileLeftView.cs" />
