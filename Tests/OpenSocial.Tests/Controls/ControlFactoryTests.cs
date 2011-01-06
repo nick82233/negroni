@@ -23,12 +23,19 @@ namespace Negroni.OpenSocial.Tests.Controls
     {
 
 		[Test]
-		[ExpectedException(typeof(ControlFactoryNotDefinedException))]
 		public void UndefinedControlFactoryGetThrows()
 		{
 			string badFactoryKey = "zpooozabaza";
 
-			ControlFactory.GetControlFactory(badFactoryKey);
+			try
+			{
+				ControlFactory.GetControlFactory(badFactoryKey);
+				Assert.Fail("Expected to throw when factory not defined");
+			}
+			catch(ControlFactoryNotDefinedException cnd)
+			{
+				System.Diagnostics.Debug.Write("Caught exception: cnd - " + cnd.Message);
+			}
 		}
 
 

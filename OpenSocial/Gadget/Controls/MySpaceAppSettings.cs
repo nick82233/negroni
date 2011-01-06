@@ -70,7 +70,25 @@ namespace Negroni.OpenSocial.Gadget.Controls
 					}
 					else
 					{
-						AppAgeRestriction = 0;
+						if (string.IsNullOrEmpty(param.Value))
+						{
+							AppAgeRestriction = 0;
+						}
+						else
+						{
+							if (param.Value.Equals("over21", StringComparison.InvariantCultureIgnoreCase))
+							{
+								AppAgeRestriction = 2;
+							}
+							else if (param.Value.Equals("over18", StringComparison.InvariantCultureIgnoreCase))
+							{
+								AppAgeRestriction = 1;
+							}
+							else
+							{
+								AppAgeRestriction = 0;
+							}
+						}
 					}
                     break;
                 case "appcategory1":
@@ -111,6 +129,7 @@ namespace Negroni.OpenSocial.Gadget.Controls
 
 		/// <summary>
 		/// Age restriction enum value as an int.
+		/// 0 = None, 1 = Over 18, 2 = Over 21
 		/// </summary>
         public int AppAgeRestriction { get; set; }
 

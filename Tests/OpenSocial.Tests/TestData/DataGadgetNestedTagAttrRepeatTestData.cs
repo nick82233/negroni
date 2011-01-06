@@ -23,9 +23,9 @@ namespace Negroni.OpenSocial.Tests.TestData
     <os:PeopleRequest key='myfriends' userid=""@viewer"" groupid=""@friends"" />
   </script>
 <script type='text/os-template'>
-<h1>User: ${vwr.Name}</h1>
+<h1>User: ${vwr.displayName}</h1>
 <div>
-<div repeat=""${Top.myfriends}"">dude is: ${Cur.Name}</div>
+<div repeat=""${Top.myfriends}"">dude is: ${Cur.displayName}</div>
 </div>
 </script>
 </Content>

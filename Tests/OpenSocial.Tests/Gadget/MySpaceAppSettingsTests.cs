@@ -34,7 +34,7 @@ namespace Negroni.OpenSocial.Tests.Gadget
 		{
 			GadgetMaster target = GadgetMaster.CreateGadget(TEST_FACTORY_KEY, ModPrefMySpaceAppSettings.Source);
 
-			Assert.AreEqual(ModPrefMySpaceAppSettings.ExpectedAgeRestriction, target.MySpaceAppSettings.AppAgeRestriction, "Age restriction wrong");
+			Assert.AreEqual(ModPrefMySpaceAppSettings.ExpectedAgeRestrictionValue, target.MySpaceAppSettings.AppAgeRestriction, "Age restriction wrong");
 		}
 
 
@@ -46,7 +46,7 @@ namespace Negroni.OpenSocial.Tests.Gadget
 
 			MySpaceAppSettings target = new MySpaceAppSettings(myOpt);
 
-			Assert.AreEqual(ModPrefMySpaceAppSettings.ExpectedAgeRestriction, target.AppAgeRestriction, "Age restriction wrong");
+			Assert.AreEqual(ModPrefMySpaceAppSettings.ExpectedAgeRestrictionValue, target.AppAgeRestriction, "Age restriction wrong");
 		}
 
 		//[Test]
