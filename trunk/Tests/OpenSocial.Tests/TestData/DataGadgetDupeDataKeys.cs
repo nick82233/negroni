@@ -22,7 +22,7 @@ namespace Negroni.OpenSocial.Tests.TestData
     <os:ViewerRequest key='vwr' />
   </script>
 <script type='text/os-template'>
-<h1>User: ${vwr.Name}</h1>
+<h1>User: ${vwr.displayName}</h1>
 </script>
 </Content>
 	<Content type='html' view='home'>
@@ -30,7 +30,7 @@ namespace Negroni.OpenSocial.Tests.TestData
     <os:ViewerRequest key='vwr' />
   </script>
 <script type='text/os-template'>
-<h1>Home User: ${vwr.Name}</h1>
+<h1>Home User: ${vwr.displayName}</h1>
 </script>
 </Content>
 	<Content type='html' view='profile'>
@@ -38,7 +38,7 @@ namespace Negroni.OpenSocial.Tests.TestData
     <os:ViewerRequest key='vwr' />
   </script>
 <script type='text/os-template'>
-<h1>Profile User: ${vwr.Name}</h1>
+<h1>Profile User: ${vwr.displayName}</h1>
 </script>
 </Content>
 </Module>";

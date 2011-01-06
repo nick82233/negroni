@@ -28,7 +28,7 @@ namespace Negroni.OpenSocial.Tests.TestData
     <os:ViewerRequest key='vwr' />
   </script>
 <script type='text/os-template'>
-<h1>User: ${vwr.Name}</h1>
+<h1>User: ${vwr.displayName}</h1>
 <foo:bar></foo:bar>
 <foo:dog><dog>${vwr.displayName}</dog></foo:dog>
 </script>

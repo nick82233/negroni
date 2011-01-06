@@ -294,7 +294,7 @@ namespace Negroni.OpenSocial.Tests
 			string param = "color";
 			string tag = "x:Foo";
 			string val = "blue";
-			string paramTop = "vwr.DisplayName";
+			string paramTop = "vwr.displayName";
 			//${Top.vwr.DisplayName}
 			string template = "<script type='text/os-template' tag='{0}'>\n{1}</script>";
 			template = String.Format(template, tag, string.Format(content, "${My." + param + "}", "${Top." + paramTop + "}"));
@@ -337,7 +337,7 @@ namespace Negroni.OpenSocial.Tests
 			string param = "thisPerson";
 			string mainPersonDataKey = "vwr";
 			//string instVariable = "${" + param 
-			string paramGet = param + ".DisplayName";
+			string paramGet = param + ".displayName";
 			string tag = "x:Foo";
 	
 			string template = "<script type='text/os-template' tag='{0}'>\n{1}</script>";

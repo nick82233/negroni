@@ -24,17 +24,17 @@ namespace Negroni.OpenSocial.Tests.TestData
 </Content>
 	<Content type='html' view='canvas'>
 <script type='text/os-template'>
-<h1>User: ${vwr.Name}</h1>
+<h1>User: ${vwr.displayName}</h1>
 </script>
 </Content>
 	<Content type='html' view='home'>
 <script type='text/os-template'>
-<h1>Home User: ${vwr.Name}</h1>
+<h1>Home User: ${vwr.displayName}</h1>
 </script>
 </Content>
 	<Content type='html' view='profile'>
 <script type='text/os-template'>
-<h1>Profile User: ${vwr.Name}</h1>
+<h1>Profile User: ${vwr.displayName}</h1>
 </script>
 </Content>
 </Module>";

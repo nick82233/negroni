@@ -23,7 +23,7 @@ namespace Negroni.OpenSocial.Tests.TestData
     <os:PeopleRequest key='myfriends' userid=""@viewer"" groupid=""@friends"" />
   </script>
 <script type='text/os-template'>
-<h1>User: ${vwr.Name}</h1>
+<h1>User: ${vwr.displayName}</h1>
 <img repeat=""${Top.myfriends}"" src=""${Cur.thumbnailUrl}"" />
 </script>
 </Content>

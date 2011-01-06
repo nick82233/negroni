@@ -23,10 +23,10 @@ namespace Negroni.OpenSocial.Tests.TestData
     <os:PeopleRequest key='myfriends' userid=""@viewer"" groupid=""@friends"" />
   </script>
 <script type='text/os-template'>
-<h1>User: ${vwr.Name}</h1>
+<h1>User: ${vwr.displayName}</h1>
 <os:Repeat expression=""${Top.myfriends}"">
 <os:If condition=""${Context.index %2 == 0}"">
-<div>dude is: ${Cur.Name}</div>
+<div>dude is: ${Cur.displayName}</div>
 </os:If>
 </os:Repeat>
 </script>

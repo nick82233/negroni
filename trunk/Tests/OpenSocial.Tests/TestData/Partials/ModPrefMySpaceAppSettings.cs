@@ -33,6 +33,7 @@ namespace Negroni.OpenSocial.Tests.TestData.Partials
 		public const string ExpectedCategory1 = "Animals & Pets";
 		public const string ExpectedCategory2 = "Dating & Relationships";
 		public const string ExpectedAgeRestriction = "Over21";
+		public const int ExpectedAgeRestrictionValue = 2;
 
 
 
