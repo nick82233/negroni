@@ -22,30 +22,30 @@ using System.Configuration;
 
 namespace Negroni.TemplateFramework.Configuration
 {
-	[ConfigurationCollection(typeof(ControlFactoryElement), AddItemName = "NegroniControlFactory")]
-	internal class ControlFactoryElementCollection : ConfigurationElementCollection
+	[ConfigurationCollection(typeof(ControlAssemblyElement), AddItemName = "assembly")]
+	public class ControlAssemblyElementCollection : ConfigurationElementCollection
 	{
 		protected override ConfigurationElement CreateNewElement()
 		{
-			return new ControlFactoryElement();
+			return new ControlAssemblyElement();
 		}
 
 		protected override object GetElementKey(ConfigurationElement element)
 		{
-			ControlFactoryElement elem = element as ControlFactoryElement;
+			ControlAssemblyElement elem = element as ControlAssemblyElement;
 			if (elem == null)
 			{
-				throw new ArgumentException("Argument must be non-null and of type ControlFactoryElement", "element");
+				throw new ArgumentException("Argument must be non-null and of type NegroniAssemblyElement", "element");
 			}
-			return elem.Key == null ? string.Empty : elem.Key;
+			return elem.Name == null ? string.Empty : elem.Name;
 		}
 
-		public void Add(ControlFactoryElement element)
+		public void Add(ControlAssemblyElement element)
 		{
 			this.BaseAdd(element);
 		}
 
-		public void Remove(ControlFactoryElement element)
+		public void Remove(ControlAssemblyElement element)
 		{
 			this.BaseRemove(this.GetElementKey(element));
 		}
@@ -55,7 +55,7 @@ namespace Negroni.TemplateFramework.Configuration
 			this.BaseClear();
 		}
 
-		public ControlFactoryElement this[int index]
+		public ControlAssemblyElement this[int index]
 		{
 			get
 			{
@@ -63,13 +63,13 @@ namespace Negroni.TemplateFramework.Configuration
 				{
 					throw new ArgumentOutOfRangeException("index");
 				}
-				return base.BaseGet(index) as ControlFactoryElement;
+				return base.BaseGet(index) as ControlAssemblyElement;
 			}
 		}
 
-		public ControlFactoryElement LookupByKey(string key)
+		public ControlAssemblyElement LookupByName(string name)
 		{
-			ControlFactoryElement retval = base.BaseGet(key) as ControlFactoryElement;
+			ControlAssemblyElement retval = base.BaseGet(name) as ControlAssemblyElement;
 			if (retval == null)
 			{
 				throw new ArgumentException("key");

@@ -22,8 +22,14 @@ using System.Configuration;
 
 namespace Negroni.TemplateFramework.Configuration
 {
-	public class ControlFactoryElement : ConfigurationElement
+	internal class ControlFactoryElement : ConfigurationElement, INegroniControlFactory
 	{
+
+		public ControlFactoryElement()
+		{
+			ControlAssemblies = new List<INegroniAssembly>();
+		}
+
 		const string KeyName = "key";
 		const string AssemblyollectionName = "";
 		[ConfigurationProperty(KeyName)]
@@ -40,18 +46,26 @@ namespace Negroni.TemplateFramework.Configuration
 		}
 
 		[ConfigurationProperty(AssemblyollectionName, IsDefaultCollection = true)]
-		public MySpaceAssemblyElementCollection MySpaceAssemblies
+		public ControlAssemblyElementCollection NegroniAssemblies
 		{
 			get
 			{
-				MySpaceAssemblyElementCollection retval = base[AssemblyollectionName] as MySpaceAssemblyElementCollection;
+				ControlAssemblyElementCollection retval = base[AssemblyollectionName] as ControlAssemblyElementCollection;
 				if (retval == null)
 				{
-					retval = new MySpaceAssemblyElementCollection();
+					retval = new ControlAssemblyElementCollection();
 					base[AssemblyollectionName] = retval;
+
+					//duplicate into the interface collection
+					for (int i = 0; i < retval.Count; i++)
+					{
+						ControlAssemblies.Add(retval[i]);
+					}
 				}
 				return retval;
 			}
 		}
+
+		public List<INegroniAssembly> ControlAssemblies { get; set; }
 	}
 }
