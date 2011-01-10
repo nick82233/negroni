@@ -178,8 +178,9 @@ namespace Negroni.TemplateFramework
 		/// <param name="key"></param>
 		private static bool RefreshInstanceFromConfig(string key)
 		{
+			string path = AppDomain.CurrentDomain.BaseDirectory;
 			//Attempt to load from Config
-			if (!OpenSocialControlFactoryConfig.ControlFactories.ContainsKey(key))
+			if (!NegroniFrameworkConfig.ControlFactories.ContainsKey(key))
 			{
 				return false;
 			}
@@ -208,7 +209,7 @@ namespace Negroni.TemplateFramework
 				//insure it is removed
 				ControlFactory.RemoveControlFactory(key);
 
-				List<string> assemblies = OpenSocialControlFactoryConfig.ControlFactories[key];
+				List<string> assemblies = NegroniFrameworkConfig.ControlFactories[key];
 				ControlFactory tmp = ControlFactory.CreateControlFactory(key);
 
 				foreach (string item in assemblies)
@@ -218,8 +219,8 @@ namespace Negroni.TemplateFramework
 						AssemblyName name = new AssemblyName(item);
 						Assembly asm = Assembly.Load(name);
 						//Assembly asm = Assembly.LoadFrom(item);
-						tmp.LoadGadgetControls(asm, OpenSocialControlFactoryConfig.GetIncludeFilter(key, item),
-							OpenSocialControlFactoryConfig.GetExcludeFilter(key, item));
+						tmp.LoadGadgetControls(asm, NegroniFrameworkConfig.GetIncludeFilter(key, item),
+							NegroniFrameworkConfig.GetExcludeFilter(key, item));
 					}
 					catch (Exception ex)
 					{
@@ -341,6 +342,17 @@ namespace Negroni.TemplateFramework
 				{
 					FactorySingletons.Remove(key);
 				}
+			}
+		}
+
+		/// <summary>
+		/// Clears all registered ControlFactory singletons
+		/// </summary>
+		static public void ClearControlFactories()
+		{
+			lock (factorySingletonsLock)
+			{
+				FactorySingletons.Clear();
 			}
 		}
 

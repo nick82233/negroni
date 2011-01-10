@@ -25,10 +25,16 @@ namespace Negroni.TemplateFramework.Configuration
 	/// <summary>
 	/// Main configuration section for OpenSocial control factory
 	/// </summary>
-	internal class ControlFactorySection : ConfigurationSection
+	internal class ControlFactorySection : ConfigurationSection, INegroniFactoriesSection
 	{
-		public const string SectionName = "OpenSocialControlFactories";
+		public const string SectionName = "NegroniControlFactories";
 		const string FactoryCollectionName = "";
+
+
+		public ControlFactorySection()
+		{
+			ControlFactories = new List<INegroniControlFactory>();
+		}
 
 		public static string DefaultSectionName
 		{
@@ -65,8 +71,19 @@ namespace Negroni.TemplateFramework.Configuration
 					retval = new ControlFactoryElementCollection();
 					base[FactoryCollectionName] = retval;
 				}
+				for (int i = 0; i < retval.Count; i++)
+				{
+					ControlFactories.Add(retval[i]);
+				}
 				return retval;
 			}
+		}
+
+
+
+		public List<INegroniControlFactory> ControlFactories
+		{
+			get; private set;
 		}
 	}
 }

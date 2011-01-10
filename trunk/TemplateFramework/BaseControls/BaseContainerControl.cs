@@ -141,9 +141,10 @@ namespace Negroni.TemplateFramework
 			OffsetItem item;
 			string blob;
 
-			
 			// TODO: Abstract this out for non-hard coding
-			if (("GadgetRoot" == MyOffset.OffsetKey || "Templates" == MyOffset.OffsetKey) && MyOffset.Position > 0)
+			if (("GadgetRoot" == MyOffset.OffsetKey || "Templates" == MyOffset.OffsetKey
+				|| MyOffset.OffsetKey == this.MyControlFactory.RootElement.OffsetKey) 				
+				&& MyOffset.Position > 0)
 			{
 				startAdjustment = MyOffset.Position;
 				endAdjustment = startAdjustment;
