@@ -26,7 +26,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;NUNIT</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;MBUNIT</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -39,6 +39,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="MbUnit.Framework">
+      <HintPath>..\lib\mbunit\v3_5_Framework\MbUnit.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="MbUnit.Framework.2.0">
+      <HintPath>..\lib\mbunit\v3_5_Framework\MbUnit.Framework.2.0.dll</HintPath>
+    </Reference>
     <Reference Include="nunit.framework, Version=2.5.8.10295, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Program Files\NUnit 2.5.8\bin\net-2.0\framework\nunit.framework.dll</HintPath>
@@ -69,6 +75,7 @@
     <Compile Include="TestFrameworkHelpers\XunitHelpers.cs" />
     <Compile Include="UnitTests\BaseContainerControlTests.cs" />
     <Compile Include="UnitTests\ControlFactoryTests.cs" />
+    <Compile Include="UnitTests\ConfigurationTests.cs" />
     <Compile Include="UnitTests\OffsetItemTests.cs" />
     <Compile Include="UnitTests\OffsetListTests.cs" />
   </ItemGroup>
@@ -81,6 +88,11 @@
       <Project>{E42409B5-15C2-43B9-BC94-FD2B16F04165}</Project>
       <Name>TemplateFramework</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="NegroniFramework.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

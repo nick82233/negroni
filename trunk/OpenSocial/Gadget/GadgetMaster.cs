@@ -25,6 +25,7 @@ using Negroni.OpenSocial.Gadget;
 using Negroni.OpenSocial.OSML;
 using Negroni.OpenSocial.OSML.Controls;
 using Negroni.DataPipeline;
+using Negroni.DataPipeline.RequestProcessing;
 using Negroni.TemplateFramework.Parsing;
 using Negroni.OpenSocial.Gadget.Controls;
 using Negroni.OpenSocial.OSML.Templates;
@@ -763,6 +764,47 @@ namespace Negroni.OpenSocial.Gadget
 
 		#region MessageBundle loading support
 
+
+
+		public void FetchMessageBundles()
+		{
+			if (!this.HasExternalMessageBundles())
+			{
+				return;
+			}
+
+			List<KeyValuePair<Locale, IAsyncResult>> fetchResults = new List<KeyValuePair<Locale, IAsyncResult>>();
+			foreach (Locale locale in this.ModulePrefs.Locales)
+			{
+				fetchResults.Add(new KeyValuePair<Locale, IAsyncResult>(locale, AsyncRequestProcessor.EnqueueRequest(locale.MessageSrc)));
+			}
+
+			List<KeyValuePair<Locale, IAsyncResult>> failedFetch = new List<KeyValuePair<Locale, IAsyncResult>>();
+			foreach (var keyset in fetchResults)
+			{
+				IAsyncResult resultHandle = keyset.Value;
+				resultHandle.AsyncWaitHandle.WaitOne(800); //wait 800 ms
+				if (!resultHandle.IsCompleted)
+				{
+					failedFetch.Add(keyset);
+				}
+				else
+				{
+					try
+					{
+						RequestResult thisResult = AsyncRequestProcessor.EndRequest(resultHandle);
+						if (thisResult.ResponseCode == 200)
+						{
+							keyset.Key.LoadMessageBundle(thisResult.ResponseString);
+						}
+					}
+					catch { }
+				}
+			}
+			//retry failed
+		}
+
+
 		/// <summary>
 		/// Formats all referenced external messagebundles into a singular XML file,
 		/// suitible for storage.
@@ -842,6 +884,19 @@ namespace Negroni.OpenSocial.Gadget
 			writer.WriteLine("</bundles>");
 			writer.Flush();
 		}
+
+		/// <summary>
+		/// Loads a single messagebundle from XML source
+		/// </summary>
+		/// <param name="messageBundle"></param>
+		public void LoadMessageBundle(string messageBundle)
+		{
+			if (string.IsNullOrEmpty(messageBundle))
+			{
+				return;
+			}
+		}
+
 
 		/// <summary>
 		/// Loads messagebundles from a source created with 
