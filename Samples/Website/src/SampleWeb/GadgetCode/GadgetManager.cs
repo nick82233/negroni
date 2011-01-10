@@ -49,40 +49,7 @@ namespace SampleWeb.GadgetCode
 
 			GadgetMaster gm = GadgetMaster.CreateGadget(controlFactoryKey, gadgetString);
 
-			if (gm.HasExternalMessageBundles())
-			{
-				List<AsyncProcessingResult> fetchResults = new List<AsyncProcessingResult>();
-				foreach (Locale locale in gm.ModulePrefs.Locales)
-				{
-					fetchResults.Add(AsyncRequestProcessor.EnqueueRequest(locale.MessageSrc));
-				}
-				
-				//gather results
-				StringBuilder bundles = new StringBuilder("<Locales>");
-
-				List<AsyncProcessingResult> failedFetch = new List<AsyncProcessingResult>(); 
-				foreach (AsyncProcessingResult resultHandle in fetchResults)
-				{
-					resultHandle.AsyncWaitHandle.WaitOne(800); //wait 800 ms
-					if (!resultHandle.IsCompleted)
-					{
-						failedFetch.Add(resultHandle);
-					}
-					else
-					{
-						try
-						{
-							RequestResult thisResult = AsyncRequestProcessor.EndRequest(resultHandle);
-							bundles.Append(thisResult.ResponseString);
-						}
-						catch { }
-					}
-				}
-
-				bundles.Append("</Locales>"); //? </Locales>
-
-				gm.LoadConsolidatedMessageBundles(bundles.ToString());
-			}
+			gm.FetchMessageBundles();
 
 			return gm;
 
