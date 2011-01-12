@@ -7,7 +7,6 @@ namespace Negroni.TemplateFramework.Configuration.ParsingControls
 {
 	[MarkupTag("NegroniControlFactories")]
 	[RootElement]
-	[ContextGroupContainer(true)]
 	internal class NegroniControlFactories : RootElementMaster, INegroniFactoriesSection
 	{
 
