@@ -64,8 +64,6 @@
     <Compile Include="Mocks\OsOwnerRequest.cs" />
     <Compile Include="Mocks\OsPeopleRequest.cs" />
     <Compile Include="Mocks\OsViewerRequest.cs" />
-    <Compile Include="TestFrameworkHelpers\XunitHelpers.cs" />
-    <Compile Include="TestFrameworkHelpers\TestsOnAttribute.cs" />
     <Compile Include="UnitTests\BulkVariableResolverTestFixture.cs" />
     <Compile Include="UnitTests\AsyncRequestProcessorTestFixture.cs" />
     <Compile Include="UnitTests\AsyncRequestPoolTestFixture.cs" />
@@ -107,7 +105,12 @@
       <Project>{E42409B5-15C2-43B9-BC94-FD2B16F04165}</Project>
       <Name>TemplateFramework</Name>
     </ProjectReference>
+    <ProjectReference Include="..\UnitTestCompatibility\UnitTestCompatibility.csproj">
+      <Project>{DA65A0FD-1B56-4B0F-AEA6-96EC1D7E51B3}</Project>
+      <Name>UnitTestCompatibility</Name>
+    </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
