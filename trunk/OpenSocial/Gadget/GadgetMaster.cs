@@ -40,7 +40,7 @@ namespace Negroni.OpenSocial.Gadget
     /// </summary>
     [MarkupTag("Module")]
     [OffsetKey("GadgetRoot")]
-    [RootElement]
+    [RootElement(false)]
     public class GadgetMaster : RootElementMaster, ICloneable
     {
         public const string CLIENT_TEMPLATE_BLOCK_ID = "osml_custom_client_templates";

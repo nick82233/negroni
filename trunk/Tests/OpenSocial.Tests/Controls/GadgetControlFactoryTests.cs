@@ -102,9 +102,9 @@ namespace Negroni.OpenSocial.Tests.Controls
 		[Test]
 		public void ContextGroupsRegistered()
 		{
-			int ExpectedGadgetContextGroups = 13;// 14;
+			int MinExpectedGadgetContextGroups = 12;// 14;
 			Assert.Greater(testFactory.GetAvailableContextGroups().Count, 0, "No ContextGroups found in ControlFactory");
-			Assert.AreEqual(ExpectedGadgetContextGroups, testFactory.GetAvailableContextGroups().Count);
+			Assert.Less(MinExpectedGadgetContextGroups, testFactory.GetAvailableContextGroups().Count);
 		}
 
 

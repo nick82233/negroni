@@ -31,5 +31,24 @@ namespace Negroni.TemplateFramework
 	{
 		public RootElementAttribute()
 		{}
+
+		public RootElementAttribute(bool isDefaultParseContext)
+		{
+			IsDefaultParseContext = isDefaultParseContext;		
+		}
+
+		private bool _isDefaultParseContext = true;
+
+		/// <summary>
+		/// Identifies if the root element should be treated as the default parsing context
+		/// for all controls.  By default this is true.
+		/// </summary>
+		public bool IsDefaultParseContext
+		{
+			get { return _isDefaultParseContext; }
+			set { _isDefaultParseContext = value; }
+		}
+		
+
 	}
 }

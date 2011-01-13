@@ -178,9 +178,9 @@ namespace Negroni.TemplateFramework
 		/// <param name="key"></param>
 		private static bool RefreshInstanceFromConfig(string key)
 		{
-			string path = AppDomain.CurrentDomain.BaseDirectory;
 			//Attempt to load from Config
-			if (!NegroniFrameworkConfig.ControlFactories.ContainsKey(key))
+			if (!NegroniFrameworkConfig.ControlFactories.ContainsKey(key)
+				&& key != NegroniFrameworkConfig.CONFIGPARSER_CONTROLFACTORY)
 			{
 				return false;
 			}
@@ -352,7 +352,16 @@ namespace Negroni.TemplateFramework
 		{
 			lock (factorySingletonsLock)
 			{
+				ControlFactory configFactory = null;
+				if (FactorySingletons.ContainsKey(NegroniFrameworkConfig.CONFIGPARSER_CONTROLFACTORY))
+				{
+					configFactory = FactorySingletons[NegroniFrameworkConfig.CONFIGPARSER_CONTROLFACTORY];
+				}
 				FactorySingletons.Clear();
+				if (configFactory != null)
+				{
+					FactorySingletons.Add(NegroniFrameworkConfig.CONFIGPARSER_CONTROLFACTORY, configFactory);
+				}
 			}
 		}
 
@@ -836,6 +845,14 @@ namespace Negroni.TemplateFramework
 							else if (attrs[i] is RootElementAttribute)
 							{
 								isRootElementDefinition = true;
+								ctlMap.IsContextGroupContainer = true;
+								RootElementAttribute rea = (RootElementAttribute)attrs[i];
+								if (rea.IsDefaultParseContext)
+								{
+									ParseContext contextKey = new ParseContext(t);
+									SetDefaultContextGroup(contextKey);
+									setDefaultCatalogContextGroupToCurrent = true;
+								}
 							}
 
 						}
