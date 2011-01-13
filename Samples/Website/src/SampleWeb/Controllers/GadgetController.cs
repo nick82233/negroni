@@ -33,6 +33,19 @@ namespace SampleWeb.Controllers
             return View();
         }
 
+		public void ReloadConfig()
+		{
+			try
+			{
+				Negroni.TemplateFramework.Configuration.NegroniFrameworkConfig.ReloadConfiguration();
+				Response.Write("Config Reloaded");
+			}
+			catch (Exception ex)
+			{
+				Response.Write("Config reload failed: " + ex.Message);
+			}
+		}
+
         public void Render(int id)
         {
 
@@ -54,9 +67,9 @@ namespace SampleWeb.Controllers
 				TextWriter writer = new StreamWriter(Response.OutputStream);
 				gm.RenderContent(writer);
 			}
-            catch
+            catch(Exception ex)
             {
-                Response.Write("Not found");
+                Response.Write("Error getting gadget: " + ex.Message);
                 return;
             }
 

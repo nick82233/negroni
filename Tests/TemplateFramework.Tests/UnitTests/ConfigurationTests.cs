@@ -60,7 +60,7 @@ namespace Negroni.TemplateFramework.Test
 		{
 			CleanupTest();
 
-			Assert.IsFalse(ControlFactory.IsFactoryDefined(NegroniFrameworkConfig.CONFIGPARSER_CONTROLFACTORY), "Factory already defined");
+			ControlFactory.ClearControlFactories();
 
 			ControlFactory cf = ControlFactory.GetControlFactory("testFactory");
 
