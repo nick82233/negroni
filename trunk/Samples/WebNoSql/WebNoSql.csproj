@@ -51,7 +51,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Gadgets\helloWorld.xml" />
-    <Content Include="Gadgets\osVarTestGadget.xml" />
+    <Content Include="Gadgets\osVarTestGadget.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Render.aspx" />
     <Content Include="Styles\Site.css" />
     <Content Include="Default.aspx" />
