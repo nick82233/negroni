@@ -1,0 +1,24 @@
+#summary Introduction to using Negroni.
+
+= Introduction =
+
+Negroni is a framework for creating fast and efficient control structures based on XML documents.  Included in the Negroni package is an implementation of an OpenSocial gadget parser/renderer.  This can be used to add OpenSocial gadget support to your site, or you can use the core Negroni framework to compose your own parsers.
+
+
+= Using Negroni =
+
+These documents are tuned to help you to either use Negroni out of the box or as a framework for your own control parsers.
+
+== Integrating the Negroni OpenSocial Implementation ==
+
+Follow this path to understand how to [IntegrateOpenSocial Integrate OpenSocial Support] with your site.
+
+
+== Building Control Parsers ==
+
+Follow this path to understand how to [BuildCustomParser build a customer parser] with Negroni.
+
+
+
+
+
