@@ -1,0 +1,13 @@
+#summary Introduction to building a control parser with Negroni
+
+= Introduction =
+
+Negroni can be used to build simple control parsers for reading XML configuration files, XML renderers, or highly complicated and constrained control structures.  It is also tuned to consuming data from multiple sources, both internal and across the web, and accessing and utilizing that information for dynamic rendering and data processing.
+
+This page will deal primarily with building a control parser.
+
+= Parser Basics =
+
+Parsing of an XML file is managed by a '''Control Factory'''.  Control Factories maintain a catalog of controls, which have one or more markup tags associated with them.  Control factories are defined in a configuration file.  This configuration file also identifies which assemblies contain the controls that will be loaded into the control factory.  In this way you can mix and match parsers to create specialized parsers or extend existing parsers to add new tags and functionality.
+
+
