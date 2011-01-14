@@ -41,16 +41,10 @@ namespace Negroni.TemplateFramework.Configuration
         /// </summary>
         static readonly string CONFIG_FILE = "NegroniFramework.config";
 
-		static ControlFactorySection configSection;
-
 		static private Dictionary<string, List<string>> _controlFactories = new Dictionary<string, List<string>>();
 
 		static private Dictionary<string, IncludeExcludeSet> _filterDirectives = new Dictionary<string, IncludeExcludeSet>();
 
-		/// <summary>
-		/// Flag to indicate the appropriate configuration loader - Negroni or System.Configuration.ConfigManager
-		/// </summary>
-		static bool configParsedByNegroni = false;
 
 
 		/// <summary>
@@ -136,18 +130,6 @@ namespace Negroni.TemplateFramework.Configuration
 		/// </summary>
 		static NegroniFrameworkConfig()
 		{
-			try
-			{
-				configSection = ControlFactorySection.GetSection();
-				if (configSection.ControlFactories.Count == 0)
-				{
-					configParsedByNegroni = true;
-				}
-			}
-			catch (Exception)
-			{
-				configParsedByNegroni = true;
-			}
 			ReloadConfiguration();
 		}
 
@@ -157,8 +139,6 @@ namespace Negroni.TemplateFramework.Configuration
 
 			INegroniFactoriesSection negroniFactoryConfig = null;
 
-			if (configParsedByNegroni)
-			{
 				string configPath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, NegroniFrameworkConfig.CONFIG_FILE);
 				ControlFactory configParser = null;
 				try
@@ -196,11 +176,6 @@ namespace Negroni.TemplateFramework.Configuration
 
 				negroniFactoryConfig = ncf;
 
-			}
-			else
-			{
-				negroniFactoryConfig = configSection;
-			}
 
 			//_controlFactories
 			if (negroniFactoryConfig != null && negroniFactoryConfig.ControlFactories.Count > 0)

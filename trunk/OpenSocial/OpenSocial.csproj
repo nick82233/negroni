@@ -148,17 +148,9 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DataPipeline\DataPipeline.csproj">
-      <Project>{2896BD9C-9CDB-4A49-B5CC-27CDB9003681}</Project>
-      <Name>DataPipeline</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\OpenSocial.EL\OpenSocial.EL.csproj">
-      <Project>{02033EE1-02E8-41DF-9282-96D919E7233F}</Project>
-      <Name>OpenSocial.EL</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\TemplateFramework\TemplateFramework.csproj">
-      <Project>{E42409B5-15C2-43B9-BC94-FD2B16F04165}</Project>
-      <Name>TemplateFramework</Name>
+    <ProjectReference Include="..\Negroni\Negroni.csproj">
+      <Project>{2FF4052D-B156-4FEE-B54E-CEEE987F35A0}</Project>
+      <Name>Negroni</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

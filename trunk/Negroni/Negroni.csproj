@@ -1,0 +1,197 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{2FF4052D-B156-4FEE-B54E-CEEE987F35A0}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Negroni</RootNamespace>
+    <AssemblyName>Negroni</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\output\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\output\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Runtime.Serialization">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.ServiceModel.Web">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="DataPipeline\DataContext.cs" />
+    <Compile Include="DataPipeline\DataContextSettings.cs" />
+    <Compile Include="DataPipeline\DataItem.cs" />
+    <Compile Include="DataPipeline\ExpectedResponseType.cs" />
+    <Compile Include="DataPipeline\GenericExpressionEvalWrapper.cs" />
+    <Compile Include="DataPipeline\GenericResourceBundle.cs" />
+    <Compile Include="DataPipeline\Interfaces\IDataContextInvokable.cs" />
+    <Compile Include="DataPipeline\Interfaces\IDataContextValueResolver.cs" />
+    <Compile Include="DataPipeline\Interfaces\IEnumerableDataWrapper.cs" />
+    <Compile Include="DataPipeline\Interfaces\IExpressionEvaluator.cs" />
+    <Compile Include="DataPipeline\Interfaces\IExternalDataSource.cs" />
+    <Compile Include="DataPipeline\Interfaces\IJsonSerializable.cs" />
+    <Compile Include="DataPipeline\Interfaces\IResourceBundle.cs" />
+    <Compile Include="DataPipeline\JsonData.cs" />
+    <Compile Include="DataPipeline\LiteralDataItem.cs" />
+    <Compile Include="DataPipeline\RequestContext\DataRequestContext.cs" />
+    <Compile Include="DataPipeline\RequestContext\IDataRequestContext.cs" />
+    <Compile Include="DataPipeline\RequestProcessing\AsyncProcessingResult.cs" />
+    <Compile Include="DataPipeline\RequestProcessing\AsyncRequestProcessor.cs" />
+    <Compile Include="DataPipeline\RequestProcessing\DataResolutionMethod.cs" />
+    <Compile Include="DataPipeline\RequestProcessing\QueuedRequest.cs" />
+    <Compile Include="DataPipeline\RequestProcessing\QueueWatcher.cs" />
+    <Compile Include="DataPipeline\RequestProcessing\RequestProcessorPoolEntry.cs" />
+    <Compile Include="DataPipeline\RequestProcessing\RequestResult.cs" />
+    <Compile Include="DataPipeline\RequestProcessing\ResponseCompleteEventArgs.cs" />
+    <Compile Include="DataPipeline\ResolveAt.cs" />
+    <Compile Include="DataPipeline\ResourceBundleCatalog.cs" />
+    <Compile Include="DataPipeline\Security\EL_Escaping.cs" />
+    <Compile Include="DataPipeline\Security\OpenSocialPermissions.cs" />
+    <Compile Include="DataPipeline\Security\SecurityPolicy.cs" />
+    <Compile Include="DataPipeline\Security\UserPrefEscaping.cs" />
+    <Compile Include="DataPipeline\Serialization\BaseJsonSerializer.cs" />
+    <Compile Include="DataPipeline\Serialization\DictionaryJsonSerializer.cs" />
+    <Compile Include="DataPipeline\Serialization\EnumerableJsonSerializer.cs" />
+    <Compile Include="DataPipeline\WrapperUtility.cs" />
+    <Compile Include="EL\Elements\Element.cs" />
+    <Compile Include="EL\Elements\ElementBinaryOperator.cs" />
+    <Compile Include="EL\Elements\ElementDot.cs" />
+    <Compile Include="EL\Elements\ElementFunction.cs" />
+    <Compile Include="EL\Elements\ElementGrouping.cs" />
+    <Compile Include="EL\Elements\ElementLiteral.cs" />
+    <Compile Include="EL\Elements\ElementObject.cs" />
+    <Compile Include="EL\Elements\ElementOperator.cs" />
+    <Compile Include="EL\Elements\ElementSelector.cs" />
+    <Compile Include="EL\Elements\ElementTernaryOperator.cs" />
+    <Compile Include="EL\Elements\ElementUnitaryOperator.cs" />
+    <Compile Include="EL\Elements\ElementVariable.cs" />
+    <Compile Include="EL\Elements\IElementValue.cs" />
+    <Compile Include="EL\Elements\TokenType.cs" />
+    <Compile Include="EL\ELException.cs" />
+    <Compile Include="EL\ELOperationException.cs" />
+    <Compile Include="EL\Engine.cs" />
+    <Compile Include="EL\IObjectResolver.cs" />
+    <Compile Include="EL\Operators\AdditionOperator.cs" />
+    <Compile Include="EL\Operators\AndOperator.cs" />
+    <Compile Include="EL\Operators\BinaryOperator.cs" />
+    <Compile Include="EL\Operators\DivisionOperator.cs" />
+    <Compile Include="EL\Operators\EmptyOperator.cs" />
+    <Compile Include="EL\Operators\EqualsOperator.cs" />
+    <Compile Include="EL\Operators\FunctionOperator.cs" />
+    <Compile Include="EL\Operators\GreaterThanEqualsOperator.cs" />
+    <Compile Include="EL\Operators\GreaterThanOperator.cs" />
+    <Compile Include="EL\Operators\HtmlDecodeOperator.cs" />
+    <Compile Include="EL\Operators\HtmlEncodeOperator.cs" />
+    <Compile Include="EL\Operators\JsStringEscapeOperator.cs" />
+    <Compile Include="EL\Operators\LessThanEqualsOperator.cs" />
+    <Compile Include="EL\Operators\LessThanOperator.cs" />
+    <Compile Include="EL\Operators\MathCeilOperator.cs" />
+    <Compile Include="EL\Operators\MathFloorOperator.cs" />
+    <Compile Include="EL\Operators\MathRoundOperator.cs" />
+    <Compile Include="EL\Operators\ModuloOperator.cs" />
+    <Compile Include="EL\Operators\MultiplicationOperator.cs" />
+    <Compile Include="EL\Operators\NegativeOperator.cs" />
+    <Compile Include="EL\Operators\NotEqualsOperator.cs" />
+    <Compile Include="EL\Operators\NotOperator.cs" />
+    <Compile Include="EL\Operators\Operator.cs" />
+    <Compile Include="EL\Operators\OperatorType.cs" />
+    <Compile Include="EL\Operators\OrOperator.cs" />
+    <Compile Include="EL\Operators\SubtractionOperator.cs" />
+    <Compile Include="EL\Operators\ToBooleanOperator.cs" />
+    <Compile Include="EL\Operators\ToNumberOperator.cs" />
+    <Compile Include="EL\Operators\ToStringOperator.cs" />
+    <Compile Include="EL\Operators\UnitaryOperator.cs" />
+    <Compile Include="EL\Operators\UrlDecodeOperator.cs" />
+    <Compile Include="EL\Operators\UrlEncodeOperator.cs" />
+    <Compile Include="EL\Parser.cs" />
+    <Compile Include="EL\ResolvedExpression.cs" />
+    <Compile Include="TemplateFramework\BaseControls\BaseContainerControl.cs" />
+    <Compile Include="TemplateFramework\BaseControls\BaseDataControl.cs" />
+    <Compile Include="TemplateFramework\BaseControls\BaseGadgetControl.cs" />
+    <Compile Include="TemplateFramework\BaseControls\BaseRepeaterControl.cs" />
+    <Compile Include="TemplateFramework\BaseControls\BaseRestDataControl.cs" />
+    <Compile Include="TemplateFramework\BaseControls\BaseTemplate.cs" />
+    <Compile Include="TemplateFramework\BaseControls\CustomTag.cs" />
+    <Compile Include="TemplateFramework\BaseControls\CustomTagTemplate.cs" />
+    <Compile Include="TemplateFramework\BaseControls\GadgetLiteral.cs" />
+    <Compile Include="TemplateFramework\BaseControls\LoopContext.cs" />
+    <Compile Include="TemplateFramework\BaseControls\NonRenderedControl.cs" />
+    <Compile Include="TemplateFramework\BaseControls\RootElementMaster.cs" />
+    <Compile Include="TemplateFramework\BaseControls\VariableTag.cs" />
+    <Compile Include="TemplateFramework\Configuration\NegroniConfigInterfaces.cs" />
+    <Compile Include="TemplateFramework\Configuration\NegroniFrameworkConfig.cs" />
+    <Compile Include="TemplateFramework\Configuration\ParsingControls\NegroniAssembly.cs" />
+    <Compile Include="TemplateFramework\Configuration\ParsingControls\NegroniControlFactories.cs" />
+    <Compile Include="TemplateFramework\Configuration\ParsingControls\NegroniControlFactory.cs" />
+    <Compile Include="TemplateFramework\ControlAttributes\AttributeTagAlternativeAttribute.cs" />
+    <Compile Include="TemplateFramework\ControlAttributes\AttributeTagDependentAttribute.cs" />
+    <Compile Include="TemplateFramework\ControlAttributes\ContextGroupAttribute.cs" />
+    <Compile Include="TemplateFramework\ControlAttributes\ContextGroupContainerAttribute.cs" />
+    <Compile Include="TemplateFramework\ControlAttributes\MarkupTagAttribute.cs" />
+    <Compile Include="TemplateFramework\ControlAttributes\OffsetKeyAttribute.cs" />
+    <Compile Include="TemplateFramework\ControlAttributes\RootElementAttribute.cs" />
+    <Compile Include="TemplateFramework\ControlCatalog.cs" />
+    <Compile Include="TemplateFramework\ControlFactory.cs" />
+    <Compile Include="TemplateFramework\ControlMap.cs" />
+    <Compile Include="TemplateFramework\CustomTagFactory.cs" />
+    <Compile Include="TemplateFramework\DataContextResult.cs" />
+    <Compile Include="TemplateFramework\Exceptions\ControlFactoryNotDefinedException.cs" />
+    <Compile Include="TemplateFramework\Exceptions\MissingControlFactoryException.cs" />
+    <Compile Include="TemplateFramework\OffsetItem.cs" />
+    <Compile Include="TemplateFramework\OffsetList.cs" />
+    <Compile Include="TemplateFramework\Parsing\IControlContextManifest.cs" />
+    <Compile Include="TemplateFramework\Parsing\IOffsetParser.cs" />
+    <Compile Include="TemplateFramework\Parsing\NonContainerTagInfo.cs" />
+    <Compile Include="TemplateFramework\Parsing\ParseContext.cs" />
+    <Compile Include="TemplateFramework\Parsing\ParserFactory.cs" />
+    <Compile Include="TemplateFramework\Parsing\TraceContainerTagInfo.cs" />
+    <Compile Include="TemplateFramework\Parsing\TraceOffsetParser.cs" />
+    <Compile Include="TemplateFramework\Parsing\TracePosition.cs" />
+    <Compile Include="TemplateFramework\RenderOptions.cs" />
+    <Compile Include="TemplateFramework\Tooling\ControlFactoryCounters.cs" />
+    <Compile Include="TemplateFramework\Tooling\CounterSlice.cs" />
+    <Compile Include="TemplateFramework\Tooling\GlobalSliceCounter.cs" />
+    <Compile Include="TemplateFramework\Tooling\HitMissCounter.cs" />
+    <Compile Include="TemplateFramework\Tooling\ItemCounter.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="LICENSE.txt" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
