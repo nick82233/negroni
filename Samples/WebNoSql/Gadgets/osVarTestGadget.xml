@@ -9,7 +9,16 @@
   <Content type="html" view="canvas">
     <script type="text/os-data">
       <os:ViewerRequest key='vwr' />
+      <!--
       <os:PeopleRequest key='myfriends' userid="@viewer" groupid="@friends" />
+      -->
+      <os:Var key="myfriends">
+        [{"displayName":"John Doe","id":"1"},
+        {"displayName":"Jack Frost","id":"2"},{"displayName":"Timmy","id":"3"},
+        {"displayName":"Mr Scrooge","id":"4"},{"displayName":"Frosty","id":"5"},
+        {"displayName":"Old Man Winter","id":"6"}]
+
+      </os:Var>
       <os:Var key="dpVar" >I am registered with Data Pipeline</os:Var>
       <os:Var key="jsonArrayVar" >[1,"one", "three"]</os:Var>
       <os:Var key="jsonObjectVar" >{"id":'jsonId',"displayName":"faux Person"}</os:Var>
@@ -54,7 +63,7 @@ Testing var "foo"
 <p>Added one with EL: ${foo}</p>
 
 <os:Var key="sum" value="0" />
-<h3>Looping increment to sum</h3>
+<h3>Looping increment to sum friends</h3>
         <os:Repeat expression="${Top.myfriends}">
 <os:Var key="sum" value="${sum+1}" />
           <div>

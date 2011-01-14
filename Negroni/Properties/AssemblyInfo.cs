@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Negroni")]
-[assembly: AssemblyDescription("Negroni core library for parsing and template rendering")]
+[assembly: AssemblyDescription("Negroni core library for parsing and template rendering. For more information visit project Negroni on google code: http://http://code.google.com/p/negroni")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Negroni")]
-[assembly: AssemblyCopyright("Copyright © MySpace Inc and Negroni project 2009-2011")]
+[assembly: AssemblyCopyright("Copyright © MySpace Inc and Negroni project 2009-2011. Licensed under the Apache 2.0 license.")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
