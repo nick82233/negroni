@@ -73,7 +73,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DoctypeStrings.cs" />
     <Compile Include="Gadget\Controls\GadgetSecurityPolicy.cs" />
     <Compile Include="Gadget\Controls\DataPipelineBlock.cs" />
     <Compile Include="Gadget\Controls\MySpaceAppSettings.cs" />

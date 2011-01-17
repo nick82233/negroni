@@ -1037,14 +1037,14 @@ namespace Negroni.OpenSocial.Gadget
 
 
         /// <summary>
-        /// DO NOT USE THIS.
-        /// Call RenderContent instead.
+        /// Renders the default surface.
+        /// Its preferrable to call RenderContent instead.
         /// </summary>
         /// <param name="writer"></param>
         public override void Render(TextWriter writer)
         {
-            //RenderContent(writer);
-            throw new Exception("Call RenderContent instead");
+            RenderContent(writer);
+            //throw new Exception("Call RenderContent instead");
         }
 
 
