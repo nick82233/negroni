@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="RenderInlineControl.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DataPipeline\DataContext.cs" />
     <Compile Include="DataPipeline\DataContextSettings.cs" />
@@ -163,7 +164,7 @@
     <Compile Include="TemplateFramework\ControlFactory.cs" />
     <Compile Include="TemplateFramework\ControlMap.cs" />
     <Compile Include="TemplateFramework\CustomTagFactory.cs" />
-    <Compile Include="TemplateFramework\DataContextResult.cs" />
+    <Compile Include="TemplateFramework\DoctypeStrings.cs" />
     <Compile Include="TemplateFramework\Exceptions\ControlFactoryNotDefinedException.cs" />
     <Compile Include="TemplateFramework\Exceptions\MissingControlFactoryException.cs" />
     <Compile Include="TemplateFramework\OffsetItem.cs" />

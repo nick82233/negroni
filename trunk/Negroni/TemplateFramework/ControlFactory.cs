@@ -628,6 +628,17 @@ namespace Negroni.TemplateFramework
 		}
 
 
+		public string GetDefaultContainerMarkupTag()
+		{
+			if (_catalog.ContainsKey(defaultContext))
+			{
+				return "script type='text/os-template' "; //_catalog[defaultContext].MyContext.;
+			}
+			return null;
+		}
+
+		private ParseContext defaultContext = ParseContext.DefaultContext;
+
 		/// <summary>
 		/// Specifies which ContextGroup will be used as the catch-all context
 		/// when none is specified.  This must be invoked after initial ContextGroups 
@@ -647,6 +658,8 @@ namespace Negroni.TemplateFramework
 		/// <param name="contextName">An existing ContextGroup which will be identified as the Default</param>
 		public void SetDefaultContextGroup(ParseContext contextGroup)
 		{
+			defaultContext = contextGroup;
+
 			if (!Catalog.ContainsKey(contextGroup))
 			{
 				Catalog.Add(contextGroup, null);
@@ -1332,6 +1345,26 @@ namespace Negroni.TemplateFramework
 
 		#region Root element definition
 
+
+		private Dictionary<string, ControlMap> _rootElements = null;
+
+		/// <summary>
+		/// Dictionary keyed to markupTag of all registered Root Elements
+		/// </summary>
+		public Dictionary<string, ControlMap> RootElements
+		{
+			get
+			{
+				if (_rootElements == null)
+				{
+					_rootElements = new Dictionary<string, ControlMap>();
+				}
+				return _rootElements;
+			}
+		}
+
+
+
 		private ControlMap _rootElement = null;
 
 		/// <summary>
@@ -1368,6 +1401,65 @@ namespace Negroni.TemplateFramework
 		}
 
 		#endregion
+
+		/// <summary>
+		/// Builds a fully parsed control tree from the passed markup.
+		/// Use this method as a general Factory entry point to build from
+		/// an unrecognized piece of markup.
+		/// </summary>
+		/// <remarks>
+		/// This can only parse from the root element or from elements
+		/// in the default context.
+		/// </remarks>
+		/// <param name="markup"></param>
+		/// <returns></returns>
+		public BaseGadgetControl BuildControlTree(string markup)
+		{
+			if (string.IsNullOrEmpty(markup))
+			{
+				return new RootElementMaster();
+			}
+
+			string tag = ControlFactory.GetTagName(markup);
+
+			ControlMap map = GetControlMap(tag, ParseContext.RootContext);
+			if (map == null || map.ControlType == typeof(GadgetLiteral))
+			{
+				map = GetControlMap(tag, ParseContext.DefaultContext);
+			}
+			if (map == null || map.ControlType == typeof(GadgetLiteral))
+			{
+				return new GadgetLiteral(markup);
+			}
+			BaseGadgetControl control = Activator.CreateInstance(map.ControlType) as BaseGadgetControl;
+			if (!(control is BaseContainerControl))
+			{
+				string outer = GetDefaultContainerMarkupTag();
+				if (!string.IsNullOrEmpty(outer))
+				{
+					control = BuildControlTree(string.Format(
+						"<{0}>{1}</0>", outer, markup));
+					if (control is BaseContainerControl)
+					{
+						((BaseContainerControl)control).MyControlFactory = this;
+					}
+				}
+			}
+			else
+			{
+				((BaseContainerControl)control).MyControlFactory = this;
+			}
+			if (control is RootElementMaster)
+			{
+				control.MyRootMaster = (RootElementMaster)control;
+				//control.MyRootMaster.ma
+			}
+			control.LoadTag(markup);
+			
+			return control;
+		}
+
+
 
 		#region Reserved ControlMaps
 
@@ -1847,6 +1939,7 @@ namespace Negroni.TemplateFramework
 			}
 			else if (offsetKey == RootElement.OffsetKey && RootElement.MarkupTag == GetTagName(markupTag))
 			{
+				//todo - fix this to recognize multiple roots
 				return RootElement;
 			}
 			else
