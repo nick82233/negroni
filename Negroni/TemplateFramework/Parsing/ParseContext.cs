@@ -96,10 +96,8 @@ namespace Negroni.TemplateFramework.Parsing
 		private static ParseContext _rootContext = null;
 
 		/// <summary>
-		/// Reserved catch-all context for controls.  
-		/// Use this context if there is not control scoping.
-		/// In the case of GadgetControls, this represents
-		/// the TemplateScript context.
+		/// Reserved root level context.  This is the parsing context in which
+		/// RootElementMaster control instances (root XML tags) exist.
 		/// </summary>
 		public static ParseContext RootContext
 		{

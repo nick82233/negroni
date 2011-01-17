@@ -17,7 +17,7 @@
 using System;
 using System.Text;
 
-namespace Negroni.OpenSocial
+namespace Negroni.TemplateFramework
 {
 	/// <summary>
 	/// Various Doctype strings available for rendering
