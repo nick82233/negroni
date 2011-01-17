@@ -66,6 +66,12 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ColorParser\Colors.cs" />
+    <Compile Include="ColorParser\ColorBaseControl.cs" />
+    <Compile Include="ColorParser\BlueControl.cs" />
+    <Compile Include="ColorParser\RainbowControl.cs" />
+    <Compile Include="ColorParser\GreenControl.cs" />
+    <Compile Include="ColorParser\RedControl.cs" />
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

@@ -39,43 +39,6 @@ namespace Negroni.OpenSocial.Tests.OSML
 
 
 		[Test]
-		public void TestMarkupParseTemplate()
-		{
-
-			GadgetMaster master = GadgetMaster.CreateGadget(TEST_FACTORY_KEY, null);
-			ContentBlock content = master.AddContentBlock(new ContentBlock());
-			OsTemplate template = (OsTemplate)content.CreateLocalTemplate();
-			content.AddTemplate("foo", template);
-
-//			GadgetMaster.RenderingOptions.DivWrapContentBlocks = false;
-//			GadgetMaster.RenderingOptions.SuppressWhitespace = true;
-
-			OsViewerRequest req = new OsViewerRequest();
-			req.Key = "Viewer";
-			master.MasterDataContext.RegisterDataItem(req);
-			AccountTestData.ResolveDataControlValues(master.MyDataContext, Viewer, Viewer, null);
-
-			template.LoadTag(GadgetTestData.Templates.RawSimpleMarkup);
-
-
-			MemoryStream output = new MemoryStream();
-			TextWriter w = new StreamWriter(output);
-
-			template.Render(w);
-			w.Flush();
-			string result = ControlTestHelper.GetStreamContent(output);
-
-			//System.Diagnostics.Debug.Write(result);
-			result = ControlTestHelper.NormalizeRenderResult(result);
-			string expected = ControlTestHelper.NormalizeRenderResult(GadgetTestData.Templates.ExpectedSimpleMarkup);
-			Assert.AreEqual(expected, result);
-			
-
-			Assert.IsTrue(AssertRenderResultsEqual(template, GadgetTestData.Templates.ExpectedSimpleMarkup), "Render results do not match");
-			
-		}
-
-		[Test]
 		public void TestControlLoadTemplate()
 		{
 

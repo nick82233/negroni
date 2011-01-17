@@ -15,7 +15,7 @@ using NUnitExtension.RowTest;
 using MbUnit.Framework;
 #endif
 
-namespace Negroni.TemplateFramework.Test
+namespace Negroni.TemplateFramework.Tests
 {
 	/// <summary>
 	/// Summary description for UnitTest1

@@ -48,7 +48,7 @@ namespace WebNoSql
 			}
 			set
 			{
-				_myGadgetMaster = null;
+				_myRootMaster = null;
 				_applicationId = value;
 			}
 		}
@@ -100,47 +100,59 @@ namespace WebNoSql
 		}
 
 
-		private GadgetMaster _myGadgetMaster = null;
+		private RootElementMaster _myRootMaster = null;
 
 		/// <summary>
 		/// GadgetMaster object that will render
 		/// </summary>
-		public GadgetMaster MyGadgetMaster
+		public RootElementMaster MyGadgetMaster
 		{
 			get
 			{
-				if (_myGadgetMaster == null)
+				if (_myRootMaster == null)
 				{
 					if (ApplicationId > 0)
 					{
-						_myGadgetMaster = null; // GadgetGateway.GadgetProvider.GetGadgetMasterSpecific(ApplicationId, ver);
+						_myRootMaster = null; // GadgetGateway.GadgetProvider.GetGadgetMasterSpecific(ApplicationId, ver);
 					}
 					else if (!string.IsNullOrEmpty(GadgetContent))
 					{
 						string content = GadgetContent.Trim();
-						if (!content.StartsWith("<Module"))
+
+						if (this.ControlParserKey == "colorParser")
 						{
-							content = String.Concat("<Module><Content><script type='text/os-template'>", content, "\n</script></Content></Module>");
+							ControlFactory cf = ControlFactory.GetControlFactory(this.ControlParserKey);
+							_myRootMaster = new ColorParser.Colors();
+							_myRootMaster.MyControlFactory = cf;
+							_myRootMaster.LoadTag(content);
 						}
-						try
+						else
 						{
-							_myGadgetMaster = GadgetMaster.CreateGadget(ControlParserKey, content);
-						}
-						catch
-						{
-							_myGadgetMaster = new GadgetMaster();
-							_myGadgetMaster.AddContentBlock(new ContentBlock());
-							_myGadgetMaster.ContentBlocks[0].AddControl(new GadgetLiteral("Error Loading Content"));
+							
+							if (!content.StartsWith("<Module"))
+							{
+								content = String.Concat("<Module><Content><script type='text/os-template'>", content, "\n</script></Content></Module>");
+							}
+							try
+							{
+								_myRootMaster = GadgetMaster.CreateGadget(ControlParserKey, content);
+							}
+							catch
+							{
+								_myRootMaster = new GadgetMaster();
+								((GadgetMaster)_myRootMaster).AddContentBlock(new ContentBlock());
+								((GadgetMaster)_myRootMaster).ContentBlocks[0].AddControl(new GadgetLiteral("Error Loading Content"));
+							}
 						}
 					}
 					//else parse contents
 
 				}
-				return _myGadgetMaster;
+				return _myRootMaster;
 			}
 			set
 			{
-				_myGadgetMaster = value;
+				_myRootMaster = value;
 			}
 		}
 
@@ -166,7 +178,7 @@ namespace WebNoSql
 			{
 				ControlFactory fact = ControlFactory.GetControlFactory(ControlParserKey);
 				MyGadgetMaster.MyControlFactory = fact;
-				MyGadgetMaster.ReParse();
+				//MyGadgetMaster.ReParse();
 			}
 
 			SetupGadgetForInlineRender(MyGadgetMaster);
@@ -182,19 +194,26 @@ namespace WebNoSql
 			}
 
 			writer.WriteLine(String.Format("<div style='width:{0};height:{1};{2}'>", new object[] { Width, Height, bordStyle }));
-			if (MyGadgetMaster.Errors.HasParseErrors())
+			if (MyGadgetMaster is GadgetMaster && ((GadgetMaster)MyGadgetMaster).Errors.HasParseErrors())
 			{
 				writer.Write("<span style='font-weight:bold;color:red;'>PARSER ERROR WITH CONTENT: </span>");
-				writer.Write(MyGadgetMaster.Errors.ParseErrors[0].Message);
+				writer.Write(((GadgetMaster)MyGadgetMaster).Errors.ParseErrors[0].Message);
 			}
 			else
 			{
-				MyGadgetMaster.RenderContent(writer, Surface);
+				if (MyGadgetMaster is GadgetMaster)
+				{
+					((GadgetMaster)MyGadgetMaster).RenderContent(writer, Surface);
+				}
+				else
+				{
+					MyGadgetMaster.Render(writer);
+				}
 			}
 			writer.WriteLine("</div>");
 		}
 
-		private static void SetupGadgetForInlineRender(GadgetMaster gadget)
+		private static void SetupGadgetForInlineRender(RootElementMaster gadget)
 		{
 			gadget.ClientRenderCustomTemplates = false;
 			gadget.RenderingOptions.ClientRenderDataContext = false;
