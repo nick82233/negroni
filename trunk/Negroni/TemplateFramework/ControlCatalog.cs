@@ -41,6 +41,11 @@ namespace Negroni.TemplateFramework
 		/// </summary>
 		public ParseContext MyContext { get; set; }
 
+		/// <summary>
+		/// Ordered list of markup tags, starting from the root, down to
+		/// the parse context of this catalog.
+		/// </summary>
+		public List<string> MyTagNesting { get; set; }
 
 		/// <summary>
 		/// Indicates if this ControlCatalog represents <c>ParseContext.DefaultContext</c>

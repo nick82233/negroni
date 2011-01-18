@@ -3,6 +3,7 @@ using System.Text;
 using System.Collections.Generic;
 
 using Negroni.TemplateFramework.Parsing;
+using Negroni.TemplateFramework.Tests.ExampleControls;
 
 #if XUNIT
 using Xunit;
@@ -77,6 +78,51 @@ namespace Negroni.TemplateFramework.Tests
 			//Assert.AreEqual(-1, ControlFactory.Instance.GetControlCount(new ParseContext("Unknown")), "Unknown context has controls");
 		}
 
+		[Test]
+		public void MarkupTagLookupFindsContext()
+		{
+			CleanupTest();
+			ControlFactory fact = ControlFactory.CreateControlFactory(key, System.Reflection.Assembly.GetExecutingAssembly());
+
+			ControlMap map = null;
+			ParseContext context = null;
+
+			Assert.IsTrue(fact.TryGetControlMap("nest:Child", out map, out context));
+
+			Assert.AreEqual(typeof(NestedContext), context.ContainerControlType);
+			//ParseContext context = fact.GetControlContextGroup(
+		}
+		[Test]
+		public void MarkupTagBuildTagStructure()
+		{
+			CleanupTest();
+			ControlFactory fact = ControlFactory.CreateControlFactory(key, System.Reflection.Assembly.GetExecutingAssembly());
+
+			string fromTag = "nest:Child";
+			List<string> tagNest = fact.GetTagNesting(fromTag);
+			Assert.AreEqual(tagNest.Count, 3);
+
+			Assert.IsTrue("Second".Equals(tagNest[0], StringComparison.InvariantCultureIgnoreCase), "Incorrect Root");
+			Assert.IsTrue("nest:nested".Equals(tagNest[1], StringComparison.InvariantCultureIgnoreCase), "Incorrect Second");
+			Assert.IsTrue(fromTag.Equals(tagNest[2], StringComparison.InvariantCultureIgnoreCase), "Final tag not included");
+
+		}
+
+
+		[Test]
+		public void BuildRootMasterTree()
+		{
+			CleanupTest();
+			ControlFactory fact = ControlFactory.CreateControlFactory(key, System.Reflection.Assembly.GetExecutingAssembly());
+
+			ControlMap map = null;
+			ParseContext context = null;
+			
+			Assert.IsTrue(fact.TryGetControlMap("nest:Child", out map, out context));
+
+			Assert.AreEqual(typeof(NestedContext), context.ContainerControlType);
+			//ParseContext context = fact.GetControlContextGroup(
+		}
 
 		[Test]
 		public void CreateRemoveControlFactory()
