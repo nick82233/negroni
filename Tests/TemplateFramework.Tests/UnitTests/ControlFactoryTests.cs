@@ -102,7 +102,7 @@ namespace Negroni.TemplateFramework.Tests
 			List<string> tagNest = fact.GetTagNesting(fromTag);
 			Assert.AreEqual(tagNest.Count, 3);
 
-			Assert.IsTrue("Second".Equals(tagNest[0], StringComparison.InvariantCultureIgnoreCase), "Incorrect Root");
+			Assert.IsTrue("SecondRoot".Equals(tagNest[0], StringComparison.InvariantCultureIgnoreCase), "Incorrect Root");
 			Assert.IsTrue("nest:nested".Equals(tagNest[1], StringComparison.InvariantCultureIgnoreCase), "Incorrect Second");
 			Assert.IsTrue(fromTag.Equals(tagNest[2], StringComparison.InvariantCultureIgnoreCase), "Final tag not included");
 

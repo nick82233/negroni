@@ -1415,33 +1415,53 @@ namespace Negroni.TemplateFramework
 			RootElementMaster root = null;
 			string tag = ControlFactory.GetTagName(markup);
 
-			ControlMap map = GetControlMap(tag, ParseContext.RootContext);
-			if (map == null || map.ControlType == typeof(GadgetLiteral))
-			{
-				map = GetControlMap(tag, ParseContext.DefaultContext);
-			}
-			if (map == null || map.ControlType == typeof(GadgetLiteral))
+			ControlMap map;
+			ParseContext context;
+			if (!TryGetControlMap(tag, out map, out context))
 			{
 				root = new RootElementMaster();
 				root.MyControlFactory = this;
 				root.AddControl(new GadgetLiteral(markup));
 				return root;
 			}
+
 			if (map.ControlType != typeof(RootElementMaster))
 			{
-				
-				 //this.GetControlContextGroup
-				throw new Exception();
+				List<string> tags = GetTagNesting(tag);
+				StringBuilder sb = new StringBuilder();
+				for (int i = 0; i < tags.Count - 1; i++)
+				{
+					sb.AppendFormat("<{0}>", tags[i]);
+				}
+				sb.Append(markup);
+				for (int i = tags.Count - 1; i > 0; i--)
+				{
+					sb.AppendFormat("</{0}>", tags[i]);
+				}
+				if(TryGetControlMap(tags[0], out map, out context)){
+					root = Activator.CreateInstance(map.ControlType) as RootElementMaster;
+					root.MyControlFactory = this;
+					root.MyRootMaster = root;
+					string x = sb.ToString();
+					root.LoadTag(sb.ToString());
+					return root;
+				}
+				else{
+					throw new Exception("Something bad happened");
+				}
 			}
+			else
+			{
+				if (map.ControlType == typeof(RootElementMaster))
+				{
+					root = Activator.CreateInstance(map.ControlType) as RootElementMaster;
+					root.MyControlFactory = this;
+					root.MyRootMaster = root;
+					root.LoadTag(markup);
+				}
 
-			if(map.ControlType == typeof(RootElementMaster)){
-				root = Activator.CreateInstance(map.ControlType) as RootElementMaster;
-				root.MyControlFactory = this;
-				root.MyRootMaster = root;
-				root.LoadTag(markup);
+				return root;
 			}
-			
-			return root;
 		}
 
 
@@ -1936,7 +1956,7 @@ namespace Negroni.TemplateFramework
 				nesting = new List<string>();
 				ParseContext tmpContext = context;
 				ControlMap tmp = GetControlMap(tmpContext.ContainerControlType);
-				nesting.Add(tmp.MarkupTag);
+				//nesting.Add(tmp.MarkupTag);
 				int breakoutCount = 0;
 				while (Catalog[tmpContext] != Catalog[ParseContext.RootContext] 
 					&& breakoutCount++ < 100)
@@ -1945,7 +1965,11 @@ namespace Negroni.TemplateFramework
 					{
 						break;
 					}
-					nesting.Insert(0, tmp.MarkupTag);
+					else
+					{
+						nesting.Insert(0, tmp.MarkupTag);
+						tmp = GetControlMap(tmpContext.ContainerControlType);
+					}
 				}
 
 				Catalog[context].MyTagNesting = nesting;
@@ -1965,8 +1989,8 @@ namespace Negroni.TemplateFramework
 		/// is passed without a complete document structure.
 		/// </remarks>
 		/// <param name="markupTag"></param>
-		/// <param name="map"></param>
-		/// <param name="context"></param>
+		/// <param name="map">Control map corresponding to the markupTag</param>
+		/// <param name="context">Context containing markupTag</param>
 		/// <returns></returns>
 		public bool TryGetControlMap(string markupTag, out ControlMap map, out ParseContext context)
 		{
@@ -1977,11 +2001,21 @@ namespace Negroni.TemplateFramework
 			markupTag = markupTag.ToLowerInvariant();
 			//start from root first, then default, then all contexts
 			map = GetControlMap(markupTag, ParseContext.RootContext);
-			if (map.ControlType == typeof(GadgetLiteral))
+			if (map.ControlType != typeof(GadgetLiteral))
+			{
+				context = ParseContext.RootContext;
+				return true;
+			}
+			else
 			{
 				map = GetControlMap(markupTag, ParseContext.DefaultContext);
 			}
-			if (map.ControlType == typeof(GadgetLiteral))
+			if (map.ControlType != typeof(GadgetLiteral))
+			{
+				context = ParseContext.DefaultContext;
+				return true;
+			}
+			else
 			{
 				foreach (var keyset in Catalog)
 				{
