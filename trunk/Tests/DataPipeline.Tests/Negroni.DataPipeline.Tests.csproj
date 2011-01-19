@@ -1,0 +1,114 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{402BD1A2-7394-4778-A235-724684592758}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Negroni.DataPipeline.Tests</RootNamespace>
+    <AssemblyName>Negroni.DataPipeline.Tests</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="MbUnit.Framework">
+      <HintPath>..\lib\mbunit\v3_5_Framework\MbUnit.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="MbUnit.Framework.2.0">
+      <HintPath>..\lib\mbunit\v3_5_Framework\MbUnit.Framework.2.0.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework, Version=2.5.8.10295, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files\NUnit 2.5.8\bin\net-2.0\framework\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="NUnitExtension.RowTest">
+      <HintPath>C:\Program Files\NUnit 2.5.8\bin\net-2.0\addins\NUnitExtension.RowTest.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Runtime.Serialization">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Xml" />
+    <Reference Include="xunit">
+      <HintPath>..\lib\xunit.dll</HintPath>
+    </Reference>
+    <Reference Include="xunit.extensions">
+      <HintPath>..\lib\xunit.extensions.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Mocks\OsOwnerRequest.cs" />
+    <Compile Include="Mocks\OsPeopleRequest.cs" />
+    <Compile Include="Mocks\OsViewerRequest.cs" />
+    <Compile Include="UnitTests\BulkVariableResolverTestFixture.cs" />
+    <Compile Include="UnitTests\AsyncRequestProcessorTestFixture.cs" />
+    <Compile Include="UnitTests\AsyncRequestPoolTestFixture.cs" />
+    <Compile Include="UnitTests\GenericExpressionEvalWrapperTestFixture.cs" />
+    <Compile Include="UnitTests\WrapperUtilityTestFixture.cs" />
+    <Compile Include="UnitTests\SecurityPolicyTestFixture.cs" />
+    <Compile Include="UnitTests\JsonDataTestFixture.cs" />
+    <Compile Include="UnitTests\ResourceBundleCatalogFixture.cs" />
+    <Compile Include="UnitTests\MessageBundleResolverTestFixture.cs" />
+    <Compile Include="UnitTests\GenericResourceBundleTests.cs" />
+    <Compile Include="UnitTests\VariableResolutionTestFixture.cs" />
+    <Compile Include="UnitTests\DataContextTestFixture.cs" />
+    <Compile Include="UnitTests\DataItemTestFixture.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestData\AccountTestData.cs" />
+    <Compile Include="TestData\ComplexExpressionResolverDataObject.cs" />
+    <Compile Include="TestData\SimpleDataContract.cs" />
+    <Compile Include="TestData\SimpleExpressionResolverDataObject.cs" />
+    <Compile Include="TestData\MockDataHelper.cs" />
+    <Compile Include="TestData\SampleIJsonSerializable.cs" />
+    <Compile Include="TestData\Samples.cs" />
+    <Compile Include="TestData\SampleSimpleDataControl.cs" />
+    <Compile Include="TestData\SimpleDataObject.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Negroni\Negroni.csproj">
+      <Project>{2FF4052D-B156-4FEE-B54E-CEEE987F35A0}</Project>
+      <Name>Negroni</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\OpenSocial.DataContracts\OpenSocial.DataContracts.csproj">
+      <Project>{7AE04B79-C9D4-45D3-8641-BFF32348F73E}</Project>
+      <Name>OpenSocial.DataContracts</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UnitTestCompatibility\UnitTestCompatibility.csproj">
+      <Project>{DA65A0FD-1B56-4B0F-AEA6-96EC1D7E51B3}</Project>
+      <Name>UnitTestCompatibility</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

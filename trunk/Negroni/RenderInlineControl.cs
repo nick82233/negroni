@@ -80,12 +80,12 @@ namespace Negroni
 		}
 
 
-		private BaseGadgetControl _myGadget = null;
+		private RootElementMaster _myGadget = null;
 
 		/// <summary>
 		/// Gadget control that will render
 		/// </summary>
-		public BaseGadgetControl MyGadget
+		public RootElementMaster MyGadget
 		{
 			get
 			{
