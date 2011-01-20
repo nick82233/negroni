@@ -33,7 +33,7 @@ namespace Negroni
 			//min width/height
 			Width = 250;
 			Height = 300;
-			ShowBorder = true;
+			
 		}
 
 		/// <summary>
@@ -104,18 +104,7 @@ namespace Negroni
 				_myGadget = value;
 			}
 		}
-
-
-		/// <summary>
-		/// Shows a hairline border around the control
-		/// </summary>
-		[Bindable(true),
-		Description("Show a hairline border around control"),
-		DefaultValue(false),
-		Category("Appearance")]
-		public bool ShowBorder { get; set; }
-
-
+		
 
 
 		protected override void Render(HtmlTextWriter writer)
@@ -125,11 +114,10 @@ namespace Negroni
 			if(MyGadget is RootElementMaster){
 				SetupGadgetForInlineRender((RootElementMaster)MyGadget);
 			}
-
 			string bordStyle = "";
-			if (ShowBorder)
+			if (BorderWidth.Value > 0)
 			{
-				bordStyle = "border:1px solid green;";
+				bordStyle = string.Format("border:{0} {1} {2};", BorderWidth.ToString(), BorderStyle.ToString(), BorderColor);
 			}
 
 			writer.WriteLine(String.Format("<div style='width:{0};height:{1};{2}'>", new object[] { Width, Height, bordStyle }));

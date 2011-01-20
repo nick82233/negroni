@@ -17,6 +17,7 @@
 
 using System;
 using System.Collections.Generic;
+using Negroni.TemplateFramework.Parsing;
 
 namespace Negroni.TemplateFramework
 {
@@ -68,7 +69,25 @@ namespace Negroni.TemplateFramework
 		public string OffsetKey = null;
 		public Type ControlType = null;
 		public bool IsContextGroupContainer = false;
+		public bool IsRootElement = false;
 
+		private List<ParseContext> _originalContextGroups = null;
+
+		/// <summary>
+		/// Originally requested context groups for this control.
+		/// Note: it may appear in other context groups
+		/// </summary>
+		public List<ParseContext> OriginalContextGroups
+		{
+			get
+			{
+				if (_originalContextGroups == null)
+				{
+					_originalContextGroups = new List<ParseContext>();
+				}
+				return _originalContextGroups;
+			}
+		}
 
 		public ControlMap() { }
 
@@ -116,5 +135,38 @@ namespace Negroni.TemplateFramework
 			}
 		}
 
+		/// <summary>
+		/// Generates an appropriate markup tag, wrapping contents
+		/// </summary>
+		/// <param name="contents"></param>
+		/// <returns></returns>
+		public string ToTag(string contents)
+		{
+			return ToBeginTag() + contents + ToEndTag();
+		}
+		/// <summary>
+		/// Generates an appropriate markup tag
+		/// </summary>
+		/// <returns></returns>
+		public string ToBeginTag()
+		{
+			if (HasAttributeDependency())
+			{
+				return string.Format("<{0} {1}=\"{2}\" >", MarkupTag, this.AttributeTagDependentKey, this.AttributeTagDependentValue);
+			}
+			else
+			{
+				return "<" + MarkupTag + ">";
+			}
+
+		}
+		/// <summary>
+		/// Generates an appropriate closing markup tag.
+		/// </summary>
+		/// <returns></returns>
+		public string ToEndTag()
+		{
+			return "</" + MarkupTag + ">";
+		}
 	}
 }

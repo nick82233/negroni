@@ -339,6 +339,25 @@ namespace Negroni.OpenSocial.Tests.Controls
 
 
 
+		[Test]
+		public void BuildControlTreeFromDefaultItem()
+		{
+			string tag = "os:Name";
+
+			ControlFactory cf = ControlFactory.GetControlFactory(TEST_FACTORY_KEY);
+
+			List<ControlMap> tagMap = cf.GetTagNesting(tag);
+
+			Assert.AreEqual(tag, tagMap[tagMap.Count - 1].MarkupTag, "self tag incorrect");
+			Assert.Less(tagMap.Count, 90, "Too many items in map");
+
+
+			Assert.AreEqual("script", tagMap[tagMap.Count - 2].MarkupTag, "Script tag wrong");
+			Assert.IsTrue(tagMap[0].IsRootElement);
+
+		}
+
+
 	}
 }
 	
