@@ -268,7 +268,10 @@ namespace Negroni.TemplateFramework
 				if (!FactorySingletons.ContainsKey(key))
 				{
 					factory = new ControlFactory(key, controlAssembly);
-					factory.LoadGadgetControls(Assembly.GetExecutingAssembly());
+					if (key != Negroni.TemplateFramework.Configuration.NegroniFrameworkConfig.CONFIGPARSER_CONTROLFACTORY)
+					{
+						factory.LoadGadgetControls(Assembly.GetExecutingAssembly(), null, "Negroni.TemplateFramework.Configuration.*");
+					}
 					FactorySingletons.Add(key, factory);
 				}
 				else
@@ -792,7 +795,6 @@ namespace Negroni.TemplateFramework
 						ctlMap.MarkupTag = null;
 						string altAttrKey = null;
 						//int altAttrPrecedenceWeight = 0;
-						bool isRootElementDefinition = false;
 						bool setDefaultCatalogContextGroupToCurrent = false;
 						for (int i = 0; i < attrs.Length; i++)
 						{
@@ -811,6 +813,7 @@ namespace Negroni.TemplateFramework
 							{
 								ParseContext contextGroup = ((ContextGroupAttribute)attrs[i]).ContextGroup;
 								contextKeys.Add(contextGroup);
+								ctlMap.OriginalContextGroups.Add(contextGroup);
 							}
 							else if (attrs[i] is ContextGroupContainerAttribute)
 							{
@@ -849,7 +852,7 @@ namespace Negroni.TemplateFramework
 							}
 							else if (attrs[i] is RootElementAttribute)
 							{
-								isRootElementDefinition = true;
+								ctlMap.IsRootElement = true;
 								ctlMap.IsContextGroupContainer = true;
 								RootElementAttribute rea = (RootElementAttribute)attrs[i];
 								if (rea.IsDefaultParseContext)
@@ -909,7 +912,7 @@ namespace Negroni.TemplateFramework
 								DependentAttributeMap[ctlMap.MarkupTag].Add(ctlMap);
 							}
 							//add the root
-							if (isRootElementDefinition)
+							if (ctlMap.IsRootElement)
 							{
 								SetRootElement(ctlMap);
 							}
@@ -1057,7 +1060,7 @@ namespace Negroni.TemplateFramework
 						{
 							continue;
 						}
-						else if (i > nsParts.Length)
+						else if (i >= nsParts.Length)
 						{
 							filterOk = false;
 							break;
@@ -1427,28 +1430,23 @@ namespace Negroni.TemplateFramework
 
 			if (map.ControlType != typeof(RootElementMaster))
 			{
-				List<string> tags = GetTagNesting(tag);
+				List<ControlMap> tags = GetTagNesting(tag);
 				StringBuilder sb = new StringBuilder();
 				for (int i = 0; i < tags.Count - 1; i++)
 				{
-					sb.AppendFormat("<{0}>", tags[i]);
+					sb.Append(tags[i].ToBeginTag());
 				}
 				sb.Append(markup);
-				for (int i = tags.Count - 1; i > 0; i--)
+				for (int i = tags.Count - 2; i >= 0; i--)
 				{
-					sb.AppendFormat("</{0}>", tags[i]);
+					sb.AppendFormat(tags[i].ToEndTag());
 				}
-				if(TryGetControlMap(tags[0], out map, out context)){
-					root = Activator.CreateInstance(map.ControlType) as RootElementMaster;
-					root.MyControlFactory = this;
-					root.MyRootMaster = root;
-					string x = sb.ToString();
-					root.LoadTag(sb.ToString());
-					return root;
-				}
-				else{
-					throw new Exception("Something bad happened");
-				}
+				root = Activator.CreateInstance(tags[0].ControlType) as RootElementMaster;
+				root.MyControlFactory = this;
+				root.MyRootMaster = root;
+				string x = sb.ToString();
+				root.LoadTag(sb.ToString());
+				return root;
 			}
 			else
 			{
@@ -1927,6 +1925,35 @@ namespace Negroni.TemplateFramework
 			}
 		}
 
+		/// <summary>
+		/// Returns a list of all control maps to controls defined as
+		/// being a default context container tag.
+		/// </summary>
+		/// <returns></returns>
+		public Dictionary<ParseContext, ControlMap> GetDefaultContextMaps()
+		{
+			Dictionary<ParseContext, ControlMap> maps = new Dictionary<ParseContext, ControlMap>();
+			ControlMap tmp = GetControlMap(ParseContext.DefaultContext.ContainerControlType);
+			if (tmp != LiteralElementMap)
+			{
+				maps.Add(ParseContext.DefaultContext, tmp);
+			}
+			ControlCatalog defCatalog = Catalog[ParseContext.DefaultContext];
+
+			foreach (var keyset in Catalog)
+			{
+				if (keyset.Key != ParseContext.DefaultContext && keyset.Value.Equals(defCatalog))
+				{
+					tmp = GetControlMap(keyset.Key.ContainerControlType);
+					if (tmp != LiteralElementMap)
+					{
+						maps.Add(keyset.Key, tmp);
+					}
+				}
+			}
+
+			return maps;
+		}
 
 		/// <summary>
 		/// Returns an ordered list, starting from the root element, of the
@@ -1935,47 +1962,82 @@ namespace Negroni.TemplateFramework
 		/// </summary>
 		/// <param name="fromTag"></param>
 		/// <returns>Ordered list of tags in legal nesting structure, or an empty list if tag is not found.</returns>
-		public List<string> GetTagNesting(string fromTag)
+		public List<ControlMap> GetTagNesting(string fromTag)
 		{
 			if (string.IsNullOrEmpty(fromTag))
 			{
 				throw new ArgumentNullException("markupTag param invalid");
 			}
-			ControlMap map;
+			ControlMap fromTagMap;
 			ParseContext context;
-			if (!TryGetControlMap(fromTag, out map, out context))
+			if (!TryGetControlMap(fromTag, out fromTagMap, out context))
 			{
-				return new List<string>();
+				return new List<ControlMap>();
 			}
 
-			List<string> nesting;
+			List<ControlMap> nesting;
 			nesting = Catalog[context].MyTagNesting;
 			if (nesting == null)
 			{
 				//build the nesting structure upon request
-				nesting = new List<string>();
+				nesting = new List<ControlMap>();
 				ParseContext tmpContext = context;
-				ControlMap tmp = GetControlMap(tmpContext.ContainerControlType);
-				//nesting.Add(tmp.MarkupTag);
+				ControlMap map = GetControlMap(tmpContext.ContainerControlType);
+				Dictionary<ParseContext, ControlMap> defaultMaps = null;
+
+
+
 				int breakoutCount = 0;
-				while (Catalog[tmpContext] != Catalog[ParseContext.RootContext] 
+				while (Catalog[tmpContext] != Catalog[ParseContext.RootContext]
 					&& breakoutCount++ < 100)
 				{
-					if (!TryGetControlMap(tmp.MarkupTag, out tmp, out tmpContext))
+					// hunt for a tag if this is anonymouse default context
+					if (string.IsNullOrEmpty(map.MarkupTag)
+						&& (tmpContext.ContainerControlType == ParseContext.DefaultContext.ContainerControlType))
+					{
+						if (defaultMaps == null) defaultMaps = GetDefaultContextMaps();
+						foreach (var keyset in defaultMaps)
+						{
+							if (!string.IsNullOrEmpty(keyset.Value.MarkupTag))
+							{
+								map = keyset.Value;
+								tmpContext = keyset.Key;
+								break;
+							}
+						}
+					}
+					nesting.Insert(0, map);
+					if (map.IsRootElement)
 					{
 						break;
 					}
+
+					//move context up
+					if (map.OriginalContextGroups.Count > 0)
+					{
+						if (map.OriginalContextGroups[0].ContainerControlType == ParseContext.DefaultContext.ContainerControlType
+							&& map.OriginalContextGroups.Count > 1)
+						{
+							tmpContext = map.OriginalContextGroups[1];
+						}
+						else
+						{
+							tmpContext = map.OriginalContextGroups[0];
+						}
+					}
 					else
 					{
-						nesting.Insert(0, tmp.MarkupTag);
-						tmp = GetControlMap(tmpContext.ContainerControlType);
+						tmpContext = GetControlContextGroup(tmpContext.ContainerControlType);
 					}
+					//get new map
+					map = GetControlMap(tmpContext.ContainerControlType);
 				}
+
 
 				Catalog[context].MyTagNesting = nesting;
 			}
-			List<string> retval = new List<string>(nesting);
-			retval.Add(fromTag);
+			List<ControlMap> retval = new List<ControlMap>(nesting);
+			retval.Add(fromTagMap);
 			return retval;
 		}
 

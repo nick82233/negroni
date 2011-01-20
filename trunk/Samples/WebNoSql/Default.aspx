@@ -8,11 +8,8 @@
     
 
     <neg:RenderInlineControl runat="server" 
-     ControlParserKey="sampleWeb"
+     ControlParserKey="sampleWeb" BorderStyle="Groove" BorderWidth="2px" BorderColor="Aqua"
     id="gadgetGrid" Width="250" Height="500" >
-    <Module>
-    <Content>
-    <script type="text/os-template">
     <os:Var key="foo">
     {
     "color": "red",
@@ -25,9 +22,6 @@
     <ul>
     <li repeat="${gadgets}"><a href="Render.aspx?gadget=${Cur}">Render ${Cur}</a></li>
     </ul>
-    </script>
-    </Content>
-    </Module>
     </neg:RenderInlineControl>
     
 </asp:Content>

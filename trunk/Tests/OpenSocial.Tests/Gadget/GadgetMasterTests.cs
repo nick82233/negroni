@@ -28,16 +28,6 @@ namespace Negroni.OpenSocial.Tests.Gadget
     {
 
 		[Test]
-		[ExpectedException(typeof(Exception))]
-		public void RenderThrowsError()
-		{
-			GadgetMaster target = new GadgetMaster(testFactory, GadgetTestData.FullGadget, new OffsetItem(GadgetTestData.GadgetOffsetListString));
-			MemoryStream s = new MemoryStream();
-			target.Render(new StreamWriter(s));
-		}
-
-
-		[Test]
 		public void TestLoadFromOffsets()
 		{
 

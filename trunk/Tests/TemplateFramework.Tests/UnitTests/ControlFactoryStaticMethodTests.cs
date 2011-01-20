@@ -5,13 +5,6 @@ using MbUnit.Framework;
 using Negroni.TemplateFramework;
 
 using Negroni.TemplateFramework.Parsing;
-using Negroni.OpenSocial.Gadget;
-using Negroni.OpenSocial.Gadget.Controls;
-using Negroni.OpenSocial.OSML;
-using Negroni.OpenSocial.OSML.Controls;
-
-using Negroni.OpenSocial.Tests.TestData;
-using Negroni.OpenSocial.Tests.OSML;
 
 namespace Negroni.OpenSocial.Tests.Controls
 {
@@ -20,7 +13,7 @@ namespace Negroni.OpenSocial.Tests.Controls
     /// </summary>
     [TestFixture]
 	[TestsOn(typeof(ControlFactory))]
-	public class ControlFactoryTests : OsmlControlTestBase
+	public class ControlFactoryStaticMethodTests
     {
 
 		[Test]
