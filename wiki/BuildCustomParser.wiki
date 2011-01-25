@@ -17,7 +17,7 @@ It is good practice to specify one *Root Element* to register with a control fac
 
 = Creating a Parser =
 
-For this exercise we will reference the _colorParser_ defined in the *WebNoSql* sample project.  This is included under the _Samples/WebNoSql/_ directory in the source tree or redistributable package.
+For this exercise we will reference the _colorParser_ defined in the *`WebNoSql`* sample project.  This is included under the _Samples/WebNoSql/_ directory in the source tree or redistributable package.
 
 The parser will accept markup like below and output appropriate markup to display blocks of color.
 
@@ -79,5 +79,3 @@ namespace WebNoSql.ColorParser
   }
 }
 }}}
-
-
