@@ -8,6 +8,8 @@ This page will deal primarily with building a control parser.
 
 = Parser Basics =
 
-Parsing of an XML file is managed by a '''Control Factory'''.  Control Factories maintain a catalog of controls, which have one or more markup tags associated with them.  Control factories are defined in a configuration file.  This configuration file also identifies which assemblies contain the controls that will be loaded into the control factory.  In this way you can mix and match parsers to create specialized parsers or extend existing parsers to add new tags and functionality.
+Parsing of an XML file is managed by a *Control Factory*.  Control Factories maintain a catalog of controls, which have one or more markup tags associated with them.  Control factories are defined in a configuration file.  This configuration file also identifies which assemblies contain the controls that will be loaded into the control factory.  In this way you can mix and match control assemblies to create specialized parsers or extend existing parsers to add new tags and functionality.
 
+Controls are organized into *Context Groups*. Context Groups restrict the parsing context for which a particular control is valid and recognized.  There is always one default context group controls are placed inside when a specific context group is not specified.
 
+It is good practice to specify one *Root Element* to register with a control factory.  The root element is the element node expected to be the first node in a parsed control tree.  You may specify multiple Root Elements, but they will share controls and context groups between them.
