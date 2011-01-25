@@ -144,3 +144,5 @@ Register the *`RenderInlineControl`* control with the page object and you can us
 </neg:RenderInlineControl>
 }}}
 
+
+You might be saying to yourself "this is all well and good, but there's already a component model in ASP.Net"  That is true, but the difference is that those only allow compiled widget components.  Negroni executes components at runtime, so the content can change more dynamically.  It can even consume and execute components from external servers.
