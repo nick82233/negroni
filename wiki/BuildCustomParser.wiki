@@ -1,6 +1,8 @@
 #summary Introduction to building a control parser with Negroni
 #sidebar TableOfContents
 
+#toc
+
 = Introduction =
 
 Negroni can be used to build simple control parsers for reading XML configuration files, XML renderers, or highly complicated and constrained control structures.  It is also tuned to consuming data from multiple sources, both internal and across the web, and accessing and utilizing that information for dynamic rendering and data processing.
@@ -17,7 +19,7 @@ It is good practice to specify one *Root Element* to register with a control fac
 
 = Creating a Parser =
 
-For this exercise we will reference the _colorParser_ defined in the *`WebNoSql`* sample project.  This is included under the _Samples/WebNoSql/_ directory in the source tree or redistributable package.
+For this exercise we will reference the _colorParser_ defined in the *`WebNoSql`* sample project.  This is included under the *_`Samples/WebNoSql/`*_ directory in the source tree or redistributable package.
 
 The parser will accept markup like below and output appropriate markup to display blocks of color.
 
@@ -34,7 +36,7 @@ Controls are defined using an attribute tagging syntax.  Negroni parsing attribu
 
 === Root Element ===
 
-The first control we will define will be the _&lt;colors&gt;_ root element.  An element is defined by adding the *MarkupTag* attribute on the class and specifying the literal tag(s) to recognize.  The colors element is identified as a root element by additionally adding the *RootElement* attribute and inheriting from the `RootElementMaster` base class.
+The first control we will define will be the _&lt;colors&gt;_ root element.  An element is defined by adding the *`MarkupTag`* attribute on the class and specifying the literal tag(s) to recognize.  The colors element is identified as a root element by additionally adding the *`RootElement`* attribute and inheriting from the `RootElementMaster` base class.
 
 {{{
 using System;
@@ -52,9 +54,7 @@ namespace WebNoSql.ColorParser
 
 === Rendered Element Controls ===
 
-Control tags are also identified by using the MarkupTag attribute and must inherit from one of the base control classes.  In the case of the _&lt;rainbow&gt; element, we will inherit from the simplest control - `BaseGadgetControl`.  Because this is a rendered control, we will override the *Render* method
-
-
+Control tags are also identified by using the `MarkupTag` attribute and must inherit from one of the base control classes.  In the case of the _&lt;rainbow&gt; element, we will inherit from the simplest control - `BaseGadgetControl`.  Because this is a rendered control, we will override the *Render* method.
 
 {{{
 using System;
@@ -79,3 +79,6 @@ namespace WebNoSql.ColorParser
   }
 }
 }}}
+
+
+
