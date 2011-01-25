@@ -1,7 +1,7 @@
 #summary Introduction to building a control parser with Negroni
 #sidebar TableOfContents
 
-#toc
+<wiki:toc max_depth="3" />
 
 = Introduction =
 
@@ -54,7 +54,7 @@ namespace WebNoSql.ColorParser
 
 === Rendered Element Controls ===
 
-Control tags are also identified by using the `MarkupTag` attribute and must inherit from one of the base control classes.  In the case of the _&lt;rainbow&gt; element, we will inherit from the simplest control - `BaseGadgetControl`.  Because this is a rendered control, we will override the *Render* method.
+Control tags are also identified by using the `MarkupTag` attribute and must inherit from one of the base control classes.  In the case of the _&lt;rainbow&gt; element, we will inherit from the simplest control - `BaseGadgetControl`.  Because this is a rendered control, we must override the *Render* method.
 
 {{{
 using System;
@@ -80,5 +80,43 @@ namespace WebNoSql.ColorParser
 }
 }}}
 
+=== Element Container Controls ===
 
+Sometimes you may wish for control elements to contain other parsed control elements.  This is accomplished by defining a markup control that inherits from *`BaseContainerControl`*.  This control automatically renders all child controls in the *`Controls`* element collection, so you don't even have to implement your own Render method.  In this case, we're defining a `&lt;box&gt;` element that displays a border around it's contents, so we will have an implementation of Render.
+
+{{{
+using System;
+using Negroni.TemplateFramework;
+
+namespace WebNoSql.ColorParser
+{
+  [MarkupTag("box")]
+  public class BoxControl : BaseContainerControl
+  {
+    public override void Render(System.IO.TextWriter writer)
+    {
+      writer.Write("<div style='border:3px solid red;margin:2px;padding:4px;'>\n");
+      base.Render(writer);
+      writer.Write("</div>\n");
+    }
+  }
+}
+}}}
+
+== Registering the Control Factory ==
+
+Once your parsing controls are defined in an assembly you must register them with the Negroni framework under a control factory key.  This key is used to identify the control set to use when parsing a block of XML.  Control factories are registered by adding a *&lt;`NegroniControlFactory`&gt;* element to the *`NegroniFramework.config`* file.  Under this element you then add an *&lt;assembly&gt;* element for each assembly that contains your desired controls.
+
+In the *`WebNoSql`* sample project, you can open the `NegroniFramework.config` file from the web root and see the definition of the *`colorParser`* control factory.  You may also notice the *exclude* attribute.  The configuration format supports both an *`include`* and *`exclude`* attribute to more granularly add or remove individual or groups of controls from an assembly.
+
+
+{{{
+<?xml version="1.0" encoding="utf-8"?>
+<NegroniControlFactories>
+...
+  <NegroniControlFactory key="colorParser">
+    <assembly name="WebNoSql" exclude="GadgetFileList" />
+  </NegroniControlFactory>
+</NegroniControlFactories>
+}}}
 
