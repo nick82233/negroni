@@ -1,4 +1,5 @@
 #summary Introduction to building a control parser with Negroni
+#sidebar TableOfContents
 
 = Introduction =
 
@@ -13,3 +14,70 @@ Parsing of an XML file is managed by a *Control Factory*.  Control Factories mai
 Controls are organized into *Context Groups*. Context Groups restrict the parsing context for which a particular control is valid and recognized.  There is always one default context group controls are placed inside when a specific context group is not specified.
 
 It is good practice to specify one *Root Element* to register with a control factory.  The root element is the element node expected to be the first node in a parsed control tree.  You may specify multiple Root Elements, but they will share controls and context groups between them.
+
+= Creating a Parser =
+
+For this exercise we will reference the _colorParser_ defined in the *WebNoSql* sample project.  This is included under the _Samples/WebNoSql/_ directory in the source tree or redistributable package.
+
+The parser will accept markup like below and output appropriate markup to display blocks of color.
+
+{{{
+<colors>
+ <rainbow></rainbow> 
+ <green/>
+</colors>
+}}}
+
+== Defining Controls ==
+
+Controls are defined using an attribute tagging syntax.  Negroni parsing attributes are defined in the `Negroni.TemplateFramework` namespace.
+
+=== Root Element ===
+
+The first control we will define will be the _&lt;colors&gt;_ root element.  An element is defined by adding the *MarkupTag* attribute on the class and specifying the literal tag(s) to recognize.  The colors element is identified as a root element by additionally adding the *RootElement* attribute and inheriting from the `RootElementMaster` base class.
+
+{{{
+using System;
+using Negroni.TemplateFramework;
+
+namespace WebNoSql.ColorParser
+{
+  [MarkupTag("colors")]
+  [RootElement]
+  public class Colors : RootElementMaster
+  {
+  }
+}
+}}}
+
+=== Rendered Element Controls ===
+
+Control tags are also identified by using the MarkupTag attribute and must inherit from one of the base control classes.  In the case of the _&lt;rainbow&gt; element, we will inherit from the simplest control - `BaseGadgetControl`.  Because this is a rendered control, we will override the *Render* method
+
+
+
+{{{
+using System;
+using Negroni.TemplateFramework;
+
+namespace WebNoSql.ColorParser
+{
+  [MarkupTag("rainbow")]
+  public class RainbowControl : BaseGadgetControl
+  {
+    public override void Render(System.IO.TextWriter writer)
+    {
+      string divTemplate = "<div style='width:50px;float:left;height:30px;background:{0};'>&nbsp;</div>";
+      writer.Write(String.Format(divTemplate, "red"));
+      writer.Write(String.Format(divTemplate, "orange"));
+      writer.Write(String.Format(divTemplate, "yellow"));
+      writer.Write(String.Format(divTemplate, "green"));
+      writer.Write(String.Format(divTemplate, "blue"));
+      writer.Write(String.Format(divTemplate, "violet"));
+
+    }
+  }
+}
+}}}
+
+
