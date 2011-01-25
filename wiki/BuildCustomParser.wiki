@@ -120,3 +120,27 @@ In the *`WebNoSql`* sample project, you can open the `NegroniFramework.config` f
 </NegroniControlFactories>
 }}}
 
+
+= Rendering =
+
+Rendering may be handled in two ways: in code with a response stream or in page markup with an ASP.Net web control. *Note:* Not all parsed control trees must be rendered, but rendered control trees is a primary usage of Negroni. Negroni uses its self to parse its configuration file, for instance.
+
+As we saw before, every control has a Render method that accepts a *`System.IO.TextWriter`*.  Once a control tree is constructed, you simply invoke the *`Render`* method on the root element and it and all child controls will render.
+
+Sometimes it's not convenient to get a handle on the output stream or you simply want to drop literal markup for rendering on a page.  Negroni includes a bundled `WebControl` implementation with the *`RenderInlineControl`*.  
+
+Register the *`RenderInlineControl`* control with the page object and you can use it to drop parsed content directly on the page.  An example of this can be seen with the rainbow banner shown with the *`WebNoSql`* sample project.  Look in the *`Site.Master`* page to see it in action.  The control only needs the parsing control factory key and the markup.  It takes care of the rest.
+
+{{{
+<%@ Register TagPrefix="neg" Assembly="Negroni" Namespace="Negroni"%>
+...
+
+<neg:RenderInlineControl runat="server" 
+     ControlParserKey="colorParser" 
+    id="gadgetColor" >
+<colors>
+ <rainbow></rainbow>
+</colors>
+</neg:RenderInlineControl>
+}}}
+
