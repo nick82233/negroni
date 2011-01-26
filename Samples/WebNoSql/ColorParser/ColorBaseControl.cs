@@ -7,9 +7,29 @@ namespace WebNoSql.ColorParser
 	{
 		protected string color = "white";
 
+		public string Width { get; set; }
+
+		public override void LoadTag(string markup)
+		{
+			base.LoadTag(markup);
+			Width = GetAttribute("width");
+		}
+
 		public override void Render(System.IO.TextWriter writer)
 		{
-			writer.Write("<div style='width:50px;float:left;height:30px;background:");
+			string wd;
+			if (string.IsNullOrEmpty(Width))
+			{
+				wd = "50px";
+			}
+			else
+			{
+				wd = Width;
+			}
+
+			writer.Write("<div style='width:");
+			writer.Write(wd);
+			writer.Write(";float:left;height:30px;background:");
 			writer.Write(color);
 			writer.Write(";'>");
 			writer.Write(base.InnerMarkup);

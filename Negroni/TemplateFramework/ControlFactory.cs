@@ -17,9 +17,11 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Reflection;
 using System.Text;
-using Negroni.TemplateFramework;
+using System.Net;
+
 using Negroni.TemplateFramework.Configuration;
 using Negroni.TemplateFramework.Parsing;
 using Negroni.TemplateFramework.Tooling;
@@ -94,6 +96,10 @@ namespace Negroni.TemplateFramework
 		/// Key used to identify this factory instance
 		/// </summary>
 		public string FactoryKey { get; set; }
+
+
+
+		
 
 
 
@@ -1397,6 +1403,30 @@ namespace Negroni.TemplateFramework
 
 		#endregion
 
+
+		public RootElementMaster FetchGadget(string url)
+		{
+			HttpWebRequest request = HttpWebRequest.Create(url) as HttpWebRequest;
+			return FetchGadget(request);
+		}
+
+		public RootElementMaster FetchGadget(HttpWebRequest request)
+		{
+			HttpWebResponse response = request.GetResponse() as HttpWebResponse;
+
+			if (response.StatusCode != HttpStatusCode.OK)
+			{
+				return null;
+			}
+			Stream stream = response.GetResponseStream();
+			StreamReader sr = new StreamReader(stream);
+
+			RootElementMaster gadget = BuildControlTree(sr.ReadToEnd());
+			sr.Close();
+			return gadget;
+		}
+
+
 		/// <summary>
 		/// Builds a fully parsed control tree from the passed markup.
 		/// Use this method as a general Factory entry point to build from
@@ -1417,6 +1447,18 @@ namespace Negroni.TemplateFramework
 
 			RootElementMaster root = null;
 			string tag = ControlFactory.GetTagName(markup);
+
+			//handle root XML directive
+			if ("?xml".Equals(tag, StringComparison.InvariantCultureIgnoreCase))
+			{
+				int tagClose = markup.IndexOf(">");
+				if (tagClose < markup.Length - 1)
+				{
+					int nextEnd = markup.IndexOf(">", tagClose + 2);
+					string tmp = markup.Substring(tagClose + 1, nextEnd - tagClose);
+					tag = ControlFactory.GetTagName(tmp);
+				}
+			}
 
 			ControlMap map;
 			ParseContext context;

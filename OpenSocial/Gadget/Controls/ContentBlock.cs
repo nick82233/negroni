@@ -410,6 +410,23 @@ namespace Negroni.OpenSocial.Gadget.Controls
 
 		#endregion
 
+		private DataScript _autoDataScript = null;
+
+		/// <summary>
+		/// Automatically constructed data script for free-form data controls
+		/// </summary>
+		DataScript AutoDataScript
+		{
+			get
+			{
+				if (_autoDataScript == null)
+				{
+					_autoDataScript = new DataScript();
+					DataScripts.Add(_autoDataScript);
+				}
+				return _autoDataScript;
+			}
+		}
 
 
 		/// <summary>
@@ -426,6 +443,11 @@ namespace Negroni.OpenSocial.Gadget.Controls
 				//script.ViewNames = this.ViewNames;
 				DataScripts.Add(script);
 				ConfirmDataItemsRegistered();
+			}
+			else if (control is BaseDataControl)
+			{
+				AutoDataScript.AddControl(control);
+				AutoDataScript.ConfirmDataItemsRegistered();
 			}
 			else if (control is OsTagTemplate)
 			{
@@ -444,6 +466,11 @@ namespace Negroni.OpenSocial.Gadget.Controls
 			else if (control is GadgetLiteral)
 			{
 				((GadgetLiteral)control).SuppressCDATATags = true;
+				Templates.Add(control);
+			}
+			else
+			{
+				//what the heck, add everything else directly for SimpleGadget support
 				Templates.Add(control);
 			}
 			return control;
