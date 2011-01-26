@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<Module>
+	
+	<ModulePrefs title="__UP_title__" 
+     height="180" 
+     author="Yann CROZIER"  
+	 description="Time is short! Add a nice retro clock to your page. You can change the time format to 12 or 24 hours and the date format. Translate in many languages."
+	 author_email="yanncrozier@gmail.com"
+	 screenshot="http://gadgets.presse-papiers.fr/clock/images/screenshot.png"
+	 thumbnail="http://gadgets.presse-papiers.fr/clock/images/thumbnail.png">
+	 
+	<Locale messages="http://gadgets.presse-papiers.fr/clock/lang/en_ALL.xml"/>
+	<Locale lang="en" messages="http://gadgets.presse-papiers.fr/clock/lang/en_ALL.xml"/>
+	<Locale lang="fr" messages="http://gadgets.presse-papiers.fr/clock/lang/fr_ALL.xml"/>
+	<Locale lang="de" messages="http://gadgets.presse-papiers.fr/clock/lang/de_ALL.xml"/>
+
+	
+	</ModulePrefs>
+	
+	<UserPref name="title" display_name="__MSG_title__" default_value="Clock"/>
+	
+	<UserPref name="format_24" display_name="__MSG_format_24__" datatype="bool" default_value="false"/>
+	
+	<UserPref name="date_format" display_name="__MSG_date_format__" default_value="0" datatype="enum">
+		<EnumValue value="0" display_value="__MSG_january__ 1, 2000"/>
+		<EnumValue value="1" display_value="1. __MSG_january__ 2000"/>
+		<EnumValue value="2" display_value="2000, __MSG_january__ 1"/>
+		<EnumValue value="3" display_value="1 __MSG_january__ 2000"/>
+	</UserPref>
+	
+	<Content type="html">
+		<![CDATA[
+		<script src="http://gadgets.presse-papiers.fr/clock/clock.js" type="text/javascript"></script>
+		
+		<center>
+			<div id="clock" style="background-image: url(http://gadgets.presse-papiers.fr/clock/images/fond.jpg);background-repeat: no-repeat;width: 233px; height: 161px;">
+				<div id="id_date" style="color:#FFF; text-align: center; font-weight: bold;padding:8px; font-family: Arial;"></div>
+				<div id="id_format" style="color:#FFF; text-align: right; font-weight: bold; font-family: Arial; font-size:10px; padding-right:10px;"></div>
+				<div id="time" style="text-align: center;">
+					<img id="id_hour" src="http://gadgets.presse-papiers.fr/clock/images/00.jpg" >
+					<IMG SRC="http://gadgets.presse-papiers.fr/clock/images/00.jpg" NAME="minute" id="id_minute">
+				</div>
+			</div>
+		</center>
+		<script>document.body.onload = hourUpdate();</script>
+		]]>	
+	</Content>	
+	
+</Module>

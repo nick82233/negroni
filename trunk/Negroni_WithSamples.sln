@@ -12,9 +12,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleWeb", "Samples\Website\src\SampleWeb\SampleWeb.csproj", "{AAC12DFB-1D2D-4E70-A2D4-52CCEFC3A7FF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Database Scripts", "Database Scripts", "{379AB982-FA5B-4571-B449-D1DCF9673109}"
-	ProjectSection(SolutionItems) = preProject
-		insert_gadgetBaselineData.sql = insert_gadgetBaselineData.sql
-	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{0D70C60E-47F1-41B3-BCDC-5BEB67BD3786}"
 	ProjectSection(SolutionItems) = preProject

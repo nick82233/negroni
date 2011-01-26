@@ -5,6 +5,18 @@
 <asp:Content ID="HeaderContent" runat="server" ContentPlaceHolderID="HeadContent">
 </asp:Content>
 <asp:Content ID="BodyContent" runat="server" ContentPlaceHolderID="MainContent">
+
+
+    <div style="float:right;width:350px;">
+    <h2>Fetch an External Gadget</h2>
+
+    <form method="post" action="GadgetFetcher.ashx">
+    URL: <input type="text" style="width:300px;" name="source" value="http://negroni.googlecode.com/svn/trunk/ComplianceTests/OpenSocial_1.0/ExpressionLangSample.xml" />
+    <br />
+    <input type="submit" value="Go" />
+    
+    </form>
+    </div>
     
 
     <neg:RenderInlineControl runat="server" 
@@ -24,4 +36,7 @@
     </ul>
     </neg:RenderInlineControl>
     
+
+    <hr />
+
 </asp:Content>
