@@ -3,3 +3,18 @@
 = Introduction =
 
 One of the most useful aspects of OpenSocial and the Negroni framework is the ability to define declarative data tags and use them in rendering and processing.  Data tags declare in markup the piece of data you wish to retrieve and the key to place it under in the data context.  This document looks at some basic mechanisms for building data controls
+
+
+= Data Controls =
+
+Data controls are created in much the same way as other controls.  They have a *MarkupTag* attribute to identify the tag to parse.  They also inherit from one of the base controls.  Data controls should all inherit from *`Negroni.TemplateFramework.BaseDataControl`*.  This tags them as a recognized data control to the Negroni framework.
+
+== Data Resolution ==
+
+Data resolution may be handled either inline during the Render phase, or prior to render with a data pipeline implementation.
+
+
+
+
+
+
