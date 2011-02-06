@@ -1,0 +1,5 @@
+#summary Basic overview and instructions on implementing data controls
+
+= Introduction =
+
+One of the most useful aspects of OpenSocial and the Negroni framework is the ability to define declarative data tags and use them in rendering and processing.  Data tags declare in markup the piece of data you wish to retrieve and the key to place it under in the data context.  This document looks at some basic mechanisms for building data controls
