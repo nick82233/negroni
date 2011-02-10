@@ -31,12 +31,12 @@ namespace WebNoSql {
         protected global::Negroni.RenderInlineControl RenderInlineControl1;
         
         /// <summary>
-        /// RenderInlineControl2 control.
+        /// renderClock control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::Negroni.RenderInlineControl RenderInlineControl2;
+        protected global::Negroni.RenderInlineControl renderClock;
     }
 }

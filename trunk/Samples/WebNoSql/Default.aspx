@@ -45,7 +45,7 @@
 
     <hr />
     <h3>Clock below</h3>
-    <neg:RenderInlineControl ID="RenderInlineControl2" runat="server" ControlParserKey="gadget_v1.0"
+    <neg:RenderInlineControl ID="renderClock" runat="server" ControlParserKey="gadget_v1.0"
     Src="http://gadgets.presse-papiers.fr/clock/clock.xml" />
 
     
