@@ -60,7 +60,19 @@ The below example is from the Default page of the `WebNoSql` sample application.
 }}}
 
 
+== Render from External Source ==
 
+Aggregating external dynamic content on the server-side is a powerful feature.  Using Negroni you can expose your internal data to an external party and allow them to build, host, and maintain features that will deeply integrated and rendered on your site.  The simplest way to accomplish this is to specify the *`Src`* attribute on a `RenderInlineControl` and point it to the location of the external gadget source.
+
+The below example references one of the gadgets supplied as part of the compliance tests directly from the main Subversion repository.
+
+{{{
+  <neg:RenderInlineControl ID="renderHello" runat="server"
+   ControlParserKey="gadget_v1.0" 
+Src="http://negroni.googlecode.com/svn/trunk/ComplianceTests/OpenSocial_1.0/helloWorld.xml" />
+}}}
+
+*Notes on external sourced content:* Referencing externally sourced gadget content is a powerful feature, but you must take care to make your system robust.  The rendering of your page blocks on each externally sourced gadget.  That means if an external party's servers go down, it could cause execution of your page to hang.  In practice you should pre-resolve externally sourced gadgets to a local cache system under your control.  During execution, if the `RenderInlineControl` will not attempt to re-fetch from the `Src` URL if the `MarkupContent` property is already set.
 
 
 
@@ -68,8 +80,6 @@ The below example is from the Default page of the `WebNoSql` sample application.
 = Rendering to Stream =
 
 If all you have is a handle to the response stream, gadgets can also render 
-
-
 
 
 
