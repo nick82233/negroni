@@ -113,6 +113,8 @@ namespace WebNoSql.SiteOSML
 }
 }}}
 
+== Using a Data Control ==
+
 To see this control in action, open the *Default.aspx* page (markup, not code) and view the contents of the inline control `<neg:RenderInlineControl >`.  The simplified code listing below shows the data tag and how a repeater and EL statements are used to build the links.
 
 {{{
@@ -125,9 +127,10 @@ To see this control in action, open the *Default.aspx* page (markup, not code) a
 
 The `GadgetList` registers its result under the key *gadgets* with the DataContext.  Next you see the li element using an attribute repeater and accessing the collection with the EL statement *`${gadgets}`*.  Repeaters are akin to a foreach statement.  Attribute-based repeaters cause the containing element to be dynamically evaluated and emitted for each item in a collection.  The current item is accessed via the special *`${Cur}`* variable.
 
+= Data =
+
 == Allowed Data and EL resolution ==
 
 Data controls are very flexible in what they can consume.  Just about any type of object, collection, or JSON string can be consumed and exposed via EL statements (note: anonymous objects have not yet been tested).  
 
 When a new object type is registered, the DataContext automatically wraps it in a `GenericExpressionEvalWrapper`.  The system reflects on each type only once and maintains a store of property and field invokers that the EL interpreter uses to dynamically access the values.  In cases where you want to control what and how an object's properties are exposed via the EL, you must implement an `IExpressionEvaluator` to wrap your underlying object.
-
