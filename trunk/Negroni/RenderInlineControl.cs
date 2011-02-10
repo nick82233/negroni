@@ -44,6 +44,17 @@ namespace Negroni
 
 
 
+		[Bindable(true)]
+		[Description("Source URI for markup content that may be fetched with a GET")]
+		public string Src
+		{
+			get;
+			set;
+		}
+
+
+
+
 		private string _controlParserKey = null;
 
 		/// <summary>
@@ -90,10 +101,16 @@ namespace Negroni
 			get
 			{
 				if(_myGadget == null){
-					if (!string.IsNullOrEmpty(this.MarkupContent))
+					ControlFactory cf = ControlFactory.GetControlFactory(this.ControlParserKey);
+
+					// if Src is specified and MarkupContent not already specified, fetch the source
+					if (!string.IsNullOrEmpty(this.Src) && string.IsNullOrEmpty(MarkupContent))
+					{
+						_myGadget = cf.FetchGadget(this.Src);
+					}
+					else if (!string.IsNullOrEmpty(this.MarkupContent))
 					{
 						string content = MarkupContent.Trim();
-						ControlFactory cf = ControlFactory.GetControlFactory(this.ControlParserKey);
 						_myGadget = cf.BuildControlTree(content);
 					}
 				}
