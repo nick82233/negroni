@@ -20,5 +20,23 @@ namespace WebNoSql {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::Negroni.RenderInlineControl gadgetGrid;
+        
+        /// <summary>
+        /// RenderInlineControl1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Negroni.RenderInlineControl RenderInlineControl1;
+        
+        /// <summary>
+        /// RenderInlineControl2 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::Negroni.RenderInlineControl RenderInlineControl2;
     }
 }

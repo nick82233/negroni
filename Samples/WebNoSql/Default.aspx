@@ -18,10 +18,10 @@
     </form>
     </div>
     
-
+    <!-- This control demonstrates inline Negroni gadget with private factory parser and data tags -->
     <neg:RenderInlineControl runat="server" 
      ControlParserKey="sampleWeb" BorderStyle="Groove" BorderWidth="2px" BorderColor="Aqua"
-    id="gadgetGrid" Width="250" Height="500" >
+    id="gadgetGrid" Width="250" Height="300" >
     <os:Var key="foo">
     {
     "color": "red",
@@ -36,7 +36,18 @@
     </ul>
     </neg:RenderInlineControl>
     
+    <!-- This control demonstrates Negroni gadget rendered from an external server -->
+    <h3>The below gadget is external</h3>
+    <div style="padding:10px;background:#ffa;">
+    <neg:RenderInlineControl ID="RenderInlineControl1" runat="server" ControlParserKey="gadget_v1.0"
+    Src="http://negroni.googlecode.com/svn/trunk/ComplianceTests/OpenSocial_1.0/helloWorld.xml" />
+    </div>
 
     <hr />
+    <h3>Clock below</h3>
+    <neg:RenderInlineControl ID="RenderInlineControl2" runat="server" ControlParserKey="gadget_v1.0"
+    Src="http://gadgets.presse-papiers.fr/clock/clock.xml" />
+
+    
 
 </asp:Content>
