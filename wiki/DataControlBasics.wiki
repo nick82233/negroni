@@ -7,13 +7,11 @@ One of the most useful aspects of OpenSocial and the Negroni framework is the ab
 
 = Data Controls =
 
-Data controls are created in much the same way as other controls.  They have a *MarkupTag* attribute to identify the tag to parse.  They also inherit from one of the base controls.  Data controls should all inherit from *`Negroni.TemplateFramework.BaseDataControl`*.  This tags them as a recognized data control to the Negroni framework.
+Data controls are created in much the same way as other controls.  They have a *`MarkupTag`* attribute to identify the tag to parse.  They also inherit from one of the base controls.  Data controls should all inherit from *`Negroni.TemplateFramework.BaseDataControl`*.  This tags them as a recognized data control to the Negroni framework.
 
 == Data Resolution ==
 
-Data resolution may be handled either inline during the Render phase, or prior to render with a data pipeline implementation.
-
-
+Data resolution may be handled either inline during the Render phase, or prior to render with an *`IDataPipelineResolver`* implementation.  Using a data pipeline resolver adds more complexity to your data controls, but it allows for greater control of how and when the data is fetched.
 
 
 
