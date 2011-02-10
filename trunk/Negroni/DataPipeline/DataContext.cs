@@ -209,7 +209,7 @@ namespace Negroni.DataPipeline
 		#endregion
 
 		/// <summary>
-		/// Resolve all variables in the source string with the given dataContext
+		/// Resolve all EL variables in the source string with the given dataContext
 		/// </summary>
 		/// <param name="source"></param>
 		/// <param name="dataContext"></param>
@@ -220,7 +220,7 @@ namespace Negroni.DataPipeline
 		}
 
 		/// <summary>
-		/// Resolve any variables that are included in <paramref name="variableKeys"/>
+		/// Resolve any EL variables that are included in <paramref name="variableKeys"/>
 		/// </summary>
 		/// <param name="source"></param>
 		/// <param name="variableKeys">An array of root-level keys. Use "*" or null to denote all keys</param>

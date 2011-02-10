@@ -9,9 +9,9 @@ namespace Negroni.TemplateFramework.Tests.ExampleControls
 	[MarkupTag("mytest:SampleName")]
 	public class SampleDataControl : BaseDataControl
 	{
-		public override object InvokeTarget(object[] parameters)
-		{
-			throw new NotImplementedException();
-		}
+		//public override object InvokeTarget(object[] parameters)
+		//{
+		//    throw new NotImplementedException();
+		//}
 	}
 }

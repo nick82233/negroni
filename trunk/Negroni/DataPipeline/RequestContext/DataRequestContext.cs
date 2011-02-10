@@ -22,7 +22,7 @@ using System.Globalization;
 
 namespace Negroni.DataPipeline
 {
-	public class DataRequestContext : IDataRequestContext
+	public class DataRequestContext
 	{
 		public DataRequestContext() { }
 
