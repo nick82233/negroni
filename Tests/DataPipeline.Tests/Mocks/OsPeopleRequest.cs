@@ -30,21 +30,21 @@ namespace Negroni.DataPipeline.Tests
 			return;
 		}
 
-        public override object InvokeTarget(object[] parameters)
-        {
-            if (parameters != null && parameters.Length > 1)
-            {
-				List<Person> tmp = parameters[1] as List<Person>;
-				if (tmp != null)
-				{
-					return tmp;
-				}
-				else
-				{
-					return null;
-				}
-            }
-            return null;
-        }
+		//public override object InvokeTarget(object[] parameters)
+		//{
+		//    if (parameters != null && parameters.Length > 1)
+		//    {
+		//        List<Person> tmp = parameters[1] as List<Person>;
+		//        if (tmp != null)
+		//        {
+		//            return tmp;
+		//        }
+		//        else
+		//        {
+		//            return null;
+		//        }
+		//    }
+		//    return null;
+		//}
     }
 }

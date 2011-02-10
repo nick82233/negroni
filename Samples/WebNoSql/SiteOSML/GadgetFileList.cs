@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.IO;
-using System.Web;
 
 using Negroni.TemplateFramework;
 using Negroni.DataPipeline;
@@ -41,12 +39,21 @@ namespace WebNoSql.SiteOSML
 				return _gadgetList; 
 			}
 		}
-		
 
+		bool wasInvoked = false;
+
+		public override void InvokeTarget()
+		{
+			if (!wasInvoked)
+			{
+				this.MyDataContext.RegisterDataItem(this.Key, this.GadgetFiles);
+				wasInvoked = true;
+			}
+		}
 
 		public override void Render(System.IO.TextWriter writer)
 		{
-			this.MyDataContext.RegisterDataItem(this.Key, this.GadgetFiles);
+			InvokeTarget();
 			//base.Render(writer);
 		}
 	}

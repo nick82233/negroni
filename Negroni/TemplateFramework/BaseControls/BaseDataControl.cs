@@ -74,7 +74,12 @@ namespace Negroni.TemplateFramework
 
 		/// <summary>
 		/// Fetches (or resolves) the control data. Sets the <code>Value</code> property on success.
+		/// When paired with an IDataPipelineResolver to resolve the data values, 
+		/// this method should be implemented to perform the resolution of data.
 		/// </summary>
+		/// <remarks>
+		/// User-specific information can usually be found in MyDataContext.RequestContext
+		/// </remarks>
 		public virtual void InvokeTarget() { }
 
 		/// <summary>
@@ -247,20 +252,6 @@ namespace Negroni.TemplateFramework
 				}
 			}
 		}
-
-
-
-		/// <summary>
-		/// Execute call to get instance data
-		/// </summary>
-		/// <param name="parameters">list of params</param>
-		/// <returns></returns>
-		[Obsolete("This may be retired???")]
-		public virtual object InvokeTarget(object[] parameters)
-		{
-			return null;
-		}
-
 
 	}
 }

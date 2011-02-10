@@ -16,24 +16,21 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Globalization;
 
 namespace Negroni.DataPipeline
 {
-	public interface IDataRequestContext
+	/// <summary>
+	/// Object that will resolve IDataContextInvokable item values.
+	/// Typically an IDataContextValueResolver is paired with a set of
+	/// data tags so that the two will work in sync.
+	/// </summary>
+	public interface IDataPipelineResolver
 	{
-		int? ViewerId { get; set; }
-		int? OwnerId { get; set; }
-		string ClientIpAddress { get; set; }
-		bool IsUtc { get; set; }
-		bool IsWap { get; set; }
-		void GrantPermission(OpenSocialPermissions permission);
-		void RevokePermission(OpenSocialPermissions permission);
-		bool IsPermissionGranted(OpenSocialPermissions permission);
-		int? ApplicationId { get; set; }
-		CultureInfo Culture { get; set; }
-		Dictionary<string, object> PropertyBag { get; set; }
+		/// <summary>
+		/// Resolve the DataItem values in the passed DataContext
+		/// </summary>
+		/// <param name="dataContext"></param>
+		void ResolveValues(DataContext dataContext);
 	}
 }

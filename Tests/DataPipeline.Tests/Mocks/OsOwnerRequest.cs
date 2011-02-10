@@ -33,13 +33,13 @@ namespace Negroni.DataPipeline.Tests
 			return;
 		}
 
-        public override object InvokeTarget(object[] parameters)
-        {
-            if (parameters != null && parameters.Length > 0)
-            {
-                return parameters[0];
-            }
-            return null;
-        }
+		//public override object InvokeTarget()
+		//{
+		//    if (parameters != null && parameters.Length > 0)
+		//    {
+		//        return parameters[0];
+		//    }
+		//    return null;
+		//}
     }
 }

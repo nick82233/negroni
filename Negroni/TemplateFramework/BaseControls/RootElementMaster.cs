@@ -194,7 +194,7 @@ namespace Negroni.TemplateFramework
 		/// Hook to data control-specific resolver.
 		/// This can be null or ignored, if an external process handles the resolver.
 		/// </summary>
-		public IDataContextValueResolver MyDataResolver { get; set; }
+		public IDataPipelineResolver MyDataResolver { get; set; }
 
 
 		private CustomTagFactory _masterCustomTagFactory = null;
