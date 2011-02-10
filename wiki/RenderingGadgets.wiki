@@ -1,4 +1,5 @@
 #summary Rendering a gadget with the RenderInlineControl or writing to a response stream.
+#labels rendering
 
 <wiki:toc max_depth="3" />
 
@@ -75,11 +76,22 @@ Src="http://negroni.googlecode.com/svn/trunk/ComplianceTests/OpenSocial_1.0/hell
 *Notes on external sourced content:* Referencing externally sourced gadget content is a powerful feature, but you must take care to make your system robust.  The rendering of your page blocks on each externally sourced gadget.  That means if an external party's servers go down, it could cause execution of your page to hang.  In practice you should pre-resolve externally sourced gadgets to a local cache system under your control.  During execution, if the `RenderInlineControl` will not attempt to re-fetch from the `Src` URL if the `MarkupContent` property is already set.
 
 
-
-
 = Rendering to Stream =
 
-If all you have is a handle to the response stream, gadgets can also render 
+If all you have is a handle to the response stream, gadgets can also render directly to the steam and same a few string allocations.  Once you have had the `ControlFactory` initialize the appropriate `RootElementMaster` object for the gadget, simply pass a `TextWriter` to the `Render` method and you're off.  If you are using an OpenSocial gadget and the `GadgetMaster` object, it is recommended to use `RenderContent` instead, since this allows you to specify a view in a gadget that supports multiple views.
 
 
+= Optimizing Rendering =
 
+There are two primary pieces of data required to render a gadget:
+
+  * `ControlFactory` parser key
+  * Raw XML markup of gadget
+
+Rendering with this information is fairly fast.  But you can make it faster for gadgets that don't have constantly changing markup code.  This is done by saving and re-using a third piece of data:
+
+  * Parsed offset string
+
+Whenever a gadget is initialized the control factory must construct the entire control tree.  The markup must be parsed to identify all the controls and properly initialize them.  This is done with the help of an `XMLReader`.  For very large markup blocks with lots and lots of elements, this can get slow.  Negroni speeds this process up by allowing the positional offsets of all controls to be stored and loaded from an offset string.  With the offsets pre-calculated, the `XMLReader` is bypassed and the control tree is constructed by string chunking the markup.
+
+In practice, this optimization means very little for small/trivial gadgets, but can make a considerable difference for very large gadgets with lots of elements.  If my computer science doesn't fail me, it is a growth of (O)N versus (O)logN for pre-parsed gadgets, where N is the number of elements in the markup (someone should check my work).  In practical terms, using pre-calculated offsets can translate to a 30%-40% performance improvement on gadgets of roughly 1200 lines of code.
