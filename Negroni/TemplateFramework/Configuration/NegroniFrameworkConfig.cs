@@ -36,10 +36,14 @@ namespace Negroni.TemplateFramework.Configuration
 		public const string CONFIGPARSER_CONTROLFACTORY = "NegroniConfig";
 
         /// <summary>
-        /// Fallback filename for manual load if the OpenSocialControlFactories config section
-        /// is not specified in the app.config/web.config
+        /// Configuration file to use for defining parsers
         /// </summary>
         static readonly string CONFIG_FILE = "NegroniFramework.config";
+
+		/// <summary>
+		/// Legacy configuration file
+		/// </summary>
+		static readonly string CONFIG_FILE_2 = "OpenSocialControlFramework.config";
 
 		static private Dictionary<string, List<string>> _controlFactories = new Dictionary<string, List<string>>();
 
@@ -139,7 +143,6 @@ namespace Negroni.TemplateFramework.Configuration
 
 			INegroniFactoriesSection negroniFactoryConfig = null;
 
-				string configPath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, NegroniFrameworkConfig.CONFIG_FILE);
 				ControlFactory configParser = null;
 				try
 				{
@@ -160,6 +163,11 @@ namespace Negroni.TemplateFramework.Configuration
 				string configContents = null;
 				try
 				{
+					string configPath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, NegroniFrameworkConfig.CONFIG_FILE);
+					if (!File.Exists(configPath))
+					{
+						configPath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, NegroniFrameworkConfig.CONFIG_FILE_2);
+					}
 					using (StreamReader sr = File.OpenText(configPath))
 					{
 						configContents = sr.ReadToEnd();
