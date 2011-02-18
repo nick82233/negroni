@@ -422,6 +422,7 @@ namespace Negroni.OpenSocial.Gadget.Controls
 				if (_autoDataScript == null)
 				{
 					_autoDataScript = new DataScript();
+					_autoDataScript.MyRootMaster = this.MyRootMaster;
 					DataScripts.Add(_autoDataScript);
 				}
 				return _autoDataScript;
@@ -561,6 +562,17 @@ namespace Negroni.OpenSocial.Gadget.Controls
 					writer.Write(" style=\"display:none;\" ");
 				}
 				writer.WriteLine(">");
+			}
+
+			//look for inline-resolved data in autodata
+			if (this.MyRootMaster.MyDataResolver == null
+				&& _autoDataScript != null
+				&& _autoDataScript.Controls.Count > 0)
+			{
+				foreach (BaseGadgetControl dataControl in AutoDataScript.Controls)
+				{
+					dataControl.Render(writer);
+				}
 			}
 
 			foreach (BaseGadgetControl template in Templates)

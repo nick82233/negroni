@@ -46,7 +46,13 @@ namespace WebNoSql.SiteOSML
 		{
 			if (!wasInvoked)
 			{
-				this.MyDataContext.RegisterDataItem(this.Key, this.GadgetFiles);
+				if (this.MyDataContext.HasVariable(this.Key))
+				{
+					this.MyDataContext.MasterData[this.Key].Data = this.GadgetFiles;
+				}
+				else{
+					this.MyDataContext.RegisterDataItem(this.Key, this.GadgetFiles);
+				}
 				wasInvoked = true;
 			}
 		}
