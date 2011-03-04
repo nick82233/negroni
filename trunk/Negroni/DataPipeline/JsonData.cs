@@ -165,6 +165,11 @@ namespace Negroni.DataPipeline
 					buffer[bufferPos++] = c;
 				}
 			}
+
+			/// <summary>
+			/// Marks the trace as having found an escape character.  The next character will be treated differently
+			/// </summary>
+			public bool AfterEscapeChar { get; set; }
 		}
 
 
@@ -391,14 +396,6 @@ namespace Negroni.DataPipeline
 			JsonTracePos tracePos = new JsonTracePos();
 			char prevChar = '\0'; ;
 			char curChar;
-			bool isEscaped = false;
-
-			
-			//bool inKey = false;
-			//bool inValue = false;
-			//bool unQuotedValue = false;
-
-			//string lastKey = null;
 
 			for (tracePos.CurrentPos = 0; tracePos.CurrentPos < json.Length; tracePos.CurrentPos++)
 			{
@@ -416,9 +413,9 @@ namespace Negroni.DataPipeline
 						if (IsCurrentCharObjectStart(curChar))
 						{
 							//recurse and add object result
-							char matchChar = '\0';
-							if (curChar == '{') matchChar = '}';
-							else if (curChar == '[') matchChar = ']';
+							//char matchChar = '\0';
+							//if (curChar == '{') matchChar = '}';
+							//else if (curChar == '[') matchChar = ']';
 
 							int embeddedObjectEndPos = FindMatchedCloseCharPosition(json, tracePos.CurrentPos);
 							if (embeddedObjectEndPos == -1)
@@ -452,7 +449,13 @@ namespace Negroni.DataPipeline
 					}
 				}
 
-				if (IsCurrentCharQuote(curChar, tracePos.QuoteChar))
+				if (curChar == '\\' && !tracePos.AfterEscapeChar)
+				{
+					tracePos.AfterEscapeChar = true;
+					continue;
+				}
+
+				if (!tracePos.AfterEscapeChar && IsCurrentCharQuote(curChar, tracePos.QuoteChar))
 				{
 					if (!tracePos.InKey && !tracePos.InValue)
 					{
@@ -466,10 +469,6 @@ namespace Negroni.DataPipeline
 						{
 							tracePos.InValue = true;
 						}
-					}
-					else if (isEscaped)
-					{
-						tracePos.AppendChar(curChar);
 					}
 					else
 					{
@@ -516,6 +515,7 @@ namespace Negroni.DataPipeline
 					{
 						tracePos.AppendChar(curChar);
 					}
+					if(tracePos.AfterEscapeChar){ tracePos.AfterEscapeChar = false;}
 				}
 				
 			}
@@ -604,9 +604,8 @@ namespace Negroni.DataPipeline
 
 			//walk the string
 			JsonTracePos tracePos = new JsonTracePos();
-			char prevChar = '\0'; ;
+//			char prevChar = '\0'; ;
 			char curChar;
-			bool isEscaped = false;
 
 			for (tracePos.CurrentPos = 0; tracePos.CurrentPos < json.Length; tracePos.CurrentPos++)
 			{
@@ -649,16 +648,19 @@ namespace Negroni.DataPipeline
 					}
 				}
 
-				if (IsCurrentCharQuote(curChar, tracePos.QuoteChar))
+				if (!tracePos.AfterEscapeChar && curChar == '\\')
+				{
+					tracePos.AfterEscapeChar = true;
+					continue;
+				}
+				
+				
+				if (!tracePos.AfterEscapeChar && IsCurrentCharQuote(curChar, tracePos.QuoteChar))
 				{
 					if (!tracePos.InValue)
 					{
 						tracePos.QuoteChar = curChar;
 						tracePos.InValue = true;
-					}
-					else if (isEscaped)
-					{
-						tracePos.AppendChar(curChar);
 					}
 					else
 					{
@@ -685,6 +687,7 @@ namespace Negroni.DataPipeline
 					{
 						tracePos.AppendChar(curChar);
 					}
+					if (tracePos.AfterEscapeChar) { tracePos.AfterEscapeChar = false; }
 				}
 				
 			}

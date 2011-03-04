@@ -355,6 +355,28 @@ namespace Negroni.DataPipeline.Tests
 			Assert.AreEqual(expectedValue, val);
 		}
 
+
+		[RowTest]
+		[Row(@"['he', 'she\'s']", "[1]", "she's")]
+		[Row(@"{'red': ""blue \""bear\""""}", "red", "blue \"bear\"")]
+		[Row(@"['h\""e', 'she\'s']", "[0]", "h\"e")]
+		[Row(@"{'r\'ed': ""blue \""bear\""""}", "r'ed", "blue \"bear\"")]
+		[Row(@"{'red': {'one': ""blue \""bear\""""}}", "red.one", "blue \"bear\"")]
+		public void EscapedStringsDontExplode(string json, string key, string expectedValue)
+		{
+			JsonData target = new JsonData(json);
+			string val = null;
+			object x = target.ResolveExpressionValue(key);
+			if (x != null)
+			{
+				val = x.ToString();
+			}
+			Assert.AreEqual(expectedValue, val);
+		}
+
+
+
+
 		[Test]
 		public void JsonObjectArrayFormatted()
 		{
