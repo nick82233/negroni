@@ -394,19 +394,44 @@ namespace Negroni.DataPipeline
 
 			//walk the string
 			JsonTracePos tracePos = new JsonTracePos();
-			char curChar;
 
 			for (tracePos.CurrentPos = 0; tracePos.CurrentPos < json.Length; tracePos.CurrentPos++)
 			{
-				curChar = json[tracePos.CurrentPos];
-				if (!tracePos.InKey && !tracePos.InValue)
+				AppendCurrentCharToTrace(json, tracePos, true, dictionary, null);
+			}
+
+			//look to flush final unquoted value
+			if (tracePos.InValue && tracePos.InUnQuotedValue && tracePos.PreviousKey != null)
+			{
+				string val = tracePos.FlushBuffer();
+				dictionary[tracePos.PreviousKey] = GetResolvedValue(val);
+			}
+			else if (tracePos.InKey || tracePos.InValue)
+			{
+				throw new Exception("Malformed JSON data");
+			}
+		}
+
+		/// <summary>
+		/// Appends the next character to the trace
+		/// </summary>
+		/// <param name="json"></param>
+		/// <param name="tracePos"></param>
+		/// <param name="isObject"></param>
+		private void AppendCurrentCharToTrace(string json, JsonTracePos tracePos, bool isObject, Dictionary<string, object> dictionaryForObject, List<object> listForArray)
+		{
+			char curChar = json[tracePos.CurrentPos];
+			if ((!isObject && !tracePos.InValue)
+				|| (isObject && !tracePos.InKey && !tracePos.InValue))
+			{
+				if ((isObject && curChar == ':') || curChar == ',' || curChar == '\t'
+					|| curChar == '\n' || curChar == '\r'
+					|| curChar == ' ')
 				{
-					if (curChar == ':' || curChar == ',' || curChar == '\t' 
-						|| curChar == '\n' || curChar == '\r'
-						|| curChar == ' ')
-					{
-						continue;
-					}
+					return;
+				}
+				if (isObject)
+				{
 					if (tracePos.PreviousKey != null)
 					{
 						if (IsCurrentCharObjectStart(curChar))
@@ -424,18 +449,18 @@ namespace Negroni.DataPipeline
 							//todo - walk backwards to identify correct delimiter
 							string embeddedJson = json.Substring(tracePos.CurrentPos, (embeddedObjectEndPos - tracePos.CurrentPos) + 1);
 
-							dictionary[tracePos.PreviousKey] = GetResolvedValue(embeddedJson);
+							dictionaryForObject[tracePos.PreviousKey] = GetResolvedValue(embeddedJson);
 							tracePos.CurrentPos = embeddedObjectEndPos + 1;
 							tracePos.PreviousKey = null;
 							tracePos.ClearContext();
-							continue;
+							return;
 						}
-						else if(!IsCurrentCharQuote(curChar, '\0'))
+						else if (!IsCurrentCharQuote(curChar, '\0'))
 						{
 							tracePos.InValue = true;
 							tracePos.InUnQuotedValue = true;
 							tracePos.AppendChar(curChar);
-							continue;
+							return;
 						}
 					}
 					else if (!IsCurrentCharQuote(curChar, tracePos.QuoteChar))
@@ -444,22 +469,56 @@ namespace Negroni.DataPipeline
 						tracePos.InKey = true;
 						tracePos.InUnQuotedKey = true;
 						tracePos.AppendChar(curChar);
-						continue;
+						return;
 					}
 				}
-
-				if (curChar == '\\' && !tracePos.AfterEscapeChar)
+				//array branch
+				else
 				{
-					tracePos.AfterEscapeChar = true;
-					continue;
-				}
-
-				if (!tracePos.AfterEscapeChar && IsCurrentCharQuote(curChar, tracePos.QuoteChar))
-				{
-					if (!tracePos.InKey && !tracePos.InValue)
+					if (IsCurrentCharObjectStart(curChar))
 					{
-						tracePos.QuoteChar = curChar;
+						//recurse and add object result
+						//char matchChar = '\0';
+						//if (curChar == '{') matchChar = '}';
+						//else if (curChar == '[') matchChar = ']';
 
+						int embeddedObjectEndPos = FindMatchedCloseCharPosition(json, tracePos.CurrentPos);
+						if (embeddedObjectEndPos == -1)
+						{
+							throw new Exception("Malformed JSON data");
+						}
+						string embeddedJson = json.Substring(tracePos.CurrentPos, (embeddedObjectEndPos - tracePos.CurrentPos) + 1);
+
+						listForArray.Add(GetResolvedValue(embeddedJson));
+						tracePos.CurrentPos = embeddedObjectEndPos + 1;
+						tracePos.ClearContext();
+						return;
+					}
+					else if (!IsCurrentCharQuote(curChar, '\0'))
+					{
+						tracePos.InValue = true;
+
+						tracePos.InUnQuotedValue = true;
+						tracePos.AppendChar(curChar);
+						return;
+					}
+				}
+			}
+
+			if (curChar == '\\' && !tracePos.AfterEscapeChar)
+			{
+				tracePos.AfterEscapeChar = true;
+				return;
+			}
+
+			if (!tracePos.AfterEscapeChar && IsCurrentCharQuote(curChar, tracePos.QuoteChar))
+			{
+				if ((!isObject && !tracePos.InValue)
+					|| (isObject && !tracePos.InKey && !tracePos.InValue))
+				{
+					tracePos.QuoteChar = curChar;
+					if (isObject)
+					{
 						if (tracePos.PreviousKey == null)
 						{
 							tracePos.InKey = true;
@@ -471,7 +530,14 @@ namespace Negroni.DataPipeline
 					}
 					else
 					{
-						tracePos.QuoteChar = '\0';
+						tracePos.InValue = true;
+					}
+				}
+				else
+				{
+					tracePos.QuoteChar = '\0';
+					if (isObject)
+					{
 						if (tracePos.InKey)
 						{
 							tracePos.PreviousKey = tracePos.FlushBuffer();
@@ -481,92 +547,97 @@ namespace Negroni.DataPipeline
 						{
 							string val = tracePos.FlushBuffer();
 							//resolve if array or object
-							dictionary[tracePos.PreviousKey] = GetResolvedValue(val);
+							dictionaryForObject[tracePos.PreviousKey] = GetResolvedValue(val);
 							tracePos.ClearContext();
 							tracePos.PreviousKey = null;
 						}
 					}
-					continue;
-				}
-				else
-				{
-					if (tracePos.InValue && tracePos.InUnQuotedValue && curChar == ',')
+					else
 					{
+						tracePos.QuoteChar = '\0';
 						string val = tracePos.FlushBuffer();
 						//resolve if array or object
-						dictionary[tracePos.PreviousKey] = GetResolvedValue(val);
-						tracePos.InValue = false;
-						tracePos.InUnQuotedValue = false;
-						tracePos.PreviousKey = null;
-						continue;
+						listForArray.Add(GetResolvedValue(val));
+						tracePos.ClearContext();
 					}
-					else if(tracePos.InKey && tracePos.InUnQuotedKey &&
-						(curChar == ' ' || curChar == ':' || curChar == '\t' 
-						|| curChar == '\n' || curChar == '\r'))
+				}
+				return;
+			}
+			else
+			{
+				if (tracePos.InValue && tracePos.InUnQuotedValue && curChar == ',')
+				{
+					string val = tracePos.FlushBuffer();
+					//resolve if array or object
+					if (isObject)
 					{
-						string val = tracePos.FlushBuffer();
-						tracePos.PreviousKey = val;
-						tracePos.InUnQuotedKey = false;
-						tracePos.InKey = false;
-						continue;
+						dictionaryForObject[tracePos.PreviousKey] = GetResolvedValue(val);
 					}
 					else
 					{
-						if (tracePos.AfterEscapeChar)
+						listForArray.Add(GetResolvedValue(val));
+					}
+					tracePos.InValue = false;
+					tracePos.InUnQuotedValue = false;
+					tracePos.PreviousKey = null;
+					return;
+				}
+				else if (isObject && ( tracePos.InKey && tracePos.InUnQuotedKey &&
+					(curChar == ' ' || curChar == ':' || curChar == '\t'
+					|| curChar == '\n' || curChar == '\r')))
+				{
+					string val = tracePos.FlushBuffer();
+					tracePos.PreviousKey = val;
+					tracePos.InUnQuotedKey = false;
+					tracePos.InKey = false;
+					return;
+				}
+				else
+				{
+					if (tracePos.AfterEscapeChar)
+					{
+						switch (curChar)
 						{
-							switch (curChar)
-							{
-								case '\'':
-								case '"':
-									tracePos.AppendChar(curChar);
-									break;
-								case 'n':
-									tracePos.AppendChar('\n');
-									break;
-								case 'r':
-									tracePos.AppendChar('\r');
-									break;
-								case 't':
-									tracePos.AppendChar('\t');
-									break;
-								case 'f':
-									tracePos.AppendChar('\f');
-									break;
-								case '\r':
-									//check for windows \r\n combo by peeking ahead
-									if(json.Length > tracePos.CurrentPos + 1
-										&& '\n' == json[tracePos.CurrentPos+1])
-									{
-										//advance past linefeed
-										tracePos.CurrentPos++;
-									}
-									break;
-								case '\n':
-									break;
-								default:
-									tracePos.AppendChar(curChar);
-									break;
-							}
-						}
-						else
-						{
-							tracePos.AppendChar(curChar);
+							case '\'':
+							case '"':
+								tracePos.AppendChar(curChar);
+								break;
+							case 'n':
+								tracePos.AppendChar('\n');
+								break;
+							case 'r':
+								tracePos.AppendChar('\r');
+								break;
+							case 't':
+								tracePos.AppendChar('\t');
+								break;
+							case 'f':
+								tracePos.AppendChar('\f');
+								break;
+							case '\r':
+								//check for windows \r\n combo by peeking ahead
+								if (json.Length > tracePos.CurrentPos + 1
+									&& '\n' == json[tracePos.CurrentPos + 1])
+								{
+									//advance past linefeed
+									tracePos.CurrentPos++;
+								}
+								break;
+							case '\n':
+								break;
+							default:
+								tracePos.AppendChar(curChar);
+								break;
 						}
 					}
-					if(tracePos.AfterEscapeChar){ tracePos.AfterEscapeChar = false;}
+					else
+					{
+						tracePos.AppendChar(curChar);
+					}
 				}
+				if (tracePos.AfterEscapeChar) { tracePos.AfterEscapeChar = false; }
 			}
 
-			//look to flush final unquoted value
-			if (tracePos.InValue && tracePos.InUnQuotedValue && tracePos.PreviousKey != null)
-			{
-				string val = tracePos.FlushBuffer();
-				dictionary[tracePos.PreviousKey] = GetResolvedValue(val);
-			}
-			else if (tracePos.InKey || tracePos.InValue)
-			{
-				throw new Exception("Malformed JSON data");
-			}
 		}
 
 		/// <summary>
@@ -641,120 +712,10 @@ namespace Negroni.DataPipeline
 
 			//walk the string
 			JsonTracePos tracePos = new JsonTracePos();
-//			char prevChar = '\0'; ;
-			char curChar;
 
 			for (tracePos.CurrentPos = 0; tracePos.CurrentPos < json.Length; tracePos.CurrentPos++)
 			{
-				curChar = json[tracePos.CurrentPos];
-				if (!tracePos.InValue)
-				{
-					if (curChar == ',' || curChar == '\t'
-						|| curChar == '\n' || curChar == '\r'
-						|| curChar == ' ')
-					{
-						continue;
-					}
-					if (IsCurrentCharObjectStart(curChar))
-					{
-						//recurse and add object result
-						char matchChar = '\0';
-						if (curChar == '{') matchChar = '}';
-						else if (curChar == '[') matchChar = ']';
-
-						int embeddedObjectEndPos = FindMatchedCloseCharPosition(json, tracePos.CurrentPos);
-						if (embeddedObjectEndPos == -1)
-						{
-							throw new Exception("Malformed JSON data");
-						}
-						//todo - walk backwards to identify correct delimiter
-						string embeddedJson = json.Substring(tracePos.CurrentPos, (embeddedObjectEndPos - tracePos.CurrentPos) + 1);
-
-						list.Add(GetResolvedValue(embeddedJson));
-						tracePos.CurrentPos = embeddedObjectEndPos + 1;
-						tracePos.ClearContext();
-						continue;
-					}
-					else if (!IsCurrentCharQuote(curChar, '\0'))
-					{
-						tracePos.InValue = true;
-
-						tracePos.InUnQuotedValue = true;
-						tracePos.AppendChar(curChar);
-						continue;
-					}
-				}
-
-				if (!tracePos.AfterEscapeChar && curChar == '\\')
-				{
-					tracePos.AfterEscapeChar = true;
-					continue;
-				}
-				
-				
-				if (!tracePos.AfterEscapeChar && IsCurrentCharQuote(curChar, tracePos.QuoteChar))
-				{
-					if (!tracePos.InValue)
-					{
-						tracePos.QuoteChar = curChar;
-						tracePos.InValue = true;
-					}
-					else
-					{
-						tracePos.QuoteChar = '\0';
-						string val = tracePos.FlushBuffer();
-						//resolve if array or object
-						list.Add(GetResolvedValue(val));
-						tracePos.ClearContext();
-					}
-					continue;
-				}
-				else
-				{
-					if (tracePos.InValue && tracePos.InUnQuotedValue && curChar == ',')
-					{
-						string val = tracePos.FlushBuffer();
-						//resolve if array or object
-						list.Add(GetResolvedValue(val));
-						tracePos.InValue = false;
-						tracePos.InUnQuotedValue = false;
-						continue;
-					}
-					else
-					{
-						if (tracePos.AfterEscapeChar)
-						{
-							switch (curChar)
-							{
-								case '\'':
-								case '"':
-									tracePos.AppendChar(curChar);
-									break;
-								case 'n':
-									tracePos.AppendChar('\n');
-									break;
-								case 'r':
-									tracePos.AppendChar('\r');
-									break;
-								case 't':
-									tracePos.AppendChar('\t');
-									break;
-								case 'f':
-									tracePos.AppendChar('\f');
-									break;
-								default:
-									tracePos.AppendChar(curChar);
-									break;
-							}
-						}
-						else
-						{
-							tracePos.AppendChar(curChar);
-						}
-					}
-					if (tracePos.AfterEscapeChar) { tracePos.AfterEscapeChar = false; }
-				}
-				
+				AppendCurrentCharToTrace(json, tracePos, false, null, list);				
 			}
 
 			//look to flush final unquoted value
