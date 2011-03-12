@@ -67,6 +67,7 @@
     <Compile Include="UnitTests\BulkVariableResolverTestFixture.cs" />
     <Compile Include="UnitTests\AsyncRequestProcessorTestFixture.cs" />
     <Compile Include="UnitTests\AsyncRequestPoolTestFixture.cs" />
+    <Compile Include="UnitTests\JsonDataEscapingTestFixture.cs" />
     <Compile Include="UnitTests\GenericExpressionEvalWrapperTestFixture.cs" />
     <Compile Include="UnitTests\WrapperUtilityTestFixture.cs" />
     <Compile Include="UnitTests\SecurityPolicyTestFixture.cs" />

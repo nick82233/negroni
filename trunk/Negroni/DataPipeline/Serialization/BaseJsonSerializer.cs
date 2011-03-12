@@ -26,6 +26,7 @@ namespace Negroni.DataPipeline.Serialization
 	/// <summary>
 	/// Base class for JSON serialization
 	/// </summary>
+	[Obsolete("Smarter reflection is now implemented - don't use this")]
 	public class BaseJsonSerializer
 	{
 		#region Static methods

@@ -145,8 +145,10 @@
     <Compile Include="TemplateFramework\BaseControls\CustomTag.cs" />
     <Compile Include="TemplateFramework\BaseControls\CustomTagTemplate.cs" />
     <Compile Include="TemplateFramework\BaseControls\GadgetLiteral.cs" />
+    <Compile Include="TemplateFramework\BaseControls\IPagedDataControl.cs" />
     <Compile Include="TemplateFramework\BaseControls\LoopContext.cs" />
     <Compile Include="TemplateFramework\BaseControls\NonRenderedControl.cs" />
+    <Compile Include="TemplateFramework\BaseControls\BasePagedDataControl.cs" />
     <Compile Include="TemplateFramework\BaseControls\RootElementMaster.cs" />
     <Compile Include="TemplateFramework\BaseControls\VariableTag.cs" />
     <Compile Include="TemplateFramework\Configuration\NegroniConfigInterfaces.cs" />
