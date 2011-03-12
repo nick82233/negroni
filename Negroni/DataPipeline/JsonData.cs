@@ -394,7 +394,6 @@ namespace Negroni.DataPipeline
 
 			//walk the string
 			JsonTracePos tracePos = new JsonTracePos();
-			char prevChar = '\0'; ;
 			char curChar;
 
 			for (tracePos.CurrentPos = 0; tracePos.CurrentPos < json.Length; tracePos.CurrentPos++)
@@ -513,11 +512,49 @@ namespace Negroni.DataPipeline
 					}
 					else
 					{
-						tracePos.AppendChar(curChar);
+						if (tracePos.AfterEscapeChar)
+						{
+							switch (curChar)
+							{
+								case '\'':
+								case '"':
+									tracePos.AppendChar(curChar);
+									break;
+								case 'n':
+									tracePos.AppendChar('\n');
+									break;
+								case 'r':
+									tracePos.AppendChar('\r');
+									break;
+								case 't':
+									tracePos.AppendChar('\t');
+									break;
+								case 'f':
+									tracePos.AppendChar('\f');
+									break;
+								case '\r':
+									//check for windows \r\n combo by peeking ahead
+									if(json.Length > tracePos.CurrentPos + 1
+										&& '\n' == json[tracePos.CurrentPos+1])
+									{
+										//advance past linefeed
+										tracePos.CurrentPos++;
+									}
+									break;
+								case '\n':
+									break;
+								default:
+									tracePos.AppendChar(curChar);
+									break;
+							}
+						}
+						else
+						{
+							tracePos.AppendChar(curChar);
+						}
 					}
 					if(tracePos.AfterEscapeChar){ tracePos.AfterEscapeChar = false;}
 				}
-				
 			}
 
 			//look to flush final unquoted value
@@ -685,7 +722,35 @@ namespace Negroni.DataPipeline
 					}
 					else
 					{
-						tracePos.AppendChar(curChar);
+						if (tracePos.AfterEscapeChar)
+						{
+							switch (curChar)
+							{
+								case '\'':
+								case '"':
+									tracePos.AppendChar(curChar);
+									break;
+								case 'n':
+									tracePos.AppendChar('\n');
+									break;
+								case 'r':
+									tracePos.AppendChar('\r');
+									break;
+								case 't':
+									tracePos.AppendChar('\t');
+									break;
+								case 'f':
+									tracePos.AppendChar('\f');
+									break;
+								default:
+									tracePos.AppendChar(curChar);
+									break;
+							}
+						}
+						else
+						{
+							tracePos.AppendChar(curChar);
+						}
 					}
 					if (tracePos.AfterEscapeChar) { tracePos.AfterEscapeChar = false; }
 				}

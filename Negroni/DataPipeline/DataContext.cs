@@ -143,11 +143,23 @@ namespace Negroni.DataPipeline
 		public string ActiveViewScope { get; set; }
 
 
-		private DataRequestContext requestContext = null;
+
+		private DataRequestContext _requestContext = null;
+		
+		/// <summary>
+		/// RequestContext holds information specific to this request
+		/// such as current user and current culture
+		/// </summary>
 		public DataRequestContext RequestContext
 		{
-			get { return requestContext; }
-			set { requestContext = value; }
+			get {
+				if (null == _requestContext)
+				{
+					_requestContext = new DataRequestContext();
+				}				
+				return _requestContext; 
+			}
+			set { _requestContext = value; }
 		}
 
 		#region MessageBundle resource support
