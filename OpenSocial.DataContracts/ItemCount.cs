@@ -19,7 +19,7 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Text;
 
-namespace Negroni.ServiceLayer.RestExtensions.DataContracts
+namespace Negroni.OpenSocial.DataContracts
 {
 	[DataContract(Name="itemCount")]
 	public class ItemCount

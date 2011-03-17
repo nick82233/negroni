@@ -50,6 +50,7 @@
     <Reference Include="System.Web.ApplicationServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Editor.aspx" />
     <Content Include="Gadgets\helloWorld.xml" />
     <Content Include="Gadgets\osVarTestGadget.xml">
       <SubType>Designer</SubType>
@@ -73,6 +74,13 @@
     <Compile Include="ColorParser\RainbowControl.cs" />
     <Compile Include="ColorParser\GreenControl.cs" />
     <Compile Include="ColorParser\RedControl.cs" />
+    <Compile Include="Editor.aspx.cs">
+      <DependentUpon>Editor.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Editor.aspx.designer.cs">
+      <DependentUpon>Editor.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

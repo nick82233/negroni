@@ -308,14 +308,23 @@ namespace Negroni.TemplateFramework
 			{
 				if (!RefreshInstanceFromConfig(key))
 				{
-					throw new ControlFactoryNotDefinedException("Factory key: " + key + " not found in config definitions");
+					string msg = string.Empty;
+					if (FactorySingletons.Count <= 1)
+					{
+						msg = " Confirm the NegroniFramework.config file is present in application root and correctly formatted.";
+					}
+					throw new ControlFactoryNotDefinedException("Factory key: " + key + " not found in config definitions." + msg);
 				}
 			}
 			return FactorySingletons[key];
 		}
 
         /// <summary>
-        /// Returns a list of all currently defined control factory keys
+        /// Returns a list of all currently defined and initialized control factory keys.
+		/// Note: A key can be registered in the NegroniFramework.config file, but will not be
+		/// present in this list unless it has been initialized (accessed).
+		/// Use Negroni.TemplateFramework.Configuration.NegroniFrameworkConfig.ControlFactories
+		/// for all keys defined in the configuration file
         /// </summary>
         /// <returns></returns>
         static public List<string> GetControlFactoryKeys()
@@ -1470,7 +1479,7 @@ namespace Negroni.TemplateFramework
 				return root;
 			}
 
-			if (map.ControlType != typeof(RootElementMaster))
+			if (!InheritsFromType(map.ControlType, typeof(RootElementMaster)))
 			{
 				List<ControlMap> tags = GetTagNesting(tag);
 				StringBuilder sb = new StringBuilder();
@@ -1492,13 +1501,10 @@ namespace Negroni.TemplateFramework
 			}
 			else
 			{
-				if (map.ControlType == typeof(RootElementMaster))
-				{
-					root = Activator.CreateInstance(map.ControlType) as RootElementMaster;
-					root.MyControlFactory = this;
-					root.MyRootMaster = root;
-					root.LoadTag(markup);
-				}
+				root = Activator.CreateInstance(map.ControlType) as RootElementMaster;
+				root.MyControlFactory = this;
+				root.MyRootMaster = root;
+				root.LoadTag(markup);
 
 				return root;
 			}
