@@ -57,12 +57,31 @@ namespace Negroni.TemplateFramework
 			: this()
 		{
 			this.MyControlFactory = controlFactory;
+			//trim whitespace
+			if (!string.IsNullOrEmpty(gadgetXml)
+				&& (gadgetXml.StartsWith(" ", StringComparison.InvariantCulture)
+				|| gadgetXml.StartsWith("\t", StringComparison.InvariantCulture)
+				|| gadgetXml.StartsWith("\r\n", StringComparison.InvariantCulture)
+				|| gadgetXml.StartsWith("\n", StringComparison.InvariantCulture)))
+			{
+				gadgetXml = gadgetXml.Trim();
+			}
 			LoadTag(gadgetXml);
 		}
 
 		public RootElementMaster(string gadgetXml, OffsetItem masterOffsets, ControlFactory controlFactory)
 			: this()
 		{
+			//trim whitespace
+			if (!string.IsNullOrEmpty(gadgetXml)
+				&& (gadgetXml.StartsWith(" ", StringComparison.InvariantCulture)
+				|| gadgetXml.StartsWith("\t", StringComparison.InvariantCulture)
+				|| gadgetXml.StartsWith("\r\n", StringComparison.InvariantCulture)
+				|| gadgetXml.StartsWith("\n", StringComparison.InvariantCulture)))
+			{
+				gadgetXml = gadgetXml.Trim();
+			}
+
 			this.MyControlFactory = controlFactory;
 			this.MyOffset = masterOffsets;
 			LoadTag(gadgetXml);
@@ -72,6 +91,15 @@ namespace Negroni.TemplateFramework
 			: this()
 		{
 			this.MyControlFactory = ControlFactory.GetControlFactory(controlFactoryKey);
+			//trim whitespace
+			if (!string.IsNullOrEmpty(gadgetXml)
+				&& (gadgetXml.StartsWith(" ", StringComparison.InvariantCulture)
+				|| gadgetXml.StartsWith("\t", StringComparison.InvariantCulture)
+				|| gadgetXml.StartsWith("\r\n", StringComparison.InvariantCulture)
+				|| gadgetXml.StartsWith("\n", StringComparison.InvariantCulture)))
+			{
+				gadgetXml = gadgetXml.Trim();
+			}
 			LoadTag(gadgetXml);
 		}
 
@@ -80,6 +108,15 @@ namespace Negroni.TemplateFramework
 		{
 			this.MyControlFactory = ControlFactory.GetControlFactory(controlFactoryKey);
 			this.MyOffset = masterOffsets;
+			//trim whitespace
+			if (!string.IsNullOrEmpty(gadgetXml)
+				&& (gadgetXml.StartsWith(" ", StringComparison.InvariantCulture)
+				|| gadgetXml.StartsWith("\t", StringComparison.InvariantCulture)
+				|| gadgetXml.StartsWith("\r\n", StringComparison.InvariantCulture)
+				|| gadgetXml.StartsWith("\n", StringComparison.InvariantCulture)))
+			{
+				gadgetXml = gadgetXml.Trim();
+			}
 			LoadTag(gadgetXml);
 		}
 
