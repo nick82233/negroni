@@ -2347,10 +2347,34 @@ namespace Negroni.TemplateFramework
 			}
 		}
 
-		
 
 
 
 
+
+		/// <summary>
+		/// Identifies if a particular control is a registered RootElement
+		/// and inherits from RootElementMaster
+		/// </summary>
+		/// <param name="baseContainerControl"></param>
+		/// <returns></returns>
+		public bool IsRootElement(BaseContainerControl control)
+		{
+			if (control == null)
+			{
+				return false;
+			}
+			Type t = control.GetType();
+			if (((control.MyOffset != null && control.MyOffset.OffsetKey == this.RootElement.OffsetKey)
+				|| this.RootElement.ControlType == t
+				|| this.RootElements.ContainsKey(control.MarkupTag))
+				&& InheritsFromType(t, typeof(RootElementMaster)))
+			{
+				return true;
+			}
+
+
+			return false;
+		}
 	}
 }

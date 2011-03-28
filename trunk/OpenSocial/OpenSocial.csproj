@@ -73,8 +73,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Gadget\Controls\DataBlock.cs" />
     <Compile Include="Gadget\Controls\GadgetSecurityPolicy.cs" />
-    <Compile Include="Gadget\Controls\DataPipelineBlock.cs" />
     <Compile Include="Gadget\Controls\MySpaceAppSettings.cs" />
     <Compile Include="Gadget\Controls\OsVar.cs" />
     <Compile Include="Gadget\Controls\ExternalTemplates.cs" />
@@ -88,14 +88,12 @@
     <Compile Include="Gadget\Controls\ModuleRequire.cs" />
     <Compile Include="Gadget\Controls\Message.cs" />
     <Compile Include="Gadget\Controls\TemplateLibraryDef.cs" />
-    <Compile Include="Gadget\Enums\MessageBundleErrorType.cs" />
     <Compile Include="Gadget\GadgetCounters.cs" />
     <Compile Include="Gadget\Controls\ModulePrefs.cs" />
     <Compile Include="Gadget\Controls\ContentBlock.cs" />
     <Compile Include="Gadget\GadgetErrors.cs" />
     <Compile Include="Gadget\GadgetMaster.cs" />
     <Compile Include="Gadget\LifecycleEventKey.cs" />
-    <Compile Include="Gadget\MessageBundleItemError.cs" />
     <Compile Include="Gadget\ViewSize.cs" />
     <Compile Include="OSML\Controls\ExternalRequestControl.cs" />
     <Compile Include="OSML\Controls\OsRender.cs" />
@@ -151,6 +149,9 @@
       <Project>{2FF4052D-B156-4FEE-B54E-CEEE987F35A0}</Project>
       <Name>Negroni</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Gadget\Enums\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

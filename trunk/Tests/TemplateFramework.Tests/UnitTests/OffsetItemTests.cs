@@ -22,6 +22,7 @@ namespace Negroni.TemplateFramework.Tests
 	/// Summary description for OffsetItemTests
 	/// </summary>
 	[TestFixture]
+	[TestsOn(typeof(OffsetItem))]
 	public class OffsetItemTests
 	{
 		public OffsetItemTests()

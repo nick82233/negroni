@@ -253,6 +253,125 @@ namespace Negroni.TemplateFramework
 
 
 
+		#region Error Logging Support
+
+
+		private GadgetErrors _errors = null;
+
+		/// <summary>
+		/// Errors existing in this gadget.
+		/// This includes ParseErrors, CircularReferenceErrors,
+		/// obsolete control warnings, etc.
+		/// </summary>
+		public GadgetErrors Errors
+		{
+			get
+			{
+				if (_errors == null)
+				{
+					_errors = new GadgetErrors(this);
+				}
+				return _errors;
+			}
+		}
+
+
+		/// <summary>
+		/// Recursively checks to see if a data key is completely resolvable.
+		/// To be resolvable, every dependent key must ultimately resolve to 
+		/// a control that has no dynamic dependencies
+		/// </summary>
+		/// <param name="key"></param>
+		/// <param name="keysAlreadyUsed"></param>
+		/// <param name="circularKey">Variable to contain key identified as circular</param>
+		/// <returns></returns>
+		public bool IsResolvableKey(string key, Dictionary<string, string> keysAlreadyUsed, out string circularKey)
+		{
+			if (!MyDataContext.HasVariable(key))
+			{
+				circularKey = key;
+				return false;
+			}
+			circularKey = null;
+			DataItem item = MyDataContext.MasterData[key];
+			if (null == item)
+			{
+				circularKey = key;
+				return false;
+			}
+			if (item.DataControl is BaseDataControl)
+			{
+				BaseDataControl control = (BaseDataControl)item.DataControl;
+				if (!control.HasDynamicParameters())
+				{
+					return true;
+				}
+				else
+				{
+					bool resolvable = true;
+					string[] requiredKeys = control.GetDynamicKeyDependencies();
+					for (int i = 0; i < requiredKeys.Length; i++)
+					{
+						if (keysAlreadyUsed.ContainsKey(requiredKeys[i]))
+						{
+							circularKey = requiredKeys[i];
+							return false;
+						}
+						else
+						{
+							Dictionary<string, string> thisBranchKeysUsed = new Dictionary<string, string>(keysAlreadyUsed);
+							thisBranchKeysUsed.Add(key, key);
+							resolvable = IsResolvableKey(requiredKeys[i], thisBranchKeysUsed, out circularKey);
+						}
+						if (!resolvable)
+						{
+							return false;
+						}
+					}
+					return true;
+				}
+			}
+			else
+			{
+				return true;
+			}
+
+		}
+
+
+		#endregion
+
+		private bool _hasXmlDeclaration = false;
+
+		/// <summary>
+		/// True when the first line of the RawXML is an xml declaration
+		/// ex: &lt;?xml version="1.0" encoding="UTF-8" standalone="no" ?&gt;
+		/// </summary>
+		public bool HasXmlDeclaration
+		{
+			get
+			{
+				return _hasXmlDeclaration;
+			}
+			internal set
+			{
+				_hasXmlDeclaration = value;
+			}
+		}
+
+		/// <summary>
+		/// Encapsulation of information in XML declaration.
+		/// NOTE: THIS IS ALWAYS NULL
+		/// </summary>
+		public object XmlDeclaration
+		{
+			get
+			{
+				return null;
+			}
+		}
+
+
 		/// <summary>
 		/// Extracts the raw markup block based on the passed in OffsetItems
 		/// </summary>

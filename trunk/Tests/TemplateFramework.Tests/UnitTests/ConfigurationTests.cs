@@ -21,6 +21,7 @@ namespace Negroni.TemplateFramework.Tests
 	/// Summary description for UnitTest1
 	/// </summary>
 	[TestFixture]
+	[TestsOn(typeof(NegroniFrameworkConfig))]
 	public class ConfigurationTests
 	{
 
@@ -33,6 +34,41 @@ namespace Negroni.TemplateFramework.Tests
 		public void CleanupTest()
 		{
 			ControlFactory.ClearControlFactories();
+		}
+
+		[Test]
+		public void RootElementCheckTest()
+		{
+			ControlFactory cf = ControlFactory.GetControlFactory(NegroniFrameworkConfig.CONFIGPARSER_CONTROLFACTORY);
+
+			Assert.IsNotNull(cf);
+
+			Negroni.TemplateFramework.Configuration.ParsingControls.NegroniControlFactories root = new Configuration.ParsingControls.NegroniControlFactories();
+
+			Assert.IsTrue(cf.IsRootElement(root), "Config root control not recognized");
+
+			Configuration.ParsingControls.NegroniControlFactory ctl = new Configuration.ParsingControls.NegroniControlFactory();
+
+			Assert.IsFalse(cf.IsRootElement(ctl), "Non-root control incorrectly marked as root");
+
+		}
+
+
+		[Test]
+		public void ConfigLoadDoesNotExplode()
+		{
+			CleanupTest();
+
+			string key = "testFactory";
+
+			try
+			{
+				NegroniFrameworkConfig.ReloadConfiguration();
+			}
+			catch (Exception ex)
+			{
+				Assert.Fail(ex.Message);
+			}
 		}
 
 		[Test]

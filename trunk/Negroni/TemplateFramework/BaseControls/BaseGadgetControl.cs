@@ -468,12 +468,31 @@ namespace Negroni.TemplateFramework
 			//if a close tag, exit
 			if (RawTag.StartsWith("</")) return;
 
-			int endPos = RawTag.IndexOf(">");
+			int adjustment = 0;
+			//test for xml declaration
+			if (RawTag.StartsWith("<?xml", StringComparison.InvariantCultureIgnoreCase))
+			{
+				adjustment = RawTag.IndexOf("?>", 4);
+				if (adjustment == -1)
+				{
+					return; //mal-formed
+				}
+				else
+				{
+					adjustment = RawTag.IndexOf("<", adjustment + 2);
+					if (adjustment == -1)
+					{
+						return;
+					}
+				}
+			}
+
+			int endPos = RawTag.IndexOf(">", adjustment);
 			if(-1 == endPos) return;
 
 			int curPos = 0, eqPos = 0;
 			string name, value;
-			string tagPart = RawTag.Substring(0, endPos + 1);
+			string tagPart = RawTag.Substring(adjustment, (endPos + 1) - adjustment);
 
 			//exit if no attributes
 			eqPos = tagPart.IndexOf("=");
@@ -870,6 +889,11 @@ namespace Negroni.TemplateFramework
 			SetStandardAttributeProperties();
 			if (this is BaseContainerControl)
 			{
+				if (ControlFactory.InheritsFromType(this.GetType(), typeof(RootElementMaster))
+					&& markup.StartsWith("<?xml", StringComparison.InvariantCultureIgnoreCase))
+				{
+					((RootElementMaster)this).HasXmlDeclaration = true;
+				}
 				Parse();
 			}
 			IsParsed = true;

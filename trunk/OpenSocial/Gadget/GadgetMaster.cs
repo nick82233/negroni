@@ -286,95 +286,6 @@ namespace Negroni.OpenSocial.Gadget
         #endregion
 
 
-        #region Error Logging Support
-
-
-		private GadgetErrors _errors = null;
-
-		/// <summary>
-		/// Errors existing in this gadget.
-		/// This includes ParseErrors, CircularReferenceErrors,
-		/// obsolete control warnings, etc.
-		/// </summary>
-		public GadgetErrors Errors
-		{
-			get
-			{
-				if (_errors == null)
-				{
-					_errors = new GadgetErrors(this);
-				}
-				return _errors;
-			}
-		}
-
-
-		/// <summary>
-		/// Recursively checks to see if a key is completely resolvable.
-		/// To be resolvable, every dependent key must ultimately resolve to 
-		/// a control that has no dynamic dependencies
-		/// </summary>
-		/// <param name="key"></param>
-		/// <param name="keysAlreadyUsed"></param>
-		/// <param name="circularKey">Variable to contain key identified as circular</param>
-		/// <returns></returns>
-		internal bool IsResolvableKey(string key, Dictionary<string, string> keysAlreadyUsed, out string circularKey)
-		{
-			if (!MyDataContext.HasVariable(key))
-			{
-				circularKey = key;
-				return false;
-			}
-			circularKey = null;
-			DataItem item = MyDataContext.MasterData[key];
-			if (null == item)
-			{
-				circularKey = key;
-				return false;
-			}
-			if (item.DataControl is BaseDataControl)
-			{
-				BaseDataControl control = (BaseDataControl)item.DataControl;
-				if (!control.HasDynamicParameters())
-				{
-					return true;
-				}
-				else
-				{
-					bool resolvable = true;
-					string[] requiredKeys = control.GetDynamicKeyDependencies();
-					for (int i = 0; i < requiredKeys.Length; i++)
-					{
-						if (keysAlreadyUsed.ContainsKey(requiredKeys[i]))
-						{
-							circularKey = requiredKeys[i];
-							return false;
-						}
-						else
-						{
-							Dictionary<string, string> thisBranchKeysUsed = new Dictionary<string, string>(keysAlreadyUsed);
-							thisBranchKeysUsed.Add(key, key);
-							resolvable = IsResolvableKey(requiredKeys[i], thisBranchKeysUsed, out circularKey);
-						}
-						if (!resolvable)
-						{
-							return false;
-						}
-					}
-					return true;
-				}
-			}
-			else
-			{
-				return true;
-			}
-
-		}
-
-
-        #endregion
-
-
 
         #region Custom object collection accessors - ModulePrefs, ContentBlocks, etc.
 
@@ -442,40 +353,6 @@ namespace Negroni.OpenSocial.Gadget
 			{
 				return new string[] { };
 			}
-
-			//Dictionary<string, string> views = new Dictionary<string,string>();
-
-			//foreach (ContentBlock block in ContentBlocks)
-			//{
-			//    for (int i = 0; i < block.ViewNames.Length; i++)
-			//    {
-			//        if (!string.IsNullOrEmpty(block.ViewNames[i]))
-			//        {
-			//            string key = block.ViewNames[i];
-			//            if (!views.ContainsKey(key))
-			//            {
-			//                views.Add(key, key);
-			//            }
-			//            //also log main view, if subview present
-			//            if (key.Contains("."))
-			//            {
-			//                key = key.Substring(0, key.IndexOf("."));
-			//                if (!views.ContainsKey(key))
-			//                {
-			//                    views.Add(key, key);
-			//                }
-			//            }
-
-			//        }
-			//    }
-			//}
-			//string[] result = new string[views.Keys.Count];
-			//int n = 0;
-			//foreach (KeyValuePair<string, string> keyset in views)
-			//{
-			//    result[n++] = keyset.Key;
-			//}
-			//return result;
 		}
 
 
@@ -610,6 +487,25 @@ namespace Negroni.OpenSocial.Gadget
             }
         }
 
+		private List<DataBlock> _dataBlocks = null;
+
+		/// <summary>
+		/// Accessor for dataBlocks.
+		/// These controls are also part of the Controls collection
+		/// </summary>
+		public List<DataBlock> DataBlocks
+		{
+			get
+			{
+				if (_dataBlocks == null)
+				{
+					_dataBlocks = new List<DataBlock>();
+				}
+				return _dataBlocks;
+			}
+		}
+
+
 		/// <summary>
 		/// Shortcut to the TemplateLibraries defined in ModulePrefs
 		/// </summary>
@@ -735,20 +631,6 @@ namespace Negroni.OpenSocial.Gadget
                 this.Errors.ParseErrors.Add(ex);
             }
 
-            foreach (BaseGadgetControl control in Controls)
-            {
-                if (control is ModulePrefs)
-                {
-                    this.ModulePrefs = (ModulePrefs)control;
-                }
-                else if (control is ContentBlock)
-                {
-                    
-                    this.AddContentBlock((ContentBlock)control);
-                }
-
-            }
-
             //update counters
             if (GadgetMaster.Counters.ParseCount.IsGlobalCounterEnabled)
             {
@@ -759,6 +641,32 @@ namespace Negroni.OpenSocial.Gadget
 
 
         }
+
+		public override BaseGadgetControl AddControl(BaseGadgetControl control)
+		{
+			base.AddControl(control);
+
+			if (control is ModulePrefs)
+			{
+				this.ModulePrefs = (ModulePrefs)control;
+			}
+			else if (control is ContentBlock)
+			{
+				this.AddContentBlock((ContentBlock)control);
+			}
+			else if (control is DataBlock)
+			{
+				((DataBlock)control).ConfirmDataItemsRegistered();
+				DataBlocks.Add((DataBlock)control);
+			}
+			else if (control is TemplatesRoot)
+			{
+				MyCustomTagFactory.RegisterCustomTags(((TemplatesRoot)control).CustomTags);
+			}
+
+			return control;
+		}
+
 
         #endregion
 
@@ -1281,11 +1189,11 @@ gadgets.util.registerOnLoadHandler(function(){
             if (disposing)
             {
                 ClearAllControls();
-				if (null != _errors)
-				{
-					_errors.Parent = null;
-					_errors = null;
-				}
+				//if (null != _errors)
+				//{
+				//    _errors.Parent = null;
+				//    _errors = null;
+				//}
             }
 
 

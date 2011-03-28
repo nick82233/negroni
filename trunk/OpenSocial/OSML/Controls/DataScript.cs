@@ -101,17 +101,6 @@ namespace Negroni.OpenSocial.OSML.Controls
 			}
 		}
 
-
-		/// <summary>
-		/// Given an <c>OffsetList</c>, build the controls from the RawMark.
-		/// </summary>
-		/// <param name="markup">Raw markup associated with these offsets</param>
-		/// <param name="offsets"></param>
-		override protected void BuildControlTreeFromOffsets()
-		{
-			base.BuildControlTreeFromOffsets();
-		}
-
 		public override BaseGadgetControl AddControl(BaseGadgetControl control)
 		{
 			return base.AddControl(control);
@@ -125,58 +114,6 @@ namespace Negroni.OpenSocial.OSML.Controls
 				MyOffset = new OffsetItem(0, "DataScript");
 			}
 		}
-
-
-		//private string[] _viewNames = { };
-		///// <summary>
-		///// Content view names, as an array of strings.
-		///// </summary>
-		//public string[] ViewNames
-		//{
-		//    get
-		//    {
-		//        return _viewNames;
-		//    }
-		//    set
-		//    {
-		//        _viewNameString = null;
-		//        _viewNames = value;
-		//    }
-		//}
-
-		//private string _viewNameString = null;
-		///// <summary>
-		///// Gets all the view names in a comma-delimited string.
-		///// Returns null if no views defined.
-		///// </summary>
-		///// <returns></returns>
-		//string GetViewNameString()
-		//{
-		//    if (_viewNameString == null)
-		//    {
-		//        if (ViewNames == null || ViewNames.Length == 0)
-		//        {
-		//            return null;
-		//        }
-		//        else
-		//        {
-		//            _viewNameString = string.Empty;
-		//            for (int i = 0; i < ViewNames.Length; i++)
-		//            {
-		//                if (i > 0)
-		//                {
-		//                    _viewNameString += "," + ViewNames[i];
-		//                }
-		//                else
-		//                {
-		//                    _viewNameString += ViewNames[i];
-		//                }
-		//            }
-		//        }
-		//    }
-		//    return _viewNameString;
-
-		//}
 
 	}
 }

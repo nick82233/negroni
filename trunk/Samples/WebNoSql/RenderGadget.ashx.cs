@@ -6,6 +6,7 @@ using System.Web;
 
 using Negroni.TemplateFramework;
 using Negroni.OpenSocial.Gadget;
+using Negroni.DataPipeline;
 
 using WebNoSql.SiteOSML;
 
@@ -67,8 +68,22 @@ namespace WebNoSql
 					ControlFactory cf = ControlFactory.GetControlFactory(controlFactory);
 
 					RootElementMaster rm = cf.BuildControlTree(gadgetString);
+					rm.MyDataResolver = new SimpleDataPipelineResolver();
 					context.Response.StatusCode = 200;
 					context.Response.ContentType = "text/html";
+
+					if (rm.Errors.HasParseErrors())
+					{
+						context.Response.Write("<div style='border:2px solid red;'><ul>");
+						foreach (var err in rm.Errors.ParseErrors)
+						{
+							context.Response.Write("<li>");
+							context.Response.Write(err.ToString());
+							context.Response.Write("</li>");
+						}
+						context.Response.Write("</ul></div>");
+					}
+
 					StreamWriter writer = new StreamWriter(context.Response.OutputStream);
 					writer.AutoFlush = true;
 					rm.Render(writer);

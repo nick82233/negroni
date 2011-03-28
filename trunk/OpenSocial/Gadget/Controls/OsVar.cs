@@ -28,6 +28,7 @@ namespace Negroni.OpenSocial.Gadget.Controls
 	[OffsetKey("os_Var")]
 	[ContextGroup(typeof(DataScript))]
 	[ContextGroup(typeof(ContentBlock))]
+	[ContextGroup(typeof(DataBlock))]
 	[ContextGroup(typeof(BaseContainerControl))]
 	public class OsVar : VariableTag
     {

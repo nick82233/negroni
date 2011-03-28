@@ -11,9 +11,11 @@ namespace Negroni.OpenSocial.Tests.TestData.TemplateLibraries
 	/// </summary>
 	public class BasicLibrary
 	{
-		public const string Source =
-@"<?xml version=""1.0"" encoding=""UTF-8""?>
-<Templates xmlns:foo='http://foo.com/'>
+		public static readonly string Source = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" + InternalXml;
+
+
+		protected const string InternalXml =
+@"<Templates xmlns:foo='http://foo.com/'>
   <Namespace prefix=""foo"" url=""http://foo.com/""/>
  
   <!-- Simple declarative tag foo:bar -->
@@ -25,6 +27,7 @@ namespace Negroni.OpenSocial.Tests.TestData.TemplateLibraries
 </Template>
  
 </Templates>";
+
 
 		public List<string> DefinedTags = new List<string>();
 
