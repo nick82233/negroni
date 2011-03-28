@@ -25,19 +25,33 @@ namespace Negroni.OpenSocial.Tests.Gadget
 		[Test]
 		public void TemplateLibraryHasTag()
 		{
+			LibraryHasTagTest(BasicLibrary.Source);
+		}
+
+		[Test]
+		public void TemplateLibraryNoXmlDeclarationHasTag()
+		{
+			LibraryHasTagTest(BasicLibraryNoXml.Source);
+		}
+
+
+		void LibraryHasTagTest(string source)
+		{
 			GadgetReferencingTemplateLibrary testData = new GadgetReferencingTemplateLibrary();
 			GadgetMaster master = GadgetMaster.CreateGadget(TEST_FACTORY_KEY, testData.Source); //new GadgetMaster(ControlFactory.GetControlFactory(TEST_FACTORY_KEY));
 
 			Assert.Greater(testData.ExpectedCustomTags.Count, 0, "No expected tags");
 
 			BasicLibrary testLib = new BasicLibrary();
-			TemplatesRoot library = master.LoadTemplateLibrary(testData.ExpectedTemplateLibraryUri, BasicLibrary.Source);
+			TemplatesRoot library = master.LoadTemplateLibrary(testData.ExpectedTemplateLibraryUri, source);
 
 			Assert.AreEqual(2, library.CustomTags.Count, "Incorrect template count");
 			Assert.IsFalse(String.IsNullOrEmpty(library.CustomTags[0].Tag), "tag is empty");
-
-
 		}
+
+
+
+
 
 		[Test]
 		public void RenderWithExternalTemplates()

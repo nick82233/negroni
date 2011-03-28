@@ -97,6 +97,7 @@
     <Compile Include="Controls\GadgetLiteralControlTestFixture.cs" />
     <Compile Include="Controls\OsVarTestFixture.cs" />
     <Compile Include="Controls\GadgetControlFactoryTests.cs" />
+    <Compile Include="Gadgetv2\SimpleGadgetFormatTests.cs" />
     <Compile Include="Gadget\CloneGadgetTests.cs" />
     <Compile Include="Gadget\RootElementMasterTests.cs" />
     <Compile Include="Gadget\MessageBundleTests.cs" />
@@ -182,6 +183,7 @@
     <Compile Include="TestData\Partials\ModulePrefsInlineMessagesData.cs" />
     <Compile Include="TestData\Partials\ModPrefMySpaceAppSettings.cs" />
     <Compile Include="TestData\TemplateLibraries\BasicLibrary.cs" />
+    <Compile Include="TestData\TemplateLibraries\BasicLibraryNoXml.cs" />
     <Compile Include="TestData\TemplateLibraries\GadgetReferencingTemplateLibrary.cs" />
     <Compile Include="TestData\DataGadgetStaticAttrRepeatTestData.cs" />
     <Compile Include="TestData\DataGadgetAttrRepeatTestData.cs" />
