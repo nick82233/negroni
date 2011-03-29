@@ -66,10 +66,13 @@ namespace WebNoSql
 
 			if (File.Exists(path))
 			{
+				/*
 				context.Response.ContentType = "text/plain";
 				context.Response.Write("File already loaded - delete manually: " + path);
 				context.Response.End();
 				return;
+				 * */
+				File.Delete(path);
 			}
 
 			FileStream fs = new FileStream(path, FileMode.CreateNew);

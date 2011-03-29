@@ -8,11 +8,71 @@
     <link href="~/Styles/Site.css" rel="stylesheet" type="text/css" />
     <asp:ContentPlaceHolder ID="HeadContent" runat="server">
     </asp:ContentPlaceHolder>
+    <style type="text/css">
+
+body   
+{
+    background: #b6b7bc;
+    font-size: .80em;
+    font-family: "Helvetica Neue", "Lucida Grande", "Segoe UI", Arial, Helvetica, Verdana, sans-serif;
+    margin: 0px;
+    padding: 0px;
+    color: #696969;
+}
+
+.page
+{
+    width: 960px;
+    background-color: #fff;
+    margin: 20px auto 0px auto;
+    border: 1px solid #496077;
+    border-shadow: 2px;
+}
+
+.header
+{
+    position: relative;
+    margin: 0px;
+    padding: 0px;
+    background: #4b6c9e;
+    width: 100%;
+}
+
+.header h1
+{
+    font-weight: 700;
+    margin: 0px;
+    padding: 0px 0px 0px 20px;
+    color: #f9f9f9;
+    border: none;
+    line-height: 2em;
+    font-size: 2em;
+}
+
+#topnav{
+    float:right;
+    margin:10px;
+    padding:10px;
+    background:white;
+    
+}
+#topnav a
+{
+    margin-right:10px;
+    text-decoration:none;
+    font-weight:bold;
+}
+#topnav a:hover
+{
+    text-decoration:underline;
+}    
+    </style>
+
 </head>
 <body>
     <div class="page">
         <div class="header">
-            <div style="float:right;margin:10px;padding:10px;background:white;"><a href="Default.aspx">Home</a>&nbsp;<a href="Editor.aspx">Editor</a></div>
+            <div id="topnav"><a href="Default.aspx">Home</a> <a href="Editor.aspx">Editor</a></div>
             <div class="title">
                 <h1>Negroni Sample Application</h1>
             </div>

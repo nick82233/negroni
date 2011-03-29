@@ -1,15 +1,6 @@
 ﻿/* DEFAULTS
 ----------------------------------------------------------*/
 
-body   
-{
-    background: #b6b7bc;
-    font-size: .80em;
-    font-family: "Helvetica Neue", "Lucida Grande", "Segoe UI", Arial, Helvetica, Verdana, sans-serif;
-    margin: 0px;
-    padding: 0px;
-    color: #696969;
-}
 
 a:link, a:visited
 {
@@ -86,33 +77,6 @@ first child of the left and right table columns */
 /* PRIMARY LAYOUT ELEMENTS   
 ----------------------------------------------------------*/
 
-.page
-{
-    width: 960px;
-    background-color: #fff;
-    margin: 20px auto 0px auto;
-    border: 1px solid #496077;
-}
-
-.header
-{
-    position: relative;
-    margin: 0px;
-    padding: 0px;
-    background: #4b6c9e;
-    width: 100%;
-}
-
-.header h1
-{
-    font-weight: 700;
-    margin: 0px;
-    padding: 0px 0px 0px 20px;
-    color: #f9f9f9;
-    border: none;
-    line-height: 2em;
-    font-size: 2em;
-}
 
 .main
 {
