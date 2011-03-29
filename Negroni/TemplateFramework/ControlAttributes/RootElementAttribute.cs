@@ -37,6 +37,17 @@ namespace Negroni.TemplateFramework
 			IsDefaultParseContext = isDefaultParseContext;		
 		}
 
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="isDefaultParseContext">True to place items with no specific context under this element.</param>
+		/// <param name="isOptionalRoot">False by default, true if item can be nested under other elements</param>
+		public RootElementAttribute(bool isDefaultParseContext, bool isOptionalRoot)
+		{
+			IsDefaultParseContext = isDefaultParseContext;
+			IsOptionalRoot = isOptionalRoot;
+		}
+
 		private bool _isDefaultParseContext = true;
 
 		/// <summary>
@@ -48,7 +59,13 @@ namespace Negroni.TemplateFramework
 			get { return _isDefaultParseContext; }
 			set { _isDefaultParseContext = value; }
 		}
-		
+
+
+		/// <summary>
+		/// True when this is not required to be a root element.
+		/// Set this to true for elements than can be standalone roots, or embedded under other elements.
+		/// </summary>
+		public bool IsOptionalRoot { get; set;}
 
 	}
 }

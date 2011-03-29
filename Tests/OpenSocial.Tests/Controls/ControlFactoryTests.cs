@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using MbUnit.Framework;
 using Negroni.TemplateFramework;
+using Negroni.OpenSocial.OSML.Templates;
 
 using Negroni.TemplateFramework.Parsing;
 using Negroni.OpenSocial.Gadget;
@@ -104,6 +105,29 @@ namespace Negroni.OpenSocial.Tests.Controls
 			Assert.AreEqual(expectedResult, ControlFactory.ClassPassesFilters(className, includeFilter, excludeFilter));
 		}
 
+
+		[Test]
+		public void MultipleRootIsRootElementTest()
+		{
+
+			GadgetMaster gm = new GadgetMaster();
+
+			Assert.IsTrue(testFactory.IsRootElement(gm), "GadgetMaster not recognized root");
+
+			//TemplateLibrary
+			TemplatesRoot templates = new TemplatesRoot();
+
+			Assert.IsTrue(testFactory.IsRootElement(templates), "TemplatesRoot not recognized root");
+
+			//RootElement
+			RootElementMaster ram = new RootElementMaster();
+			Assert.IsTrue(testFactory.IsRootElement(ram), "RootElementMaster not recognized root");
+
+
+			OsmlRepeater repeater = new OsmlRepeater();
+			Assert.IsFalse(testFactory.IsRootElement(repeater), "OsmlRepeater incorrectly recognized as root");
+
+		}
 		
 	}
 }

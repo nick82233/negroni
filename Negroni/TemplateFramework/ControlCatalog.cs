@@ -91,21 +91,35 @@ namespace Negroni.TemplateFramework
 			{
 				if (!controlMap.HasAttributeDependency())
 				{
-                    ControlMapMarkup.Add(controlMap.MarkupTag.ToLowerInvariant(), controlMap);
+					string markuptag = controlMap.MarkupTag.ToLowerInvariant();
+					if (!ControlMapMarkup.ContainsKey(markuptag))
+					{
+						ControlMapMarkup.Add(markuptag, controlMap);
+					}
 					if (controlMap.AdditionalMarkupTags.Count > 0)
 					{
 						foreach (string tag in controlMap.AdditionalMarkupTags)
 						{
-							ControlMapMarkup.Add(tag.ToLowerInvariant(), controlMap);
+							string tmpTag = tag.ToLowerInvariant();
+							if (!ControlMapMarkup.ContainsKey(tmpTag))
+							{
+								ControlMapMarkup.Add(tmpTag, controlMap);
+							}
 						}
 					}
 				}
 			}
 			if (null != controlMap.ControlType)
 			{
-				ControlMapControlType.Add(controlMap.ControlType, controlMap);
+				if (!ControlMapControlType.ContainsKey(controlMap.ControlType))
+				{
+					ControlMapControlType.Add(controlMap.ControlType, controlMap);
+				}
 			}
-			ControlMapOffsetKey.Add(controlMap.OffsetKey, controlMap);
+			if (!ControlMapOffsetKey.ContainsKey(controlMap.OffsetKey))
+			{
+				ControlMapOffsetKey.Add(controlMap.OffsetKey, controlMap);
+			}
 
 			return controlMap;
 		}

@@ -69,7 +69,15 @@ namespace Negroni.TemplateFramework
 		public string OffsetKey = null;
 		public Type ControlType = null;
 		public bool IsContextGroupContainer = false;
+		/// <summary>
+		/// True when the control being described is a Root level element
+		/// </summary>
 		public bool IsRootElement = false;
+
+		/// <summary>
+		/// True when the item may perform both as a Root or as a nested item.
+		/// </summary>
+		public bool IsOptionalRootElement = false;
 
 		private List<ParseContext> _originalContextGroups = null;
 

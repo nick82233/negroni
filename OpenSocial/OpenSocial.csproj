@@ -116,7 +116,6 @@
     <Compile Include="OSML\Templates\Namespace.cs" />
     <Compile Include="OSML\Templates\TemplateDef.cs" />
     <Compile Include="OSML\Templates\Template.cs" />
-    <Compile Include="OSML\Templates\TemplateLibraryContext.cs" />
     <Compile Include="OSML\Templates\TemplatesRoot.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="OSML\Controls\OsmlBadge.cs" />
@@ -150,9 +149,7 @@
       <Name>Negroni</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Gadget\Enums\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

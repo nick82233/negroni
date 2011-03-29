@@ -26,15 +26,15 @@ using Negroni.OpenSocial.OSML.Controls;
 namespace Negroni.OpenSocial.OSML.Templates
 {
 	[MarkupTag("Templates")]
-	[ContextGroup(typeof(TemplateLibraryContext))] //Maybe not necessary
+	[RootElement(false, true)]
 	[ContextGroup(typeof(Object))]
 	[ContextGroup(typeof(GadgetMaster))]
 	[ContextGroupContainer]
-	public class TemplatesRoot : BaseContainerControl
+	public class TemplatesRoot : RootElementMaster
 	{
 		public TemplatesRoot() 
 		{
-            this.MyParseContext = new ParseContext(typeof(TemplateLibraryContext));
+            this.MyParseContext = new ParseContext(typeof(Object));
         }
 
 		public TemplatesRoot(string markup, GadgetMaster master)
