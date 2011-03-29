@@ -145,6 +145,10 @@ namespace Negroni.TemplateFramework
 			{
 				throw new ArgumentNullException();
 			}
+			if (string.IsNullOrEmpty(tagTemplate.Tag))
+			{
+				throw new ArgumentException("Custom template does not define a tag");
+			}
 			CustomTags.Add(tagTemplate.Tag, tagTemplate);
 			if (!tagTemplate.IsParsed)
 			{

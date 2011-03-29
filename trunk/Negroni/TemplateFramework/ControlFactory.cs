@@ -876,6 +876,7 @@ namespace Negroni.TemplateFramework
 									SetDefaultContextGroup(contextKey);
 									setDefaultCatalogContextGroupToCurrent = true;
 								}
+								ctlMap.IsOptionalRootElement = rea.IsOptionalRoot;								
 							}
 
 						}
@@ -1401,13 +1402,17 @@ namespace Negroni.TemplateFramework
 		/// <param name="rootMap"></param>
 		internal void SetRootElement(ControlMap rootMap)
 		{
-			_rootElement = rootMap;
+			if (!rootMap.IsOptionalRootElement)
+			{
+				_rootElement = rootMap;
+			}
 			//confirm the RootContext and add this control map
 			if (!Catalog.ContainsKey(ParseContext.RootContext))
 			{
 				Catalog.Add(ParseContext.RootContext, new ControlCatalog(ParseContext.RootContext));
 			}
 			Catalog[ParseContext.RootContext].Add(rootMap);
+			this.RootElements.Add(rootMap.MarkupTag, rootMap);
 		}
 
 		#endregion
@@ -2364,6 +2369,13 @@ namespace Negroni.TemplateFramework
 			{
 				return false;
 			}
+			//Accept a raw RootElementMaster that isn't subclassed with no further checks.
+			if (typeof(RootElementMaster) == control.GetType())
+			{
+				return true;
+			}
+
+
 			Type t = control.GetType();
 			if (((control.MyOffset != null && control.MyOffset.OffsetKey == this.RootElement.OffsetKey)
 				|| this.RootElement.ControlType == t
