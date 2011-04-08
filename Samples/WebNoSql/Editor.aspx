@@ -1,5 +1,5 @@
 ﻿<%@ Page Title="Home Page" Language="C#" MasterPageFile="~/Site.master" AutoEventWireup="true"
-    CodeBehind="Editor.aspx.cs" Inherits="WebNoSql.Editor" %>
+    CodeBehind="Editor.aspx.cs" Inherits="WebNoSql.Editor" ValidateRequest="false" %>
 <%@ Register TagPrefix="neg" Assembly="Negroni" Namespace="Negroni"%>
 
 <asp:Content ID="HeaderContent" runat="server" ContentPlaceHolderID="HeadContent">
