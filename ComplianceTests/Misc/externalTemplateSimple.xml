@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='utf-8'?>
+<Module>
+<ModulePrefs title="External Templates">
+<Require feature="opensocial-templates">
+  <Param name="requireLibrary">http://opensocialtictactoe.googlecode.com/svn/trunk/chapter11/template_library_basic.xml</Param>
+</Require>
+</ModulePrefs>
+	<Content type='html' view='canvas'>
+  <script type="text/os-data">
+    <os:ViewerRequest key='vwr' />
+  </script>
+<script type='text/os-template'>
+<h1>User: ${os:htmlEncode(vwr.displayName)}</h1>
+<foo:bar></foo:bar>
+<foo:dog><dog>${os:htmlEncode(vwr.displayName)}</dog></foo:dog>
+</script>
+</Content>
+</Module>
