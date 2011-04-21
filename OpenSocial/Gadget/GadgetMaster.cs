@@ -17,6 +17,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Net;
 using System.Text;
 
 
@@ -468,6 +469,9 @@ namespace Negroni.OpenSocial.Gadget
 		}
 
 
+
+
+
         private List<ContentBlock> _contentBlocks = null;
 
         /// <summary>
@@ -710,6 +714,28 @@ namespace Negroni.OpenSocial.Gadget
 				}
 			}
 			//retry failed
+			foreach (var keyset in failedFetch)
+			{
+				IAsyncResult resultHandle = keyset.Value;
+				resultHandle.AsyncWaitHandle.WaitOne(800); //wait 800 ms
+				if (!resultHandle.IsCompleted)
+				{
+					System.Diagnostics.Debug.WriteLine("Fetch failed twice: " + keyset.Key.Lang);
+					//failedFetch.Add(keyset);
+				}
+				else
+				{
+					try
+					{
+						RequestResult thisResult = AsyncRequestProcessor.EndRequest(resultHandle);
+						if (thisResult.ResponseCode == 200)
+						{
+							keyset.Key.LoadMessageBundle(thisResult.ResponseString);
+						}
+					}
+					catch { }
+				}
+			}
 		}
 
 
@@ -805,6 +831,36 @@ namespace Negroni.OpenSocial.Gadget
 			}
 		}
 
+		/// <summary>
+		/// Loads all external message bundles from their original source URL
+		/// </summary>
+		private void LoadExternalMessageBundles()
+		{
+			FetchMessageBundles();
+
+			ExternalMessageBundlesLoaded = true;
+		}
+
+		/// <summary>
+		/// Tests to see if external message bundles are loaded
+		/// </summary>
+		/// <returns></returns>
+		private bool MessageBundlesLoaded()
+		{
+			if (ExternalMessageBundlesLoaded)
+			{
+				return true;
+			}
+			return !HasExternalMessageBundles();
+		}
+
+		/// <summary>
+		/// Internal Flag to indicate if external message bundles have been loaded.
+		/// Call <c>MessageBundlesLoaded</c> method to perform a test if bundles
+		/// have been properly loaded.
+		/// </summary>
+		protected bool ExternalMessageBundlesLoaded { get; set; }
+
 
 		/// <summary>
 		/// Loads messagebundles from a source created with 
@@ -858,6 +914,7 @@ namespace Negroni.OpenSocial.Gadget
 					myLocales[key].LoadMessageBundle(locale.MyMessageBundle.RawTag);
 				}
 			}
+			ExternalMessageBundlesLoaded = true;
 		}
 
 
@@ -884,6 +941,68 @@ namespace Negroni.OpenSocial.Gadget
 		public bool HasExternalTemplateLibraries()
 		{
 			return this.ModulePrefs.TemplateLibraries.HasLibraries();
+		}
+
+		/// <summary>
+		/// Tests to see if all external template libraries are loaded
+		/// </summary>
+		/// <returns></returns>
+		public bool TemplateLibrariesLoaded()
+		{
+			if (!HasExternalTemplateLibraries())
+			{
+				return true;
+			}
+
+			foreach (TemplateLibraryDef templateDef in ModulePrefs.TemplateLibraries.Libraries)
+			{
+				if(!templateDef.Loaded){
+					return false;
+				}
+			}
+			return true;
+		}
+
+		/// <summary>
+		/// Loads all external template libraries from their URL source.
+		/// NOTE: This does not currently pull from any local cached version
+		/// </summary>
+		public virtual void LoadExternalTemplateLibraries()
+		{
+			if (!HasExternalTemplateLibraries())
+			{
+				return;
+			}
+			foreach (TemplateLibraryDef templateDef in ModulePrefs.TemplateLibraries.Libraries)
+			{
+				if (!templateDef.Loaded && !string.IsNullOrEmpty(templateDef.Uri))
+				{
+					try
+					{
+						HttpWebRequest request = HttpWebRequest.Create(templateDef.Uri) as HttpWebRequest;
+						HttpWebResponse response = request.GetResponse() as HttpWebResponse;
+
+						if (response.StatusCode != HttpStatusCode.OK)
+						{
+							continue;
+						}
+						Stream stream = response.GetResponseStream();
+						StreamReader sr = new StreamReader(stream);
+
+						string str = sr.ReadToEnd();
+						sr.Close();
+						if (!string.IsNullOrEmpty(str))
+						{
+							LoadTemplateLibrary(templateDef.Uri, str);
+						}
+
+					}
+					catch
+					{
+
+					}
+				}
+			}
 		}
 
 
@@ -977,6 +1096,15 @@ namespace Negroni.OpenSocial.Gadget
         /// <param name="surfaceName">Master surface name to render.  This and all sub-views will render.</param>
         public void RenderContent(TextWriter writer, string surfaceName)
         {
+			if (!TemplateLibrariesLoaded())
+			{
+				LoadExternalTemplateLibraries();
+			}
+			if (!MessageBundlesLoaded())
+			{
+				LoadExternalMessageBundles();
+			}
+
 			if (NeedsReparse)
 			{
 				ReParse(true);
