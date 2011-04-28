@@ -17,6 +17,9 @@ namespace WebNoSql
 	/// </summary>
 	public class RenderGadget : IHttpHandler
 	{
+		public static readonly string GADGET_FILES = GadgetFileList.GADGET_DIRECTORY + @"\Gfiles";
+		public static readonly string TEMPLATE_FILES = GadgetFileList.GADGET_DIRECTORY + @"\Templates";
+
 
 		public void ProcessRequest(HttpContext context)
 		{
@@ -35,6 +38,17 @@ namespace WebNoSql
 						gadgetString = sr.ReadToEnd();
 					}
 					GadgetMaster gm = GadgetMaster.CreateGadget(controlFactory, gadgetString);
+
+					if (gm.HasExternalMessageBundles())
+					{
+						LoadMessageBundles(gm, gadgetFile);
+					}
+
+					if (gm.HasExternalTemplateLibraries())
+					{
+						LoadTemplates(gm, gadgetFile);
+					}
+
 					context.Response.StatusCode = 200;
 					context.Response.ContentType = "text/html";
 					StreamWriter writer = new StreamWriter(context.Response.OutputStream);
@@ -98,6 +112,24 @@ namespace WebNoSql
 				context.Response.Write("[No content specified]");
 			}
 
+		}
+
+		private void LoadTemplates(GadgetMaster gm, string gadgetFile)
+		{
+			throw new NotImplementedException();
+		}
+
+		private void LoadMessageBundles(GadgetMaster gm, string gadgetFile)
+		{
+				string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, GadgetFileList.GADGET_DIRECTORY + "\\" + gadgetFile);
+				if (File.Exists(filePath))
+				{
+
+					using (StreamReader sr = new StreamReader(filePath))
+					{
+						gadgetString = sr.ReadToEnd();
+					}
+				}
 		}
 
 		public bool IsReusable
