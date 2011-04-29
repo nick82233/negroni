@@ -3,18 +3,16 @@ using System.Data;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
-using System.Configuration;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
+using System.Xml;
 
 using Negroni.DataPipeline;
-using Negroni.OpenSocial;
-//using Negroni.OpenSocial.Gadget;
-//using Negroni.OpenSocial.Gadget.Controls;
 using Negroni.TemplateFramework;
 
 
@@ -43,6 +41,19 @@ namespace Negroni
 		public string MarkupContent { get; set; }
 
 
+		/// <summary>
+		/// Set to true so the control normalizes markup tags often left unclosed,
+		/// like img, br, and hr
+		/// </summary>
+		[Bindable(true)]
+		[Description("Set to true so the control normalizes markup tags often left unclosed")]
+		public bool NormalizeHtml
+		{
+			get;
+			set;
+		}
+
+
 
 		[Bindable(true)]
 		[Description("Source URI for markup content that may be fetched with a GET")]
@@ -52,7 +63,31 @@ namespace Negroni
 			set;
 		}
 
+		[Bindable(true)]
+		public override Unit Width
+		{
+			get
+			{
+				return base.Width;
+			}
+			set
+			{
+				base.Width = value;
+			}
+		}
 
+		[Bindable(true)]
+		public override Unit Height
+		{
+			get
+			{
+				return base.Height;
+			}
+			set
+			{
+				base.Height = value;
+			}
+		}
 
 
 		private string _controlParserKey = null;
@@ -111,6 +146,10 @@ namespace Negroni
 					else if (!string.IsNullOrEmpty(this.MarkupContent))
 					{
 						string content = MarkupContent.Trim();
+						if (NormalizeHtml) //&& !ControlFactory.IsTagBalancedElement(content))
+						{
+							content = NormalizeHtmlMarkupTags(content);
+						}
 						_myGadget = cf.BuildControlTree(content);
 					}
 				}
@@ -120,6 +159,42 @@ namespace Negroni
 			{
 				_myGadget = value;
 			}
+		}
+
+
+		private static Regex regex_Img = new Regex("<img [^/]*>");
+		private static Regex regex_Br = new Regex("<br[^/]*>");
+		private static Regex regex_Hr = new Regex("<hr[^/]*>");
+
+		/// <summary>
+		/// Performs rudimentary tag balancing on some html markup
+		/// </summary>
+		/// <param name="content"></param>
+		/// <returns></returns>
+		private static string NormalizeHtmlMarkupTags(string content)
+		{
+			if (String.IsNullOrEmpty(content))
+			{
+				return string.Empty;
+			}
+
+			MatchEvaluator evalor = delegate(Match match)
+				{
+					return match.Value.Replace(">", "/>");
+				};
+
+			Regex[] tests = {
+								regex_Img, regex_Br, regex_Hr
+							};
+
+			for (int i = 0; i < tests.Length; i++)
+			{
+				if (tests[i].IsMatch(content))
+				{
+					content = regex_Img.Replace(content, evalor);
+				}
+			}
+			return content;
 		}
 		
 
@@ -134,17 +209,52 @@ namespace Negroni
 			string bordStyle = "";
 			if (BorderWidth.Value > 0)
 			{
-				bordStyle = string.Format("border:{0} {1} {2};", BorderWidth.ToString(), BorderStyle.ToString(), BorderColor);
+				string color = BorderColor.IsEmpty ? "" : BorderColor.ToKnownColor().ToString();
+				bordStyle = string.Format("border:{0} {1} {2};", BorderWidth.ToString(), BorderStyle.ToString(), color);
 			}
 
-			writer.WriteLine(String.Format("<div style='width:{0};height:{1};{2}'>", new object[] { Width, Height, bordStyle }));
-			//if (MyGadgetMaster is GadgetMaster && ((GadgetMaster)MyGadgetMaster).Errors.HasParseErrors())
-			//{
-			//    writer.Write("<span style='font-weight:bold;color:red;'>PARSER ERROR WITH CONTENT: </span>");
-			//    writer.Write(((GadgetMaster)MyGadgetMaster).Errors.ParseErrors[0].Message);
-			//}
-			MyGadget.Render(writer);
+			writer.Write("<div");
+			if (!string.IsNullOrEmpty(CssClass))
+			{
+				writer.Write(" class=\"" + CssClass + "\" ");
+			}
+			if (!string.IsNullOrEmpty(bordStyle)
+				|| !Width.IsEmpty
+				|| !Height.IsEmpty)
+			{
+				writer.Write(" style=\"");
+				writer.Write(bordStyle);
+				if (!Width.IsEmpty)
+				{
+					writer.Write(String.Format("width:{0};", Width));
+				}
+				if (!Height.IsEmpty)
+				{
+					writer.Write(String.Format("height:{0};", Height));
+				}
 
+				writer.Write("\"");
+			}
+			writer.WriteLine(">");
+
+			if (MyGadget.HasErrors())
+			{
+				writer.WriteLine("<pre style='font-weight:bold;color:red;'>");
+				writer.WriteLine(MyGadget.Errors.ParseErrors[0].Message);
+				if (MyGadget.Errors.ParseErrors[0] is XmlException)
+				{
+					string err = MyGadget.Errors.GetParseExceptionContent((XmlException)MyGadget.Errors.ParseErrors[0]);
+					if (!string.IsNullOrEmpty(err))
+					{
+						writer.WriteLine(err.Replace("<", "&lt;").Replace(">", "&gt;"));
+					}
+				}
+				writer.WriteLine("</pre>");
+			}
+			else
+			{
+				MyGadget.Render(writer);
+			}
 			writer.WriteLine("</div>");
 		}
 

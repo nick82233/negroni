@@ -275,6 +275,15 @@ namespace Negroni.TemplateFramework
 			}
 		}
 
+		/// <summary>
+		/// Returns true if the gadget has any parsing errors.
+		/// </summary>
+		/// <returns></returns>
+		public bool HasErrors()
+		{
+			return Errors.HasParseErrors();
+		}
+
 
 		/// <summary>
 		/// Recursively checks to see if a data key is completely resolvable.

@@ -96,7 +96,17 @@ namespace Negroni.OpenSocial.OSML.Controls
 				else if (Controls[i] is VariableTag)
 				{
 					VariableTag osvar = (VariableTag)Controls[i];
-					MyDataContext.RegisterDataItem(osvar.VariableKey, osvar.GetVariableValue());
+					if (MyDataContext.MasterData.ContainsKey(osvar.VariableKey))
+					{
+						if (null == MyDataContext.MasterData[osvar.VariableKey].Data)
+						{
+							MyDataContext.MasterData[osvar.VariableKey].Data = osvar.GetVariableValue();
+						}
+					}
+					else
+					{
+						MyDataContext.RegisterDataItem(osvar.VariableKey, osvar.GetVariableValue());
+					}
 				}
 			}
 		}

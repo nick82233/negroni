@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Templates xmlns:site="http://opensocial.org/templates" xmlns:os="http://opensocial.org/templates">
+    <Template tag="site:PersonTab">
+      <div style="border:1px outset #ccc;border-radius:3px;padding:5px;cursor:pointer;" onclick="${clickAction}('${My.person.id}', '${My.person.displayName}')" >
+        <img src="${My.person.thumbnailUrl}" style="width:50px;height:50px;vertical-align:middle;" />
+        ${My.person.displayName}</div>
+    </Template>
+  
+  <!--
+  @tag: site:PeopleTabs
+  @params: 
+    width           number. width of tab list
+    float           left|right.  css float for tabs
+    people          an array of people/result of <os:PeopleRequest>
+    onclickPerson   javascript function name to execute on tab click
+  -->
+  <Template tag="site:PeopleTabs">
+    <div style="width:${My.width};float:${My.float};background:lightblue;">
+      <os:Repeat expression="${My.people}">
+        <site:PersonTab clickAction="${My.onclickPerson}" person="${Cur}" />
+      </os:Repeat>
+    </div>    
+  </Template>
+    
+</Templates>

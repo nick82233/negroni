@@ -104,6 +104,21 @@ namespace Negroni.DataPipeline.Tests
 		}
 
 		[RowTest]
+		[Row(@"{'key': 'http:\/\/example.org\/somewhere'}", "key", "http://example.org/somewhere")]
+		public void EscapedSlashesTest(string json, string key, string expectedValue)
+		{
+			JsonData target = new JsonData(json);
+			string val = null;
+			object x = target.ResolveExpressionValue(key);
+			if (x != null)
+			{
+				val = x.ToString();
+			}
+			Assert.AreEqual(expectedValue, val);
+		}
+
+	
+		[RowTest]
 		[Row(@"{'key': 'item1\titem2'}", "key", "item1	item2")]
 		[Row(@"['item1\titem2']", "[0]", "item1\titem2")]
 		public void EscapedTabsTest(string json, string key, string expectedValue)
