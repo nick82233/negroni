@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Module xmlns:os="http://ns.opensocial.org/2008/markup" xmlns:my="http://ns.opensocial.org/2008/x">
+<Module xmlns:os="http://ns.opensocial.org/2008/markup" xmlns:my="http://ns.opensocial.org/2008/x" xmlns:site="http://ns.example.org/">
   <ModulePrefs title="Custom Tags using site tags" 
   description="Site provided custom tags allow uniform look and feel" >
     <Require feature="opensocial-1.0"/>
@@ -34,14 +34,14 @@
       ]
     </os:Var>
   </Data>
-  
+
   <Content type="html" view="canvas">
  
     <script type="text/os-template" tag="my:SimpleTag">
       <h1 style="color:${My.color};" >I am a simple custom tag</h1>
     </script>
   </Content>
- 
+  
   <Content type="osml" view="canvas">
 
     <script type="text/javascript">
@@ -62,21 +62,27 @@
         <h1>VOIP App</h1>
         Click on a person to call them
       </div>
-
+    
     <div style="height:80%;border:2px solid lightblue;border-radius:4px;padding:5px;margin:2px;">
+      <site:PeopleTabs width="280px" float="left" people="${mockPeople}" onclickPerson="callPerson" ></site:PeopleTabs>
+<!--
       <div style="width:280px;float:left;background:lightblue;">
         <os:Repeat expression="${mockPeople}">
           <site:PersonTab clickAction="callPerson" person="${Cur}" />
         </os:Repeat>
       </div>
-
+-->
       <div id="callArea" style="margin-left:300px;background:gray;min-height:400px">
         
       </div>       
       
     </div>
+
+    <br style="clear:both;" />
     
-      <my:SimpleTag color="blue" />
+
+
+    <my:SimpleTag color="blue" />
       <my:SimpleTag >
       <color>red</color>
       </my:SimpleTag >

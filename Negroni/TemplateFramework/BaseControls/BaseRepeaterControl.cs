@@ -136,6 +136,12 @@ namespace Negroni.TemplateFramework
 				return;
 			}
 
+			//TODO - hunt down why repeat nested in templates not parsed.
+			if (Controls.Count == 0 && MyOffset.ChildOffsets.Count > 0)
+			{
+				BuildControlTreeFromOffsets();
+			}
+
 
 			bool hasPrequel = (!string.IsNullOrEmpty(LoopPrequel));
 			bool hasSequel = (!string.IsNullOrEmpty(LoopSequel));
