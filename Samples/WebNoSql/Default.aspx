@@ -19,7 +19,7 @@
     </div>
     
     <!-- This control demonstrates inline Negroni gadget with private factory parser and data tags -->
-    <neg:RenderInlineControl runat="server" 
+    <neg:RenderInlineControl runat="server" NormalizeHtml="true"
      ControlParserKey="sampleWeb" BorderStyle="Groove" BorderWidth="2px" BorderColor="Aqua"
     id="gadgetGrid" Width="250" Height="300" >
     <os:Var key="foo">
@@ -30,6 +30,8 @@
     </os:Var>
     <sample:GadgetList key="gadgets" />
     <h1 style="color:${foo.color};">Hello World ${foo.number}</h1>
+    <br/>
+    <img src="http://storywonk.com/frog.jpg" style="width:70px;height:80px;margin:6px;" /> <br />
 
     <ul>
     <li repeat="${gadgets}"><a href="Render.aspx?gadget=${Cur}">Render ${Cur}</a></li>

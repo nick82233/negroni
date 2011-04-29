@@ -56,10 +56,14 @@
     <Content Include="Gadgets\osVarTestGadget.xml">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="Gadgets\siteCustomTemplates.xml" />
+    <Content Include="Gadgets\Templates\siteWidgets.xml" />
     <Content Include="Render.aspx" />
     <Content Include="Styles\Site.css" />
     <Content Include="Default.aspx" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -140,7 +144,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Gadgets\Gfiles\" />
-    <Folder Include="Gadgets\Templates\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

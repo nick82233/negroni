@@ -78,7 +78,7 @@ body
             </div>
 
     <neg:RenderInlineControl runat="server" 
-     ControlParserKey="colorParser" 
+     ControlParserKey="colorParser" BorderStyle="Outset" BorderWidth="2px"
     id="gadgetColor" Width="450" Height="50" >
     <colors>
     <rainbow></rainbow>

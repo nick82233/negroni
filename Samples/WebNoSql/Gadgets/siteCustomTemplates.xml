@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Module xmlns:os="http://ns.opensocial.org/2008/markup" xmlns:my="http://ns.opensocial.org/2008/x">
+  <ModulePrefs title="Custom Tags using site tags" 
+  description="Site provided custom tags allow uniform look and feel" >
+    <Require feature="opensocial-1.0"/>
+    <Require feature="opensocial-templates">
+      <!-- include the site template library -->
+      <Param name="requireLibrary">site:siteWidgets.xml</Param>
+    </Require>
+  </ModulePrefs>
+
+  <Data>
+    <os:Var key="mockPeople">
+      [{'id':'myspace.com.person.6221', 'displayName':'Tom', 'thumbnailUrl': 'http://a2.l3-images.myspacecdn.com/images02/148/a0719bb1e0ef44588ffdf5834ce0f869/s.jpg' },
+      {'id':'myspace.com.person.111057162', 'displayName':'Signal Loss', 'thumbnailUrl': 'http://a2.l3-images.myspacecdn.com/images01/107/46cbc0263a72d04c4b9038de3341f63d/s.jpg' },
+      {'id':'myspace.com.person.343226807', 'displayName':'Jackson', 'thumbnailUrl': 'http://x.myspacecdn.com/images/no_pic.gif' },
+      {'id':'myspace.com.person.44431422', 'displayName':'MySpace Secret Shows U.S.', 'thumbnailUrl': 'http://a4.l3-images.myspacecdn.com/images02/115/54cd20380b3745caaabcb344a377442e/s.jpg' },
+      {'id':'myspace.com.person.214878879', 'displayName':'John', 'thumbnailUrl': 'http://a4.l3-images.myspacecdn.com/images01/105/9ec73cf8bfe987d133b5b227f3ab3a19/s.jpg' },
+      {'id':'myspace.com.person.219262', 'displayName':'Chris', 'thumbnailUrl': 'http://a1.l3-images.myspacecdn.com/images01/127/cc580d00a49ac8e2be1a13a4735072ce/s.jpg' },
+      {'id':'myspace.com.person.26426', 'displayName':'Solomon', 'thumbnailUrl': 'http://a3.l3-images.myspacecdn.com/images02/1/0b135b0d46ee4b3889f11281d8d4f422/s.jpg' },
+      {'id':'myspace.com.person.66359', 'displayName':'Brown', 'thumbnailUrl': 'http://a4.l3-images.myspacecdn.com/images02/71/c38d7efa809c4788996c03f43f23082d/s.jpg' },
+      {'id':'myspace.com.person.2139789', 'displayName':'Robby Valles', 'thumbnailUrl': 'http://a1.l3-images.myspacecdn.com/images02/146/6481c91b2b60414f957ade632fe6e861/s.jpg' },
+      {'id':'myspace.com.person.4859568', 'displayName':'Monica', 'thumbnailUrl': 'http://a3.l3-images.myspacecdn.com/images02/151/88bcd3986d104044888e07298a5180d6/s.jpg' },
+      {'id':'myspace.com.person.5550345', 'displayName':'Underworld', 'thumbnailUrl': 'http://a1.l3-images.myspacecdn.com/images01/60/c53627c41b796f81cb4a941b94f4f654/s.jpg' },
+      {'id':'myspace.com.person.12640313', 'displayName':'Ben', 'thumbnailUrl': 'http://a3.l3-images.myspacecdn.com/images01/30/110cd8dfa358917b990a7ed49fe7a53b/s.jpg' },
+      {'id':'myspace.com.person.12694323', 'displayName':'James Gillmore', 'thumbnailUrl': 'http://a3.l3-images.myspacecdn.com/images01/97/27da8724b4fae0a7eab3a5209341eb72/s.jpg' },
+      {'id':'myspace.com.person.15411239', 'displayName':'C.', 'thumbnailUrl': 'http://a4.l3-images.myspacecdn.com/images01/107/c9791aefdab12ab7b9f95962f13c6214/s.jpg' },
+      {'id':'myspace.com.person.15887270', 'displayName':'kevin', 'thumbnailUrl': 'http://a4.l3-images.myspacecdn.com/images02/97/69d5c0ae8dab46e4b826b68219965a01/s.jpg' },
+      {'id':'myspace.com.person.16823935', 'displayName':'Lady Gaga', 'thumbnailUrl': 'http://a2.l3-images.myspacecdn.com/images02/124/a2c5eb7781ab47c5bb75e96464679702/s.jpg' },
+      {'id':'myspace.com.person.16921687', 'displayName':'Perfectly Flawed', 'thumbnailUrl': 'http://a1.l3-images.myspacecdn.com/images02/134/b1eaf99e201f47f193d1da0e4257811b/s.jpg' },
+      {'id':'myspace.com.person.20599042', 'displayName':'Donny Mack (DM)', 'thumbnailUrl': 'http://a3.l3-images.myspacecdn.com/images02/140/99f60edeea184b3f85e229d005d4a88a/s.jpg' },
+      {'id':'myspace.com.person.27094770', 'displayName':'Kiptest27m', 'thumbnailUrl': 'http://a2.l3-images.myspacecdn.com/images02/9/416f4e7f85ae488e8e9af329accdaf9e/s.jpg' },
+      {'id':'myspace.com.person.31517887', 'displayName':'Robbie Coleman', 'thumbnailUrl': 'http://a4.l3-images.myspacecdn.com/images02/53/de7123a581864bcb81d1e20071a7688c/s.jpg' }
+      ]
+    </os:Var>
+  </Data>
+  
+  <Content type="html" view="canvas">
+ 
+    <script type="text/os-template" tag="my:SimpleTag">
+      <h1 style="color:${My.color};" >I am a simple custom tag</h1>
+    </script>
+  </Content>
+ 
+  <Content type="osml" view="canvas">
+
+    <script type="text/javascript">
+      //<![CDATA[
+  function callPerson(personId, personName){      
+      var el=document.getElementById("callArea");
+      el.style.backgroundColor='white';
+      el.innerHTML = el.innerHTML + "<b>(RING RING)</b><br/>";
+      var callText = "Calling " + personName + " at " + personId + "<br />";
+      window.setTimeout(function(){
+        el.innerHTML += callText + "\n\n";
+      }, 500);
+  }
+      //]]>
+    </script>
+    
+      <div>
+        <h1>VOIP App</h1>
+        Click on a person to call them
+      </div>
+
+    <div style="height:80%;border:2px solid lightblue;border-radius:4px;padding:5px;margin:2px;">
+      <div style="width:280px;float:left;background:lightblue;">
+        <os:Repeat expression="${mockPeople}">
+          <site:PersonTab clickAction="callPerson" person="${Cur}" />
+        </os:Repeat>
+      </div>
+
+      <div id="callArea" style="margin-left:300px;background:gray;min-height:400px">
+        
+      </div>       
+      
+    </div>
+    
+      <my:SimpleTag color="blue" />
+      <my:SimpleTag >
+      <color>red</color>
+      </my:SimpleTag >
+  </Content>
+</Module>
+

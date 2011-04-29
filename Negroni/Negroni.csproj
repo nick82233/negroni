@@ -176,6 +176,7 @@
     <Compile Include="TemplateFramework\Exceptions\MissingControlFactoryException.cs" />
     <Compile Include="TemplateFramework\OffsetItem.cs" />
     <Compile Include="TemplateFramework\OffsetList.cs" />
+    <Compile Include="TemplateFramework\Parsing\HtmlOffsetParser.cs" />
     <Compile Include="TemplateFramework\Parsing\IControlContextManifest.cs" />
     <Compile Include="TemplateFramework\Parsing\IOffsetParser.cs" />
     <Compile Include="TemplateFramework\Parsing\NonContainerTagInfo.cs" />
