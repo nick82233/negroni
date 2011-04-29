@@ -239,7 +239,13 @@ namespace Negroni.TemplateFramework
 			if (ControlFactory.RESERVEDKEY_CUSTOM_TAG == offsetItem.OffsetKey)
 			{
 				string customTagName = GetBlobTagName(markup);
-				return this.AddControl(MyCustomTagFactory.CreateTagInstance(customTagName, markup));
+				CustomTag tagInstance = MyCustomTagFactory.CreateTagInstance(customTagName, markup);
+				if (tagInstance != null)
+				{
+					tagInstance.MyRootMaster = this.MyRootMaster;
+					tagInstance.TagTemplate.MyRootMaster = this.MyRootMaster;
+				}
+				return this.AddControl(tagInstance);
 			}
 			else
 			{

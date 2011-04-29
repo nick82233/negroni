@@ -340,7 +340,7 @@ namespace Negroni.OpenSocial.Gadget
 		/// Returns an array of views that are defined for this gadget
 		/// </summary>
 		/// <returns></returns>
-		public string[] GetDefinedViews()
+		override public string[] GetDefinedViews()
 		{
 			if (ContentBlocks.Count == 0)
 			{

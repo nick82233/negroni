@@ -115,7 +115,16 @@ namespace Negroni.TemplateFramework
 			{
 				foreach (DictionaryEntry entry in AttributesCollectionCased)
 				{
-					Parameters[(string)entry.Key] = entry.Value as string;
+					string value = entry.Value as string;
+					//todo - make sure not a string block
+					if (!string.IsNullOrEmpty(value) && DataContext.IsVariable(value) && value.Contains(LocalParameterContextKey))
+					{
+						Parameters[(string)entry.Key] = MyRootMaster.MasterDataContext.GetVariableObject(value);
+					}
+					else
+					{
+						Parameters[(string)entry.Key] = value;
+					}
 				}
 			}
 
@@ -358,6 +367,12 @@ namespace Negroni.TemplateFramework
 		/// </summary>
 		protected virtual void RegisterPrivateContext()
 		{
+			//set parent context
+			if (MyDataContext.HasVariable(LocalParameterContextKey))
+			{
+				object parent = MyDataContext.GetVariableObject(LocalParameterContextKey);
+				Parameters["Parent"] = parent;
+			}
 			MyDataContext.RegisterLocalValue(LocalParameterContextKey, Parameters, true);
 		}
 
@@ -366,7 +381,14 @@ namespace Negroni.TemplateFramework
 		/// </summary>
 		protected virtual void UnRegisterPrivateContext()
 		{
+			object current = MyDataContext.GetVariableObject(LocalParameterContextKey);
 			MyDataContext.RemoveLocalValue(LocalParameterContextKey);
+
+			if (current != null && current is Dictionary<string, object>
+				&& ((Dictionary<string, object>)current).ContainsKey("Parent"))
+			{
+				MyDataContext.RegisterLocalValue(LocalParameterContextKey, ((Dictionary<string, object>)current)["Parent"], true);
+			}
 		}
 
 		private string _localParameterContextKey = "My";

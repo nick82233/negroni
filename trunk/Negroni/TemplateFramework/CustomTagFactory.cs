@@ -51,6 +51,11 @@ namespace Negroni.TemplateFramework
 			MyControlFactory = controlFactory;
 		}
 
+		public CustomTagFactory(RootElementMaster rootMaster)
+			: this()
+		{
+			_myRootMaster = rootMaster;
+		}
 
 
 		private RootElementMaster _myRootMaster = null;
@@ -70,16 +75,6 @@ namespace Negroni.TemplateFramework
 			}
 		}
 
-
-		/// <summary>
-		/// Initializes a RootElementMaster object for this factory to attach CustomTag definitions to.
-		/// This object is required for the control parsing to function properly
-		/// </summary>
-		/// <param name="controlFactory"></param>
-		private void InitializeRootElementMaster(ControlFactory controlFactory)
-		{
-			_myRootMaster = new RootElementMaster(controlFactory);
-		}
 
 		/// <summary>
 		/// Custom tags registered with this factory for use within the 

@@ -245,7 +245,7 @@ namespace Negroni.TemplateFramework
 			{
 				if (_masterCustomTagFactory == null)
 				{
-					_masterCustomTagFactory = new CustomTagFactory();
+					_masterCustomTagFactory = new CustomTagFactory(this);
 				}
 				return _masterCustomTagFactory;
 			}
@@ -809,6 +809,10 @@ namespace Negroni.TemplateFramework
 				_masterDataContext.Dispose();
 			}
 			_masterDataContext = null;
+			if (_masterCustomTagFactory != null)
+			{
+				_masterCustomTagFactory = null;
+			}
 		}
 
 		#endregion

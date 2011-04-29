@@ -905,6 +905,16 @@ namespace Negroni.DataPipeline
 			if (MasterData.ContainsKey(key))
 			{
 				MasterData[key].Data = realData;
+				//look for "Parent" value
+				if (realData is IDictionary<string, string>
+					|| realData is IDictionary<string, object>)
+				{
+					IDictionary<string, object> tmp = realData as IDictionary<string, object>;
+					if (tmp != null && tmp.ContainsKey("Parent"))
+					{
+						InferredLocalVariableKeyStack.Add(key + ".Parent");
+					}
+				}
 			}
 			else
 			{
