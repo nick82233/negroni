@@ -33,9 +33,6 @@ namespace Negroni.TemplateFramework
 	/// </remarks>
 	public class CustomTagTemplate : BaseTemplate
 	{
-		[Obsolete("Renaming, with care - use ATTRIBUTE_TAGDEF")]
-		public const string TAGDEF_ATTRIBUTE = "tag";
-
 		/// <summary>
 		/// Attribute identifying the tag being defined
 		/// </summary>
@@ -254,6 +251,37 @@ namespace Negroni.TemplateFramework
 				}
 				return _localTag;
 			}
+		}
+
+		public override void Render(System.IO.TextWriter writer)
+		{
+			if (this.Controls.Count < 512 && this.Controls.Count < this.MyOffset.ChildOffsets.Count)
+			{
+				this.Controls.Clear();
+				this.BuildControlTreeFromOffsets();
+			}
+			base.Render(writer);
+			/*
+			if (WriteDivWrapper)
+			{
+				writer.Write("<div");
+				if (!String.IsNullOrEmpty(ID))
+				{
+					writer.Write(String.Format(" id=\"{0}\">{1}", ID, writer.NewLine));
+				}
+			}
+			if (Controls.Count > 0)
+			{
+				foreach (BaseGadgetControl control in Controls)
+				{
+					control.Render(writer);
+				}
+			}
+			if (WriteDivWrapper)
+			{
+				writer.Write(writer.NewLine + "</div >" + writer.NewLine);
+			}
+			 * */
 		}
 	}
 }

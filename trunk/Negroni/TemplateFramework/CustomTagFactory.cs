@@ -176,6 +176,10 @@ namespace Negroni.TemplateFramework
 
 		public CustomTag CreateTagInstance(string tag, string markup)
 		{
+			return CreateTagInstance(tag, markup, null);
+		}
+		public CustomTag CreateTagInstance(string tag, string markup, RootElementMaster rootMaster)
+		{
 			if (string.IsNullOrEmpty(tag))
 			{
 				throw new ArgumentNullException("Must specify tag");
@@ -185,7 +189,22 @@ namespace Negroni.TemplateFramework
 			{
 				return null;
 			}
-
+			CustomTagTemplate template = CustomTags[tag];
+			if (template != null)
+			{
+				if (template.MyRootMaster != rootMaster)
+				{
+					template.MyRootMaster = rootMaster;
+					template.Parse();
+				}
+				else
+				{
+					if (!template.IsParsed || template.Controls.Count == 0)
+					{
+						template.Parse();
+					}
+				}
+			}
 			return new CustomTag(tag, CustomTags[tag], markup);
 		}
 

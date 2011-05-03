@@ -1,0 +1,537 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Module>
+	<ModulePrefs title="News Reader" description="News Reader Application">
+		<Require feature="opensocial-0.9"/>
+		<Optional feature="MySpace-Views">
+			<Param name="profilesize">300</Param>
+			<Param name="profilelocation">right</Param>
+			<Param name="canvassize">100,800</Param>
+			<Param name="homesize">250</Param>
+		</Optional>
+		<Locale>
+			<messagebundle>
+				<msg name="tab_newsfeed">News Feeds</msg>
+				<msg name="tab_mynews">My News</msg>
+				<msg name="tab_friendnews">Friend News</msg>
+				<msg name="feed">Feed</msg>
+				<msg name="loading_feed">Loading ${Msg.feed}</msg>
+				<msg name="friendPicker_title">Select a friend</msg>
+				<msg name="share_article">Share with a friend</msg>
+				<msg name="button_ok">Ok</msg>
+				<msg name="button_cancel">Ok</msg>
+				<msg name="title_news">News</msg>
+				<msg name="title_myNews">My News</msg>
+				<msg name="title_friendsNews">Friends News</msg>
+			</messagebundle>
+		</Locale>
+		<Locale lang="es">
+			<messagebundle>
+				<msg name="tab_newsfeed">Noticias</msg>
+				<msg name="tab_mynews">Mis Noticias</msg>
+				<msg name="tab_friendnews">Noticias de Amigos</msg>
+				<msg name="feed">Fuente</msg>
+				<msg name="loading_feed">Cargando ${Msg.feed}</msg>
+				<msg name="friendPicker_title">Selecciona un amigo</msg>
+				<msg name="share_article">Compartir con un amigo</msg>
+				<msg name="button_ok">Ok</msg>
+				<msg name="button_cancel">Cancelar</msg>
+				<msg name="title_news">Noticias</msg>
+				<msg name="title_myNews">Mis Noticias</msg>
+				<msg name="title_friendsNews">Noticias de mis amigos</msg>
+			</messagebundle>
+		</Locale>
+	</ModulePrefs>
+
+
+
+	<Content type="html" view="canvas">
+
+		<script type="text/os-data">
+			<os:PeopleRequest key="friends" userId="@viewer" groupId="@friends" startIndex="1" count="200"/>
+			<os:ViewerRequest key="vwr" />
+			<os:HttpRequest key="feed1" href="http://feeds.nytimes.com/nyt/rss/Americas" />
+			<os:HttpRequest key="feed2" href="http://www.eluniversal.com.mx/rss/universalmxm.xml" />
+		</script>
+
+		<!-- Article template -->
+		<script type="text/os-template" tag="nr:articles">
+		<os:Repeat expression="${My.list}" >
+			<div style="background-color:${Context.Index mod 2 == 0 ? '#B3DEEF':'#CBDFB5'}">
+				<div style="width:20px; float: left">
+					${Context.Index + 1}
+				</div>
+				<div style="width: 650px; float:left">
+					<a href="javascript:NewsReader.readArticle('${Cur.title}', '${Cur.link}','${Cur.guid.value}');"> ${Cur.title}</a>
+					<br />
+					<div>
+						${Cur.description}
+					</div>
+					<div style="text-align:right;font-size: 10px;">
+						<a href="javascript:NewsReader.shareWithFriends('${Cur.title}','${Cur.description}','${Cur.link}');">Share with a friend</a>
+					</div>
+				</div>
+				<br style="clear: both;" />
+			</div>
+		</os:Repeat>
+		</script>
+
+		<!-- Users articles template -->
+		<script type="text/os-template" tag="nr:usersArticles">
+			<div style="height: 450px;overflow: auto; border:1px solid #A6C9E2;padding:1em 2.2em;" class="ui-corner-bottom ui-corner-top">
+				<os:Repeat expression="${usersArticles}" >
+					<nr:userArticles />
+				</os:Repeat>
+			</div>
+		</script>
+
+		<!-- User Article Template-->
+		<script type="text/os-template" tag="nr:userArticles">
+			<div>
+				<div style="margin-bottom: 5px;">
+					<img src="${user.thumbnailUrl}" alt="${user.displayName}" style="float:left;" />
+					<p>${user.displayName}</p>
+					<br style="clear: both;" />
+				</div>
+				<os:Repeat expression="${articles}" >
+					<nr:articles data="${articles}" />
+				</os:Repeat>
+			</div>
+		</script>
+
+		<!-- Rss news feed template -->
+		<script type="text/os-template" tag="nr:feed">
+			<div>
+				<div style="margin-bottom: 20px;">
+					<a href="${My.rss.image.link}" style="float:right;" target="_blank" >
+						<img src="${My.rss.image.url}" alt="${My.rss.image.title}" if="${not empty My.rss.image}" />
+					</a>
+					<h2>
+						<a href="${My.rss.link}" target="_blank">${My.rss.title}</a>
+						<br />
+					</h2>
+					<p>${My.rss.description}</p>
+					<br style="clear: both;" />
+				</div>
+
+				<nr:articles list="${My.rss.item}" />
+
+				<div if="${not empty My.rss.copyright}" style="font-size: 10px;text-align:right;">
+					${My.rss.copyright}
+				</div>
+
+			</div>
+		</script>
+
+		<script type="text/os-template">
+			<style type="text/css">
+				body{
+				font-size: 12px;
+				}
+				h1{
+				font-size: 15px;
+				}
+				#tabs{
+				height: 600px;
+				width:820px;
+				float: left;
+				}
+				#banner{
+				width:100px;
+				float:left;
+				}
+				.friendSelected{
+				background-color: #CBDFB5;
+				}
+				.feed{
+				height: 450px;
+				/*overflow: auto;*/
+				}
+			</style>
+			<!-- TODO: REMOVE THIS LINE WHEN FIXED -->
+			<script type='text/javascript'>
+				MyOpenSpace.MySpaceContainer.OSToken=opensocial.Container.get().osToken_;
+			</script>
+
+			<link type="text/css" href="http://newsreader.homedns.org/jquery/css/start/jquery-ui-1.7.2.custom.css" rel="stylesheet" />
+			<script type="text/javascript" src="http://newsreader.homedns.org/jquery/js/jquery-1.3.2.min.js"></script>
+			<script type="text/javascript" src="http://newsreader.homedns.org/jquery/js/jquery-ui-1.7.2.custom.min.js"></script>
+			<script type="text/javascript" src="http://newsreader.homedns.org/scripts/MyOpenSpace.Feed.patch1.js"></script>
+			<script type="text/javascript" src="http://newsreader.homedns.org/scripts/MyOpenSpace.TemplateProcessor.patch1.js"></script>
+
+
+			<div id="tabs">
+				<ul>
+					<li>
+						<a href="#tabs-feed">${Msg.tab_newsfeed}</a>
+					</li>
+					<li>
+						<a href="#tabs-myNews">${Msg.tab_mynews}</a>
+					</li>
+					<li>
+						<a href="#tabs-friendNews">${Msg.tab_friendnews}</a>
+					</li>
+				</ul>
+				<div id="tabs-feed">
+					<h1>${Msg.title_news}</h1>
+					<div id="accordion" class="feed">
+						<h3>
+							<a href="#" id="feed1Title">${Msg.loading_feed} 1 ....</a>
+						</h3>
+						<div id="feed1"></div>
+						<h3>
+							<a href="#" id="feed2Title">${Msg.loading_feed} 2 ...</a>
+						</h3>
+						<div id="feed2"></div>
+					</div>
+				</div>
+				<div id="tabs-myNews">
+					<h1>${Msg.title_myNews}</h1>
+					<div id="myArticles">
+					</div>
+				</div>
+				<div id="tabs-friendNews">
+					<h1>${Msg.title_friendsNews}</h1>
+					<div id="friendsArticles" >
+					</div>
+				</div>
+			</div>
+
+			<div id="banner" >
+				<os:Get href="http://newsreader.homedns.org/promoApps.htm" />
+			</div>
+
+			<br slyle="clear: both;" />
+
+			<div id="friendsPicker" title="${Msg.friendPicker_title}" style="display:none;">
+				<div>
+					<os:Repeat expression="${friends}">
+						<div style="width:66px; height: 110px; float: left;overflow:hidden; font-size: 10px;padding: 3px;border: solid 1px #000; margin:3px;" class="friendItem" friendid="${Cur.id}">
+							<img src="${Cur.thumbnailUrl}" style="height:75px;width:66px;overflow:hidden;" />
+							${Cur.displayName} <b if="${Cur.hasApp}">App?: true</b>
+						</div>
+					</os:Repeat>
+					<br style="clear: both;" />
+				</div>
+			</div>
+
+			<script type="text/javascript">
+				//<![CDATA[
+//================================================================
+//Jquery load function
+//================================================================
+					
+					$(function(){
+						//Jquery init tabs
+						$("#tabs").tabs({
+							select: function(event, ui) {
+								//debugger;
+								switch (ui.index){
+									case 1:
+										//Load dinamicaly my articles to reflect updates
+										NewsReader.listMyArticles();
+										break;
+									case 2:
+										//Load dinamicaly my articles to reflect updates
+										NewsReader.listFriendsArticles();
+										break;
+								}
+								
+							}
+						});
+						
+						//Jquery init feed accordion
+						$("#accordion").accordion({ fillSpace: true });
+						$('#friendsPicker').dialog({
+							bgiframe: true,
+							autoOpen: false,
+							height: 450,
+							width: 530,
+							modal: true,
+							position: 'top',
+							buttons: {
+								'${Msg.button_ok}': function() {
+									//debugger;
+									var $friendSelected = $('.friendSelected');
+									if ($friendSelected.length === 0){
+										$(this).data('selected', null);
+									}
+									else{
+										$(this).data('selected', $friendSelected.attr('friendid'));
+									}
+									$(this).dialog('close');
+								},
+								'${Msg.button_cancel}':function(){
+									$(this).data('selected', null);
+									$(this).dialog('close');
+								}
+							},
+							open: function(event, ui) { 
+								$('.friendItem').removeClass( 'friendSelected' );
+							}
+						});
+						
+						$('.friendItem').click(function(){
+							$('.friendItem').removeClass( 'friendSelected' );
+							$(this).addClass( 'friendSelected' )
+						});
+					});
+//================================================================
+//News reader code
+//================================================================
+					
+					var NewsReader = {
+						articles:{},
+						friendsWithApp: null
+					};
+					
+//================================================================
+// Utility function to cache displayed articles 
+//================================================================
+					
+					NewsReader.addArticles = function(articles){
+						if (articles === null) {return;}
+						var article;
+						for (var j =0; j < articles.length; j++){
+							article = articles[j];
+							if (article === null) {return;}
+							if (typeof NewsReader.articles[article.guid.value] === 'undefined'){
+								NewsReader.articles[article.guid.value] = article;
+							}
+						}
+					};
+
+//================================================================
+// Utility function to read from cache displayed articles 
+//================================================================
+
+					NewsReader.getArticle = function(guid){
+						return NewsReader.articles[guid];
+					}
+
+//================================================================
+// Utility function that returns friends with app install
+//================================================================
+
+					NewsReader.getFriendsWithApp = function(){
+						//debugger;
+						if (NewsReader.friendsWithApp !== null){return NewsReader.friendsWithApp;}
+						
+						var friends = opensocial.data.getDataContext().getDataSet('friends').entry;
+						var friendsWithApp = [];
+						for (var j=0; j < friends.length; j++){
+							if (friends[j].person.hasApp === "true"){
+								friendsWithApp.push(friends[j].person);
+							}
+						}
+						NewsReader.friendsWithApp = friendsWithApp;
+						return friendsWithApp;
+					};
+					
+//================================================================
+// Function that populates Friends articles
+//================================================================
+					
+					NewsReader.listFriendsArticles = function(){
+						//debugger;
+						var friends = NewsReader.getFriendsWithApp();
+						var friendsHash = {};
+						var ids = [];
+						var friendId;
+						
+						//We get the id of the friends with application install and clean them
+						for (var j = 0; j < friends.length; j++){
+							friendId = friends[j].id.replace("myspace.com.person.", "", "g")
+							friendsHash[friendId] = friends[j];
+							ids.push(friendId);
+						}
+						
+						var requestUrl = "http://newsreader.homedns.org/Articles.ashx/articles/userarticles?userlist=" + ids.join(',');
+						
+						var opt_param = {};
+						opt_param[gadgets.io.RequestParameters.AUTHORIZATION] = gadgets.io.AuthorizationType.SIGNED;
+						opt_param[gadgets.io.RequestParameters.METHOD] = gadgets.io.MethodType.GET;
+						opt_param[gadgets.io.RequestParameters.CONTENT_TYPE] = gadgets.io.ContentType.JSON;
+						
+						
+						var callback = function(response){
+							//debugger;
+							var usersArticles = [];
+							if (typeof response.data === 'undefined' || response.data.result !== "success"){
+								return;
+							}
+							
+							if (response.data.list.lenght < 1) { 
+								//Todo display no records message
+								return ;
+							}
+							
+							var dataItem;
+							for (var k = 0; k < response.data.list.length; k++){
+								//Extract from the results the articles read by a user and create an object that we can use for
+								//the template
+								var dataItem = response.data.list[k];
+								var userId = dataItem.user;
+								var articles = [];
+								for (var l = 0; l < dataItem.articles.length; l++){
+									articles.push(dataItem.articles[l].jsonData);
+								}
+								
+								NewsReader.addArticles(articles);
+								usersArticles.push(
+									{
+										"user":friendsHash[userId],
+										"articles": articles
+									}
+								);
+								
+								
+								var elem = document.getElementById("friendsArticles");
+								$(elem).empty();
+								
+								
+								var template = opensocial.template.getTemplate("nr:usersArticles");
+								template.renderInto(elem, {"usersArticles":usersArticles}, true);
+								
+							}
+						}
+						gadgets.io.makeRequest(requestUrl, callback, opt_param);
+					}
+					
+//================================================================
+// Function that populates My articles
+//================================================================
+					
+					NewsReader.listMyArticles = function(){
+						var viewerId = "${vwr.id}".replace("myspace.com.person.", "", "g");
+						var requestUrl = "http://newsreader.homedns.org/Articles.ashx/articles/userarticles?userlist=" + viewerId;
+						
+						var opt_param = {};
+						opt_param[gadgets.io.RequestParameters.AUTHORIZATION] = gadgets.io.AuthorizationType.SIGNED;
+						opt_param[gadgets.io.RequestParameters.METHOD] = gadgets.io.MethodType.GET;
+						opt_param[gadgets.io.RequestParameters.CONTENT_TYPE] = gadgets.io.ContentType.JSON;
+						var callback = function(response){
+							//debugger;
+							
+							if (typeof response.data === 'undefined' || response.data.result !== "success"){
+								//Todo Display error
+								return;
+							}
+							
+							if (response.data.list.lenght < 1) { 
+								//Todo display no records message
+								return ;
+							}
+							
+							var dataItem = response.data.list[0];
+							var articles = [];
+							for (var l = 0; l < dataItem.articles.length; l++){
+								articles.push(dataItem.articles[l].jsonData);
+							}
+							
+							NewsReader.addArticles(articles);
+							var elem = document.getElementById("myArticles");
+							var template = opensocial.template.getTemplate("nr:usersArticles");
+							var vwr = opensocial.data.getDataContext().getDataSet('vwr');
+							elem.innerHTML = " ";
+							var userArticles = {
+										"user":vwr,
+										"articles": articles
+								};
+							template.renderInto(elem, {"usersArticles": [userArticles]});
+						}
+						gadgets.io.makeRequest(requestUrl, callback, opt_param);
+					}
+					
+//================================================================
+// Function mark as read the article and display the 
+// article in a separate window
+//================================================================
+					
+					NewsReader.readArticle = function(title, url, guid){
+						//debugger;
+						window.open(url);
+						
+						var article = NewsReader.getArticle(guid);
+						var jsonStr = gadgets.json.stringify(article);;
+
+						var requestUrl = "http://newsreader.homedns.org/Articles.ashx/articles/read";
+						requestUrl += "?title=" + escape(title);
+						requestUrl += "&url=" + escape(url);
+						requestUrl += "&articleId=" + escape(guid);
+						requestUrl += "&jsondata=" + escape(jsonStr);
+						requestUrl += "&user=" + escape("${vwr.id}".replace("myspace.com.person.", "", "g"));
+						var opt_param = {};
+						opt_param[gadgets.io.RequestParameters.AUTHORIZATION] = gadgets.io.AuthorizationType.SIGNED;
+						opt_param[gadgets.io.RequestParameters.METHOD] = gadgets.io.MethodType.GET;
+						opt_param[gadgets.io.RequestParameters.CONTENT_TYPE] = gadgets.io.ContentType.JSON;
+						var callback = function(response){
+							//debugger;
+						}
+						
+						gadgets.io.makeRequest(requestUrl, callback, opt_param);
+						
+					};
+					
+//================================================================
+// Function that sends a message to a friend with 
+// a link to an article
+//================================================================
+					
+					NewsReader.shareWithFriends = function(title, description, link){
+						var $friendsPicker = $('#friendsPicker');
+						$friendsPicker.unbind( "dialogclose" );
+						$friendsPicker.bind('dialogclose', function(event, ui) {
+							//debugger;
+							var $this = $(this);
+							var selected = $this.data('selected');
+							if (selected === null){ return; }
+							//var osContainer = opensocial.Container.get();
+							var message;
+							var content = '<a href="'+ link +'" traget="_blank">' + title + '</a><br />' + description;
+							message = opensocial.newMessage(content);
+							message.setField(opensocial.Message.Field.TITLE, title);
+							message.setField(opensocial.Message.Field.TYPE, opensocial.Message.Type.PRIVATE_MESSAGE);
+							opensocial.requestSendMessage(selected, message);
+							
+						});
+						
+						
+						$friendsPicker.dialog('open');
+					};
+					
+//================================================================
+// Function to render articles from rss feeds
+//================================================================
+					
+					NewsReader.renderFeed = function(key){
+						//debugger;
+						var data = opensocial.data.getDataContext().getDataSet(key);
+						
+						var feedId = key[0];
+						debugger;
+						var rssObj = MyOpenSpace.Feed.RSS2.parseChannel(data.result.content, false, 10);
+						NewsReader.addArticles(rssObj.item);
+						var template = opensocial.template.getTemplate("nr:feed");
+						
+						$('#' + feedId + 'Title').html(rssObj.title);
+						
+						var elem = document.getElementById(feedId);
+						elem.innerHTML = " ";
+						//$(elem).empty();
+						template.renderInto(elem, {"rss":rssObj});
+					};
+
+//================================================================
+// Feeds listener
+//================================================================
+					opensocial.data.getDataContext().registerListener("feed1", NewsReader.renderFeed);
+					opensocial.data.getDataContext().registerListener("feed2", NewsReader.renderFeed);
+
+					
+				//]]>
+			</script>
+		</script>
+
+
+	</Content>
+</Module>
