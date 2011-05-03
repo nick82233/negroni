@@ -344,6 +344,7 @@ namespace Negroni.TemplateFramework
 			{
 				newTag.LoadTag(markup);
 			}
+			newTag.MyRootMaster = this.MyRootMaster;
 			return newTag;
 		}
 
