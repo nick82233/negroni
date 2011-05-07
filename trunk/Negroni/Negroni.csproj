@@ -49,6 +49,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataPipeline\Interfaces\IDataPipelineResolver.cs" />
+    <Compile Include="DataPipeline\Security\OAuthBase.cs" />
+    <Compile Include="DataPipeline\Security\OAuthSigner.cs" />
     <Compile Include="DataPipeline\SimpleDataPipelineResolver.cs" />
     <Compile Include="RenderInlineControl.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
