@@ -368,12 +368,6 @@ namespace Negroni.TemplateFramework
 		/// </summary>
 		protected virtual void RegisterPrivateContext()
 		{
-			//set parent context
-			if (MyDataContext.HasVariable(LocalParameterContextKey))
-			{
-				object parent = MyDataContext.GetVariableObject(LocalParameterContextKey);
-				Parameters["Parent"] = parent;
-			}
 			MyDataContext.RegisterLocalValue(LocalParameterContextKey, Parameters, true);
 		}
 
@@ -382,14 +376,8 @@ namespace Negroni.TemplateFramework
 		/// </summary>
 		protected virtual void UnRegisterPrivateContext()
 		{
-			object current = MyDataContext.GetVariableObject(LocalParameterContextKey);
+//			object current = MyDataContext.GetVariableObject(LocalParameterContextKey);
 			MyDataContext.RemoveLocalValue(LocalParameterContextKey);
-
-			if (current != null && current is Dictionary<string, object>
-				&& ((Dictionary<string, object>)current).ContainsKey("Parent"))
-			{
-				MyDataContext.RegisterLocalValue(LocalParameterContextKey, ((Dictionary<string, object>)current)["Parent"], true);
-			}
 		}
 
 		private string _localParameterContextKey = "My";

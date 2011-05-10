@@ -327,7 +327,84 @@ namespace Negroni.DataPipeline.Tests
 			Assert.AreEqual(templateMyScopeObject.MyString, result, "Template scoped item wrong");
 		}
 
+		[Test]
+		public void InferredScopeParents()
+		{
+			DataContext dc = new DataContext();
 
+			SimpleExpressionResolverDataObject globalObject = new SimpleExpressionResolverDataObject(1, "Top Object", 2.2);
+			SimpleExpressionResolverDataObject templateValScopeObject = new SimpleExpressionResolverDataObject(2, "My Template", 3.2);
+
+			SimpleExpressionResolverDataObject nestObject = new SimpleExpressionResolverDataObject(5, "Nest Temp", 5.5);
+
+			Dictionary<string, object> nestedMyObject = new Dictionary<string, object>();
+
+			nestedMyObject.Add("nest", nestObject);
+			nestedMyObject.Add("simple", "value");
+			nestedMyObject.Add("one", 1);
+
+			Dictionary<string, object> templateMyObject = new Dictionary<string, object>();
+
+			templateMyObject.Add("val", templateValScopeObject);
+			templateMyObject.Add("x", "X");
+
+			SimpleExpressionResolverDataObject curLoopScopeObject = new SimpleExpressionResolverDataObject(3, "Current to loop", 5.2);
+
+
+			Dictionary<string, object> thirdMyObject = new Dictionary<string, object>();
+			thirdMyObject.Add("outer", "outside");
+			thirdMyObject.Add("two", "2");
+			thirdMyObject.Add("one", "All the way");
+
+
+			string globalKey = "foo";
+			string templateKey = "My";
+			//string fullParent = "${" + parentKey + 
+
+			SampleSimpleDataControl ctlGlobal = new SampleSimpleDataControl(globalObject);
+
+			//Nest number 1
+			dc.RegisterDataItem(globalKey, ctlGlobal);
+
+			dc.RegisterLocalValue(templateKey, nestedMyObject);
+			Assert.AreEqual("value", dc.CalculateVariableValue("${My.simple}"));
+			Assert.AreEqual("value", dc.CalculateVariableValue("${simple}"));
+			Assert.AreEqual("Nest Temp", dc.CalculateVariableObjectValue("${My.nest.MyString}"));
+
+			Assert.AreEqual("Nest Temp", dc.CalculateVariableObjectValue("${nest.MyString}"));
+
+			//Nest #2
+
+			dc.RegisterLocalValue(templateKey, templateMyObject);
+			Assert.AreNotEqual("value", dc.CalculateVariableValue("${My.simple}"), "Explicit scope My.simple should now be empty");
+			Assert.AreEqual("value", dc.CalculateVariableValue("${simple}"), "Inferred simple in Parent is failing" );
+			Assert.AreEqual("2", dc.CalculateVariableValue("${val.MyInt}"));
+			Assert.AreEqual("1", dc.CalculateVariableValue("${one}"));
+			Assert.AreEqual("X", dc.CalculateVariableValue("${My.x}"));
+			Assert.AreEqual("Nest Temp", dc.CalculateVariableValue("${nest.MyString}"), "Parent nested object failing");
+
+
+			//Nest #3
+			dc.RegisterLocalValue(templateKey, thirdMyObject);
+			Assert.AreEqual("value", dc.CalculateVariableValue("${simple}"), "Inferred simple in Parent.Parent is failing");
+			Assert.AreEqual("value", dc.CalculateVariableValue("${My.Parent.Parent.simple}"), "Explicit scope not working");
+			Assert.AreEqual("2", dc.CalculateVariableValue("${val.MyInt}"));
+			Assert.AreEqual("2", dc.CalculateVariableValue("${two}"));
+			Assert.AreEqual("2", dc.CalculateVariableValue("${My.two}"));
+
+			Assert.AreEqual("All the way", dc.CalculateVariableValue("${one}"));
+			Assert.AreEqual("1", dc.CalculateVariableValue("${My.Parent.Parent.one}"));
+			//Assert.AreEqual("2", dc.CalculateVariableValue("${val.MyInt}"));
+
+
+			//Unregister
+			dc.RemoveLocalValue(templateKey);
+			Assert.IsTrue(string.IsNullOrEmpty(dc.CalculateVariableValue("${two}")), "Remove outer didn't erase value");
+			Assert.AreEqual("X", dc.CalculateVariableValue("${My.x}"));
+			Assert.AreEqual("2", dc.CalculateVariableValue("${val.MyInt}"), "Parent objects not re-registering");
+			Assert.AreEqual("1", dc.CalculateVariableValue("${one}"));
+
+		}
 
 		[Test]
 		public void ListDataIndexExpression()

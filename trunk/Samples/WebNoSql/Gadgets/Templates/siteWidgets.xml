@@ -1,9 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Templates xmlns:site="http://opensocial.org/templates" xmlns:os="http://opensocial.org/templates">
+
+
+  <Template tag="site:Quad">
+    <h1>Quadit is ${My.name}</h1>
+  </Template>
+
+
+  <Template tag="site:Tripple">
+    quad below:
+    <site:Quad name="${My.text}" />
+  </Template>
+  
+  
     <Template tag="site:PersonTab">
       <div style="border:1px outset #ccc;border-radius:3px;padding:5px;cursor:pointer;" onclick="${clickAction}('${My.person.id}', '${My.person.displayName}')" >
         <img src="${My.person.thumbnailUrl}" style="width:50px;height:50px;vertical-align:middle;" />
         ${My.person.displayName}</div>
+      <div>Trip width should be ${My.Parent.width} and float ${float}</div>
+      <div>
+        <site:Tripple>
+          <text>${My.displayName}</text>
+        </site:Tripple>
+      </div>
     </Template>
   
   <!--
