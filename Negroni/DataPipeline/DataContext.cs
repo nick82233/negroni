@@ -81,6 +81,11 @@ namespace Negroni.DataPipeline
 		public const string RESERVED_KEY_MESSAGE = "Msg";
 
 		/// <summary>
+		/// Key to parent objects
+		/// </summary>
+		public const string RESERVED_KEY_PARENT = "Parent";
+
+		/// <summary>
 		/// Key to hidden fetched markup from external sources.
 		/// </summary>
 		public const string RESERVED_KEY_FETCHED_MARKUP = "FetchedMarkup";
@@ -892,8 +897,9 @@ namespace Negroni.DataPipeline
 		/// </summary>
 		/// <param name="key"></param>
 		/// <param name="value"></param>
-		/// <param name="resolveDataKeys">Set to true if value is of type IDictionary&lt;string, string&gt; of string keys and they should be converted to data values</param>
-		public void RegisterLocalValue(string key, object value, bool resolveDataKeys)
+		/// <param name="moveExistingToParent">Set to true when an existing value under the same key should be nested under the reserved "Parent" key.
+		/// This only works if the value is a Dictionary-style object.</param>
+		public void RegisterLocalValue(string key, object value, bool moveExistingToParent)
 		{
 			if (string.IsNullOrEmpty(key))
 			{
@@ -904,16 +910,29 @@ namespace Negroni.DataPipeline
 
 			if (MasterData.ContainsKey(key))
 			{
+				object prevData = MasterData[key].Data;
+
 				MasterData[key].Data = realData;
 				//look for "Parent" value
-				if (realData is IDictionary<string, string>
+				if (moveExistingToParent && realData is IDictionary<string, string>
 					|| realData is IDictionary<string, object>)
 				{
 					IDictionary<string, object> tmp = realData as IDictionary<string, object>;
-					if (tmp != null && tmp.ContainsKey("Parent"))
+					if (tmp != null)
 					{
-						InferredLocalVariableKeyStack.Add(key + ".Parent");
+						tmp[RESERVED_KEY_PARENT] = prevData;
 					}
+					else if(prevData is String)
+					{
+
+						IDictionary<string, string> tmp2 = realData as IDictionary<string, string>;
+						tmp2[RESERVED_KEY_PARENT] = (String)prevData;
+					}
+				}
+
+				if (InferredLocalVariableKeyStack[InferredLocalVariableKeyStack.Count - 1] != key)
+				{
+					InferredLocalVariableKeyStack.Add(key);
 				}
 			}
 			else
@@ -921,9 +940,11 @@ namespace Negroni.DataPipeline
 				DataItem item = new DataItem(key, null, null);
 				item.Data = realData;
 				MasterData.Add(key, item);
+
+				InferredLocalVariableKeyStack.Add(key);
 			}
 
-			InferredLocalVariableKeyStack.Add(key);
+			
 
 		}
 
@@ -935,6 +956,10 @@ namespace Negroni.DataPipeline
 		/// Completely purges the given key from the DataContext dictionary.
 		/// This is used for managing local variables within template processing.
 		/// </summary>
+		/// <remarks>
+		/// When a Parent value is found in the existing item, it is promoted to the root of the key
+		/// instead of deleting the key.
+		/// </remarks>
 		/// <param name="key"></param>
 		public void RemoveLocalValue(string key)
 		{
@@ -943,19 +968,55 @@ namespace Negroni.DataPipeline
 				throw new ArgumentNullException("Key must be specified");
 			}
 
+			bool popKeyFromStack = true;
 			if (MasterData.ContainsKey(key))
 			{
-				MasterData.Remove(key);
-			}
-			for (int i = InferredLocalVariableKeyStack.Count - 1; i >= 0; i--)
-			{
-				if (InferredLocalVariableKeyStack[i].Equals(key))
+				object realData = MasterData[key];
+				DataItem itemVal = realData as DataItem;
+
+				if(itemVal != null){
+					realData = itemVal.Data;
+				}
+
+				if (realData is IDictionary<string, string>
+					|| realData is IDictionary<string, object>)
 				{
-					InferredLocalVariableKeyStack.RemoveAt(i);
-					break;
+					IDictionary<string, object> tmp = realData as IDictionary<string, object>;
+					if (tmp != null)
+					{
+						if (tmp.ContainsKey(RESERVED_KEY_PARENT))
+						{
+							itemVal.Data = tmp[RESERVED_KEY_PARENT];
+							popKeyFromStack = false;
+						}
+					}
+					else
+					{
+						IDictionary<string, string> tmp2 = realData as IDictionary<string, string>;
+						if (tmp2.ContainsKey(RESERVED_KEY_PARENT))
+						{
+							itemVal.Data = tmp2[RESERVED_KEY_PARENT];
+							popKeyFromStack = false;
+						}
+					}
 				}
 			}
-			
+			if (popKeyFromStack)
+			{
+				for (int i = InferredLocalVariableKeyStack.Count - 1; i >= 0; i--)
+				{
+					if (InferredLocalVariableKeyStack[i].Equals(key))
+					{
+						InferredLocalVariableKeyStack.RemoveAt(i);
+						break;
+					}
+				}
+				if (MasterData.ContainsKey(key))
+				{
+					MasterData.Remove(key);
+				}
+
+			}			
 		}
 
 
@@ -1460,24 +1521,55 @@ namespace Negroni.DataPipeline
 					obj = MasterData[InferredLocalVariableKeyStack[i]].GetData(ActiveViewScope);  //GetVariable(InferredLocalVariableKeyStack[i]);
 					if (obj != null)
 					{
-						object possibleValue = null;
-						if (obj is IExpressionEvaluator)
+						object possibleValue = GetRecursiveCurrentOrParentValue(obj, variableKey);
+						if (possibleValue != null)
 						{
-							possibleValue = ((IExpressionEvaluator)obj).ResolveExpressionValue(variableKey);
-							if (possibleValue != null)
-							{
-								return possibleValue;
-							}
-						}
-						else if (obj is Dictionary<string, object>)
-						{
-							Dictionary<string, object> dict = obj as Dictionary<string, object>;
-							if (dict.ContainsKey(variableKey))
-							{
-								return dict[variableKey];
-							}
+							return possibleValue;
 						}
 					}
+				}
+			}
+			return null;
+		}
+
+		/// <summary>
+		/// Recursively look for the variableKey, walking up the Parent nodes, if applicable
+		/// </summary>
+		/// <param name="rootObject"></param>
+		/// <param name="variableKey"></param>
+		/// <returns></returns>
+		private static object GetRecursiveCurrentOrParentValue(object rootObject, string variableKey)
+		{
+			if (rootObject == null || string.IsNullOrEmpty(variableKey))
+			{
+				return null;
+			}
+			object obj = null;
+
+			if (rootObject is IExpressionEvaluator)
+			{
+				obj = ((IExpressionEvaluator)rootObject).ResolveExpressionValue(variableKey);
+				if (obj != null)
+				{
+					return obj;
+				}
+				//look for Parent
+				obj = ((IExpressionEvaluator)rootObject).ResolveExpressionValue(RESERVED_KEY_PARENT);
+				if (obj != null)
+				{
+					return GetRecursiveCurrentOrParentValue(obj, variableKey);
+				}
+			}
+			else if (rootObject is IDictionary<string, string> || rootObject is IDictionary<string, object>)
+			{
+				IDictionary<string, object> dict = rootObject as IDictionary<string, object>;
+				if (dict.ContainsKey(variableKey))
+				{
+					return dict[variableKey];
+				}
+				if (dict.ContainsKey(RESERVED_KEY_PARENT))
+				{
+					return GetRecursiveCurrentOrParentValue(dict[RESERVED_KEY_PARENT], variableKey);
 				}
 			}
 			return obj;

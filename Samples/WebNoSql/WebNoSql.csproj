@@ -56,8 +56,12 @@
     <Content Include="Gadgets\osVarTestGadget.xml">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Gadgets\siteCustomTemplates.xml" />
-    <Content Include="Gadgets\Templates\siteWidgets.xml" />
+    <Content Include="Gadgets\siteCustomTemplates.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Gadgets\Templates\siteWidgets.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Render.aspx" />
     <Content Include="Styles\Site.css" />
     <Content Include="Default.aspx" />
