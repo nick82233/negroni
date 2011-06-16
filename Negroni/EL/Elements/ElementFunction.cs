@@ -186,6 +186,45 @@ namespace Negroni.OpenSocial.EL.Elements
 						break;
 					}
 					return false;
+				case 'h':
+					subStr = context.Expression.Substring(context.TokenPosition, Math.Min(11, context.Expression.Length - context.TokenPosition));
+					if (subStr == "htmlEncode " || subStr == "htmlEncode(")
+					{
+						offset = 9;
+						operationType = OperatorType.HtmlEncode;
+						break;
+					}
+					if (subStr == "htmlDecode " || subStr == "htmlDecode(")
+					{
+						offset = 9;
+						operationType = OperatorType.HtmlDecode;
+						break;
+					}
+					return false;
+				case 'u':
+					subStr = context.Expression.Substring(context.TokenPosition, Math.Min(10, context.Expression.Length - context.TokenPosition));
+					if (subStr == "urlEncode " || subStr == "urlEncode(")
+					{
+						offset = 8;
+						operationType = OperatorType.UrlEncode;
+						break;
+					}
+					if (subStr == "urlDecode " || subStr == "urlDecode(")
+					{
+						offset = 8;
+						operationType = OperatorType.UrlDecode;
+						break;
+					}
+					return false;
+				case 'j':
+					subStr = context.Expression.Substring(context.TokenPosition, Math.Min(15, context.Expression.Length - context.TokenPosition));
+					if (subStr == "jsStringEscape " || subStr == "jsStringEscape(")
+					{
+						offset = 13;
+						operationType = OperatorType.JsStringEscape;
+						break;
+					}
+					return false;
 				default:
 					return false;
 			}
@@ -218,15 +257,15 @@ namespace Negroni.OpenSocial.EL.Elements
 				case OperatorType.MathRound:
 					return "mathRound";
 				case OperatorType.UrlDecode:
-					return "os:urlDecode";
+					return "urlDecode";
 				case OperatorType.UrlEncode:
-					return "os:urlEncode";
+					return "urlEncode";
 				case OperatorType.HtmlDecode:
-					return "os:htmlDecode";
+					return "htmlDecode";
 				case OperatorType.HtmlEncode:
-					return "os:htmlEncode";
+					return "htmlEncode";
 				case OperatorType.JsStringEscape:
-					return "os:jsStringEscape";
+					return "jsStringEscape";
 				default:
 					return "";
 			}

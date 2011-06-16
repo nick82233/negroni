@@ -432,6 +432,11 @@ namespace Negroni.OpenSocial.EL.Tests
 			TestParsing("os:htmlEncode(\"text\")", tokens);
 			TestParsing("os:htmlEncode (\"text\")", tokens);
 
+			token = new TestToken("htmlEncode", TokenType.Function, parms);
+			tokens.Add(token);
+			TestParsing("htmlEncode(\"text\")", tokens);
+			TestParsing("htmlEncode (\"text\")", tokens);
+
 			tokens = new List<TestToken>();
 			parms = new List<IList<TestToken>>();
 			param = new List<TestToken>();
@@ -442,6 +447,11 @@ namespace Negroni.OpenSocial.EL.Tests
 			tokens.Add(token);
 			TestParsing("os:htmlDecode(\"text\")", tokens);
 			TestParsing("os:htmlDecode (\"text\")", tokens);
+
+			token = new TestToken("htmlDecode", TokenType.Function, parms);
+			tokens.Add(token);
+			TestParsing("htmlDecode(\"text\")", tokens);
+			TestParsing("htmlDecode (\"text\")", tokens);
 
 			tokens = new List<TestToken>();
 			parms = new List<IList<TestToken>>();

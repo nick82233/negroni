@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("FIM")]
 [assembly: AssemblyProduct("Negroni.OpenSocial")]
-[assembly: AssemblyCopyright("Copyright © FIM 2008")]
+[assembly: AssemblyCopyright("Copyright © MySpace Inc and Negroni project 2009-2011. Licensed under the Apache 2.0 license.")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 [assembly: InternalsVisibleTo("Negroni.OpenSocial.Tests")]
