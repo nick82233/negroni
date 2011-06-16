@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("OpenSocial.DataContracts")]
-[assembly: AssemblyCopyright("Copyright ©  2010")]
+[assembly: AssemblyCopyright("Copyright © MySpace Inc and Negroni project 2009-2011. Licensed under the Apache 2.0 license.")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
