@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Negroni.OpenSocial.Tests</RootNamespace>
     <AssemblyName>Negroni.OpenSocial.Tests</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <StartupObject>OpenSocial.Test.Program</StartupObject>
     <SccProjectName>
