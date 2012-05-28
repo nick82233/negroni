@@ -5,7 +5,7 @@
    you may not use this file except in compliance with the License.
    You may obtain a copy of the License at
 
-       http://www.apache.org/licenses/LICENSE-2.0
+	   http://www.apache.org/licenses/LICENSE-2.0
 
    Unless required by applicable law or agreed to in writing, software
    distributed under the License is distributed on an "AS IS" BASIS,
@@ -73,9 +73,9 @@ namespace Negroni.TemplateFramework
 		#region private constructors for ControlFactory
 
 		private ControlFactory() 
-        {
-            Catalog.Add(ParseContext.DefaultContext, new ControlCatalog(ParseContext.DefaultContext));
-        }
+		{
+			Catalog.Add(ParseContext.DefaultContext, new ControlCatalog(ParseContext.DefaultContext));
+		}
 
 		/// <summary>
 		/// Initialize a new ControlFactory instance and register it under the factoryKey
@@ -83,8 +83,8 @@ namespace Negroni.TemplateFramework
 		/// <param name="factoryKey"></param>
 		/// <param name="controlAssembly"></param>
 		public ControlFactory(string factoryKey, Assembly controlAssembly)
-            :this()
-        {
+			:this()
+		{
 			FactoryKey = factoryKey;
 			LoadGadgetControls(controlAssembly);
 
@@ -319,26 +319,26 @@ namespace Negroni.TemplateFramework
 			return FactorySingletons[key];
 		}
 
-        /// <summary>
-        /// Returns a list of all currently defined and initialized control factory keys.
+		/// <summary>
+		/// Returns a list of all currently defined and initialized control factory keys.
 		/// Note: A key can be registered in the NegroniFramework.config file, but will not be
 		/// present in this list unless it has been initialized (accessed).
 		/// Use Negroni.TemplateFramework.Configuration.NegroniFrameworkConfig.ControlFactories
 		/// for all keys defined in the configuration file
-        /// </summary>
-        /// <returns></returns>
-        static public List<string> GetControlFactoryKeys()
-        {
-            List<string> factoryKeys = new List<string>();
+		/// </summary>
+		/// <returns></returns>
+		static public List<string> GetControlFactoryKeys()
+		{
+			List<string> factoryKeys = new List<string>();
 
-            foreach (var key in FactorySingletons.Keys)
-            {
-                factoryKeys.Add(key);
-            }
-            return factoryKeys;
-        }
-        
-        /// <summary>
+			foreach (var key in FactorySingletons.Keys)
+			{
+				factoryKeys.Add(key);
+			}
+			return factoryKeys;
+		}
+		
+		/// <summary>
 		/// Removes a previously registered ControlFactory singleton
 		/// </summary>
 		/// <param name="key"></param>
@@ -561,7 +561,7 @@ namespace Negroni.TemplateFramework
 
 		/// <summary>
 		/// Discovers the first ContextGroup where the given type of control is registered.
-        /// This is the context parsing group where this control tag will be found.
+		/// This is the context parsing group where this control tag will be found.
 		/// Returns null if control type not registered.
 		/// </summary>
 		/// <param name="controlType"></param>
@@ -1344,7 +1344,7 @@ namespace Negroni.TemplateFramework
 				}
 			}
 			if (pstart == tag.Length - 1) return null;
-            pstart++; //increment to actual string
+			pstart++; //increment to actual string
 
 			int pend = Math.Min(tag.Length, tag.IndexOf(quoteChar, pstart + 1));
 			if (pend == -1) return null;
@@ -1690,7 +1690,7 @@ namespace Negroni.TemplateFramework
 		{
 			ControlMap map;
 			markupTag = markupTag.ToLowerInvariant();
-            
+			
 			if (Catalog.ContainsKey(context) && Catalog[context].ControlMapMarkup.ContainsKey(markupTag))
 			{
 				map = Catalog[context].ControlMapMarkup[markupTag];
@@ -1713,7 +1713,7 @@ namespace Negroni.TemplateFramework
 			string offsetKey = GetOffsetKey(markup, context);
 
 			ControlMap map;
-            if (Catalog.ContainsKey(context) && Catalog[context].ControlMapOffsetKey.ContainsKey(offsetKey))
+			if (Catalog.ContainsKey(context) && Catalog[context].ControlMapOffsetKey.ContainsKey(offsetKey))
 			{
 				map = Catalog[context].ControlMapOffsetKey[offsetKey];
 			}
@@ -1784,24 +1784,24 @@ namespace Negroni.TemplateFramework
 
 			markupTag = markupTag.ToLowerInvariant();
 
-            if (Catalog.ContainsKey(context))
-            {
-                if (!Catalog[context].ControlMapMarkup.ContainsKey(markupTag))
-                {
-                    if (fullTag != null)
-                    {
-                        string offsetKey = GetOffsetKey(fullTag, context);
-                        if (Catalog[context].ControlMapOffsetKey.ContainsKey(offsetKey))
-                        {
-                            return Catalog[context].ControlMapOffsetKey[offsetKey].ControlType;
-                        }
-                    }
-                }
-                else
-                {
-                    return Catalog[context].ControlMapMarkup[markupTag].ControlType;
-                }
-            }
+			if (Catalog.ContainsKey(context))
+			{
+				if (!Catalog[context].ControlMapMarkup.ContainsKey(markupTag))
+				{
+					if (fullTag != null)
+					{
+						string offsetKey = GetOffsetKey(fullTag, context);
+						if (Catalog[context].ControlMapOffsetKey.ContainsKey(offsetKey))
+						{
+							return Catalog[context].ControlMapOffsetKey[offsetKey].ControlType;
+						}
+					}
+				}
+				else
+				{
+					return Catalog[context].ControlMapMarkup[markupTag].ControlType;
+				}
+			}
 			return typeof(GadgetLiteral);
 		}
 
