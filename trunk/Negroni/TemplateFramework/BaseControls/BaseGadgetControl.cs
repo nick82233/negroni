@@ -5,7 +5,7 @@
    you may not use this file except in compliance with the License.
    You may obtain a copy of the License at
 
-       http://www.apache.org/licenses/LICENSE-2.0
+	   http://www.apache.org/licenses/LICENSE-2.0
 
    Unless required by applicable law or agreed to in writing, software
    distributed under the License is distributed on an "AS IS" BASIS,
@@ -19,6 +19,7 @@ using System;
 using System.IO;
 using System.Collections.Generic;
 using System.Text;
+using System.Xml;
 using Negroni.DataPipeline;
 using Negroni.TemplateFramework.Parsing;
 
@@ -106,10 +107,10 @@ namespace Negroni.TemplateFramework
 					return MyRootMaster.MasterDataContext;
 				}
 			}
-            set
-            {
-                _scopeData = value;
-            }
+			set
+			{
+				_scopeData = value;
+			}
 		}
 
 
@@ -453,7 +454,6 @@ namespace Negroni.TemplateFramework
 		/// </summary>
 		private System.Collections.Specialized.HybridDictionary _attributesCaseSensitive = null;
 
-
 		/// <summary>
 		/// Load the attributes from the current RawTag into the control
 		/// </summary>
@@ -670,7 +670,7 @@ namespace Negroni.TemplateFramework
 		public bool HasAttribute(string name)
 		{
 			if (0 == AttributeCount) return false;
-            name = name.ToLowerInvariant();
+			name = name.ToLowerInvariant();
 			return (_attributes.Contains(name));
 		}
 
@@ -773,6 +773,162 @@ namespace Negroni.TemplateFramework
 
 
 		#endregion
+
+
+		#region Element Values parsing and exposure
+
+		/// <summary>
+		/// ElementValues collection
+		/// </summary>
+		private System.Collections.Specialized.HybridDictionary _elementValues = null;
+
+		private bool elementValuesParsed = false;
+
+		/// <summary>
+		/// Sub elements exposed as raw values, if parsed in this manner
+		/// </summary>
+		protected System.Collections.Specialized.HybridDictionary ElementValues
+		{
+			get
+			{
+				return _elementValues;
+			}
+		}
+
+		/// <summary>
+		/// Get the element value as an integer.
+		/// Returns 0 by default
+		/// </summary>
+		/// <param name="element"></param>
+		/// <returns></returns>
+		public int GetElementNodeInt(string element)
+		{
+			string val = GetElementNodeValue(element);
+			int ival;
+			if (Int32.TryParse(val, out ival))
+			{
+				return ival;
+			}
+			return 0;
+		}
+		/// <summary>
+		/// Get the element value as a long.
+		/// Returns 0 by default
+		/// </summary>
+		/// <param name="element"></param>
+		/// <returns></returns>
+		public long GetElementNodeLong(string element)
+		{
+			string val = GetElementNodeValue(element);
+			long ival;
+			if (Int64.TryParse(val, out ival))
+			{
+				return ival;
+			}
+			return 0;
+		}
+		/// <summary>
+		/// Get the element value as a decimal.
+		/// Returns 0 by default
+		/// </summary>
+		/// <param name="element"></param>
+		/// <returns></returns>
+		public decimal GetElementNodeNumber(string element)
+		{
+			string val = GetElementNodeValue(element);
+			decimal dval;
+			if (Decimal.TryParse(val, out dval))
+			{
+				return dval;
+			}
+			return 0;
+		}
+
+		public string GetElementNodeValue(string element)
+		{
+			if (!elementValuesParsed)
+			{
+				ParseElementValues();
+			}
+			if (ElementValues.Contains(element))
+			{
+				return ElementValues[element] as string;
+			}
+			return null;
+		}
+		public Dictionary<string, string> GetElementNodes()
+		{
+			if (!elementValuesParsed)
+			{
+				ParseElementValues();
+			}
+			Dictionary<string, string> retval = new Dictionary<string, string>();
+			foreach (var key in ElementValues.Keys)
+			{
+				retval.Add(key.ToString(), ElementValues[key] as string);
+			}
+			return retval;
+		}
+
+		/// <summary>
+		/// Parses the InnerMarkup as data nodes
+		/// </summary>
+		/// <returns></returns>
+		protected System.Collections.Specialized.HybridDictionary ParseElementValues()
+		{
+			if (elementValuesParsed)
+			{
+				return ElementValues;
+			}
+			elementValuesParsed = true;
+
+			if (!IsParsed)
+			{
+				this.Parse();
+			}
+			if (IsEmptyTag || !InnerMarkup.Contains("<"))
+			{
+				_elementValues = new System.Collections.Specialized.HybridDictionary();
+				return ElementValues;
+			}
+			//TODO - Replace with brute force parser
+			try
+			{
+				_elementValues = new System.Collections.Specialized.HybridDictionary();
+				XmlDocument doc = new XmlDocument();
+				doc.LoadXml(this.RawTag);
+				XmlNode rootElement = doc.SelectSingleNode("/*");
+
+				for (int i = 0; i < rootElement.ChildNodes.Count; i++)
+				{
+					XmlNode node = rootElement.ChildNodes.Item(i);
+					if (_elementValues.Contains(node.Name))
+					{
+						_elementValues[node.Name] += node.InnerXml;
+					}
+					else
+					{
+						_elementValues.Add(node.Name, node.InnerXml);
+					}
+
+				}
+			}
+			catch
+			{
+				_elementValues = new System.Collections.Specialized.HybridDictionary();
+				return ElementValues;
+
+			}
+			return ElementValues;
+
+		}
+
+
+		#endregion
+
+
+
+
 
 		virtual protected void Clear() { }
 
